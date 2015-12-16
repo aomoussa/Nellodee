@@ -1,0 +1,589 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		891896AA1C0195B800D9B0C2 /* goalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891896A91C0195B800D9B0C2 /* goalsViewController.swift */; };
+		8995BBF71BF548F4006E42AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BBF61BF548F4006E42AE /* AppDelegate.swift */; };
+		8995BBF91BF548F4006E42AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BBF81BF548F4006E42AE /* ViewController.swift */; };
+		8995BBFC1BF548F4006E42AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8995BBFA1BF548F4006E42AE /* Main.storyboard */; };
+		8995BBFF1BF548F4006E42AE /* NellodeeV0_0.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8995BBFD1BF548F4006E42AE /* NellodeeV0_0.xcdatamodeld */; };
+		8995BC011BF548F5006E42AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8995BC001BF548F5006E42AE /* Assets.xcassets */; };
+		8995BC041BF548F5006E42AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8995BC021BF548F5006E42AE /* LaunchScreen.storyboard */; };
+		8995BC0F1BF548F5006E42AE /* NellodeeV0_0Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BC0E1BF548F5006E42AE /* NellodeeV0_0Tests.swift */; };
+		8995BC1A1BF548F5006E42AE /* NellodeeV0_0UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BC191BF548F5006E42AE /* NellodeeV0_0UITests.swift */; };
+		8995BC2D1BF55209006E42AE /* slideOutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BC2C1BF55209006E42AE /* slideOutTableViewController.swift */; };
+		89A82FD41C1D6B4200F9A90A /* pdfBook.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 89A82FD31C1D6B4200F9A90A /* pdfBook.pdf */; };
+		89A82FD71C1D6B6F00F9A90A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A82FD61C1D6B6F00F9A90A /* SWRevealViewController.m */; };
+		89A82FDB1C1D6DE700F9A90A /* pdfBook2.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 89A82FDA1C1D6DE700F9A90A /* pdfBook2.pdf */; };
+		89B3DB521BF818930095B94A /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B3DB511BF818930095B94A /* log.swift */; };
+		89B3DB551BF820F90095B94A /* trendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B3DB541BF820F90095B94A /* trendViewController.swift */; };
+		89BF72031C10D8B800F464B6 /* day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF72021C10D8B800F464B6 /* day.swift */; };
+		89BF72051C10D9F400F464B6 /* page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF72041C10D9F400F464B6 /* page.swift */; };
+		89BF72071C10EC9200F464B6 /* session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF72061C10EC9200F464B6 /* session.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8995BC0B1BF548F5006E42AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8995BBEB1BF548F4006E42AE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8995BBF21BF548F4006E42AE;
+			remoteInfo = NellodeeV0.0;
+		};
+		8995BC161BF548F5006E42AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8995BBEB1BF548F4006E42AE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8995BBF21BF548F4006E42AE;
+			remoteInfo = NellodeeV0.0;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		891896A91C0195B800D9B0C2 /* goalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = goalsViewController.swift; sourceTree = "<group>"; };
+		8995BBF31BF548F4006E42AE /* NellodeeV1.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NellodeeV1.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8995BBF61BF548F4006E42AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8995BBF81BF548F4006E42AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8995BBFB1BF548F4006E42AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8995BBFE1BF548F4006E42AE /* NellodeeV0_0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NellodeeV0_0.xcdatamodel; sourceTree = "<group>"; };
+		8995BC001BF548F5006E42AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8995BC031BF548F5006E42AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8995BC051BF548F5006E42AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8995BC0A1BF548F5006E42AE /* NellodeeV1.0.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NellodeeV1.0.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8995BC0E1BF548F5006E42AE /* NellodeeV0_0Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NellodeeV0_0Tests.swift; sourceTree = "<group>"; };
+		8995BC101BF548F5006E42AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8995BC151BF548F5006E42AE /* NellodeeV1.0.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NellodeeV1.0.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8995BC191BF548F5006E42AE /* NellodeeV0_0UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NellodeeV0_0UITests.swift; sourceTree = "<group>"; };
+		8995BC1B1BF548F5006E42AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8995BC281BF54998006E42AE /* NellodeeV0.0-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NellodeeV0.0-Bridging-Header.h"; sourceTree = "<group>"; };
+		8995BC2C1BF55209006E42AE /* slideOutTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = slideOutTableViewController.swift; sourceTree = "<group>"; };
+		89A82FD31C1D6B4200F9A90A /* pdfBook.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pdfBook.pdf; sourceTree = SOURCE_ROOT; };
+		89A82FD51C1D6B6F00F9A90A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = SOURCE_ROOT; };
+		89A82FD61C1D6B6F00F9A90A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = SOURCE_ROOT; };
+		89A82FDA1C1D6DE700F9A90A /* pdfBook2.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pdfBook2.pdf; sourceTree = "<group>"; };
+		89B3DB511BF818930095B94A /* log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
+		89B3DB541BF820F90095B94A /* trendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = trendViewController.swift; sourceTree = "<group>"; };
+		89BF72021C10D8B800F464B6 /* day.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = day.swift; sourceTree = "<group>"; };
+		89BF72041C10D9F400F464B6 /* page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = page.swift; sourceTree = "<group>"; };
+		89BF72061C10EC9200F464B6 /* session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = session.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8995BBF01BF548F4006E42AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8995BC071BF548F5006E42AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8995BC121BF548F5006E42AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8995BBEA1BF548F4006E42AE = {
+			isa = PBXGroup;
+			children = (
+				8995BBF51BF548F4006E42AE /* NellodeeV0.0 */,
+				8995BC0D1BF548F5006E42AE /* NellodeeV0.0Tests */,
+				8995BC181BF548F5006E42AE /* NellodeeV0.0UITests */,
+				8995BBF41BF548F4006E42AE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8995BBF41BF548F4006E42AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8995BBF31BF548F4006E42AE /* NellodeeV1.0.app */,
+				8995BC0A1BF548F5006E42AE /* NellodeeV1.0.xctest */,
+				8995BC151BF548F5006E42AE /* NellodeeV1.0.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8995BBF51BF548F4006E42AE /* NellodeeV0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				89A82FDA1C1D6DE700F9A90A /* pdfBook2.pdf */,
+				89A82FD31C1D6B4200F9A90A /* pdfBook.pdf */,
+				8995BBF61BF548F4006E42AE /* AppDelegate.swift */,
+				8995BBF81BF548F4006E42AE /* ViewController.swift */,
+				891896A91C0195B800D9B0C2 /* goalsViewController.swift */,
+				89B3DB541BF820F90095B94A /* trendViewController.swift */,
+				8995BC2C1BF55209006E42AE /* slideOutTableViewController.swift */,
+				8995BBFA1BF548F4006E42AE /* Main.storyboard */,
+				8995BC001BF548F5006E42AE /* Assets.xcassets */,
+				8995BC021BF548F5006E42AE /* LaunchScreen.storyboard */,
+				8995BC051BF548F5006E42AE /* Info.plist */,
+				8995BBFD1BF548F4006E42AE /* NellodeeV0_0.xcdatamodeld */,
+				8995BC271BF54973006E42AE /* Supporting Files */,
+				89B3DB511BF818930095B94A /* log.swift */,
+				89BF72061C10EC9200F464B6 /* session.swift */,
+				89BF72021C10D8B800F464B6 /* day.swift */,
+				89BF72041C10D9F400F464B6 /* page.swift */,
+			);
+			path = NellodeeV0.0;
+			sourceTree = "<group>";
+		};
+		8995BC0D1BF548F5006E42AE /* NellodeeV0.0Tests */ = {
+			isa = PBXGroup;
+			children = (
+				8995BC0E1BF548F5006E42AE /* NellodeeV0_0Tests.swift */,
+				8995BC101BF548F5006E42AE /* Info.plist */,
+			);
+			path = NellodeeV0.0Tests;
+			sourceTree = "<group>";
+		};
+		8995BC181BF548F5006E42AE /* NellodeeV0.0UITests */ = {
+			isa = PBXGroup;
+			children = (
+				8995BC191BF548F5006E42AE /* NellodeeV0_0UITests.swift */,
+				8995BC1B1BF548F5006E42AE /* Info.plist */,
+			);
+			path = NellodeeV0.0UITests;
+			sourceTree = "<group>";
+		};
+		8995BC271BF54973006E42AE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				89A82FD51C1D6B6F00F9A90A /* SWRevealViewController.h */,
+				89A82FD61C1D6B6F00F9A90A /* SWRevealViewController.m */,
+				8995BC281BF54998006E42AE /* NellodeeV0.0-Bridging-Header.h */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8995BBF21BF548F4006E42AE /* NellodeeV1.0 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8995BC1E1BF548F5006E42AE /* Build configuration list for PBXNativeTarget "NellodeeV1.0" */;
+			buildPhases = (
+				8995BBEF1BF548F4006E42AE /* Sources */,
+				8995BBF01BF548F4006E42AE /* Frameworks */,
+				8995BBF11BF548F4006E42AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NellodeeV1.0;
+			productName = NellodeeV0.0;
+			productReference = 8995BBF31BF548F4006E42AE /* NellodeeV1.0.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8995BC091BF548F5006E42AE /* NellodeeV1.0Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8995BC211BF548F5006E42AE /* Build configuration list for PBXNativeTarget "NellodeeV1.0Tests" */;
+			buildPhases = (
+				8995BC061BF548F5006E42AE /* Sources */,
+				8995BC071BF548F5006E42AE /* Frameworks */,
+				8995BC081BF548F5006E42AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8995BC0C1BF548F5006E42AE /* PBXTargetDependency */,
+			);
+			name = NellodeeV1.0Tests;
+			productName = NellodeeV0.0Tests;
+			productReference = 8995BC0A1BF548F5006E42AE /* NellodeeV1.0.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8995BC141BF548F5006E42AE /* NellodeeV1.0UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8995BC241BF548F5006E42AE /* Build configuration list for PBXNativeTarget "NellodeeV1.0UITests" */;
+			buildPhases = (
+				8995BC111BF548F5006E42AE /* Sources */,
+				8995BC121BF548F5006E42AE /* Frameworks */,
+				8995BC131BF548F5006E42AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8995BC171BF548F5006E42AE /* PBXTargetDependency */,
+			);
+			name = NellodeeV1.0UITests;
+			productName = NellodeeV0.0UITests;
+			productReference = 8995BC151BF548F5006E42AE /* NellodeeV1.0.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8995BBEB1BF548F4006E42AE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "ahmed moussa";
+				TargetAttributes = {
+					8995BBF21BF548F4006E42AE = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = C39656PGLG;
+					};
+					8995BC091BF548F5006E42AE = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = C39656PGLG;
+						TestTargetID = 8995BBF21BF548F4006E42AE;
+					};
+					8995BC141BF548F5006E42AE = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = C39656PGLG;
+						TestTargetID = 8995BBF21BF548F4006E42AE;
+					};
+				};
+			};
+			buildConfigurationList = 8995BBEE1BF548F4006E42AE /* Build configuration list for PBXProject "NellodeeV1.0" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8995BBEA1BF548F4006E42AE;
+			productRefGroup = 8995BBF41BF548F4006E42AE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8995BBF21BF548F4006E42AE /* NellodeeV1.0 */,
+				8995BC091BF548F5006E42AE /* NellodeeV1.0Tests */,
+				8995BC141BF548F5006E42AE /* NellodeeV1.0UITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8995BBF11BF548F4006E42AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89A82FD41C1D6B4200F9A90A /* pdfBook.pdf in Resources */,
+				8995BC041BF548F5006E42AE /* LaunchScreen.storyboard in Resources */,
+				8995BC011BF548F5006E42AE /* Assets.xcassets in Resources */,
+				89A82FDB1C1D6DE700F9A90A /* pdfBook2.pdf in Resources */,
+				8995BBFC1BF548F4006E42AE /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8995BC081BF548F5006E42AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8995BC131BF548F5006E42AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8995BBEF1BF548F4006E42AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89BF72051C10D9F400F464B6 /* page.swift in Sources */,
+				8995BBF91BF548F4006E42AE /* ViewController.swift in Sources */,
+				891896AA1C0195B800D9B0C2 /* goalsViewController.swift in Sources */,
+				8995BBF71BF548F4006E42AE /* AppDelegate.swift in Sources */,
+				8995BC2D1BF55209006E42AE /* slideOutTableViewController.swift in Sources */,
+				8995BBFF1BF548F4006E42AE /* NellodeeV0_0.xcdatamodeld in Sources */,
+				89B3DB551BF820F90095B94A /* trendViewController.swift in Sources */,
+				89B3DB521BF818930095B94A /* log.swift in Sources */,
+				89BF72031C10D8B800F464B6 /* day.swift in Sources */,
+				89BF72071C10EC9200F464B6 /* session.swift in Sources */,
+				89A82FD71C1D6B6F00F9A90A /* SWRevealViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8995BC061BF548F5006E42AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8995BC0F1BF548F5006E42AE /* NellodeeV0_0Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8995BC111BF548F5006E42AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8995BC1A1BF548F5006E42AE /* NellodeeV0_0UITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8995BC0C1BF548F5006E42AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8995BBF21BF548F4006E42AE /* NellodeeV1.0 */;
+			targetProxy = 8995BC0B1BF548F5006E42AE /* PBXContainerItemProxy */;
+		};
+		8995BC171BF548F5006E42AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8995BBF21BF548F4006E42AE /* NellodeeV1.0 */;
+			targetProxy = 8995BC161BF548F5006E42AE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8995BBFA1BF548F4006E42AE /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8995BBFB1BF548F4006E42AE /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8995BC021BF548F5006E42AE /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8995BC031BF548F5006E42AE /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8995BC1C1BF548F5006E42AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		8995BC1D1BF548F5006E42AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8995BC1F1BF548F5006E42AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = NellodeeV0.0/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.NellodeeV0-0";
+				PRODUCT_NAME = NellodeeV1.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "NellodeeV0.0/NellodeeV0.0-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8995BC201BF548F5006E42AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = NellodeeV0.0/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.NellodeeV0-0";
+				PRODUCT_NAME = NellodeeV1.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "NellodeeV0.0/NellodeeV0.0-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		8995BC221BF548F5006E42AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = NellodeeV0.0Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.NellodeeV0-0Tests";
+				PRODUCT_NAME = NellodeeV1.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NellodeeV1.0.app/NellodeeV1.0";
+			};
+			name = Debug;
+		};
+		8995BC231BF548F5006E42AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = NellodeeV0.0Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.NellodeeV0-0Tests";
+				PRODUCT_NAME = NellodeeV1.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NellodeeV1.0.app/NellodeeV1.0";
+			};
+			name = Release;
+		};
+		8995BC251BF548F5006E42AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = NellodeeV0.0UITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.NellodeeV0-0UITests";
+				PRODUCT_NAME = NellodeeV1.0;
+				TEST_TARGET_NAME = NellodeeV0.0;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		8995BC261BF548F5006E42AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = NellodeeV0.0UITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.NellodeeV0-0UITests";
+				PRODUCT_NAME = NellodeeV1.0;
+				TEST_TARGET_NAME = NellodeeV0.0;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8995BBEE1BF548F4006E42AE /* Build configuration list for PBXProject "NellodeeV1.0" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8995BC1C1BF548F5006E42AE /* Debug */,
+				8995BC1D1BF548F5006E42AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8995BC1E1BF548F5006E42AE /* Build configuration list for PBXNativeTarget "NellodeeV1.0" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8995BC1F1BF548F5006E42AE /* Debug */,
+				8995BC201BF548F5006E42AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8995BC211BF548F5006E42AE /* Build configuration list for PBXNativeTarget "NellodeeV1.0Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8995BC221BF548F5006E42AE /* Debug */,
+				8995BC231BF548F5006E42AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8995BC241BF548F5006E42AE /* Build configuration list for PBXNativeTarget "NellodeeV1.0UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8995BC251BF548F5006E42AE /* Debug */,
+				8995BC261BF548F5006E42AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8995BBFD1BF548F4006E42AE /* NellodeeV0_0.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8995BBFE1BF548F4006E42AE /* NellodeeV0_0.xcdatamodel */,
+			);
+			currentVersion = 8995BBFE1BF548F4006E42AE /* NellodeeV0_0.xcdatamodel */;
+			path = NellodeeV0_0.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 8995BBEB1BF548F4006E42AE /* Project object */;
+}
