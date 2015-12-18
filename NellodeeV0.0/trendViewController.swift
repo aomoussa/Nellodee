@@ -43,7 +43,7 @@ class trendViewController: UIViewController {
         createLines()
         createPrevAndNextButtons()
     }
-
+    
     func buttonAction(sender: UIButton){
         
         if(sender == self.bottomPrevButton){
@@ -87,37 +87,18 @@ class trendViewController: UIViewController {
         var indexTime = i
         //for loop populuting array of buttons for bar graph
         //for indexTime in glblLog.timeAtPageIndex{
-        while(indexTime <= glblLog.actualPagesPerDay.count){
-            
-            if(count < 9){
-                buttonHeight = 0
-                var x = 0
-                
-                
-                buttonHeight = buttonIncrements*screenHeight * CGFloat(glblLog.actualPagesPerDay[indexTime - 1].count)
-                if(buttonHeight > screenHeight*0.4){
-                    buttonHeight = screenHeight*0.4
-                }
-                /*while( x < glblLog.actualPagesPerDay[indexTime - 1].count && x < 20){
-                    buttonHeight = buttonHeight + 10.0
-                    x++
-                }*/
-                //barButtons[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight-buttonHeight - 105, buttonWidth, buttonHeight)
-                barButtons2[count++].frame = CGRectMake(110 + (index++)*70.0 , screenHeight/2 - buttonHeight - 5, buttonWidth, buttonHeight)
+        while(indexTime <= glblLog.actualPagesPerDay.count && count < 9){
+            buttonHeight = buttonIncrements*screenHeight * CGFloat(glblLog.actualPagesPerDay[indexTime - 1].count)
+            if(buttonHeight > screenHeight*0.4){
+                buttonHeight = screenHeight*0.4
             }
+            barButtons2[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight/2 - buttonHeight - 5, buttonWidth, buttonHeight)
             
+            dayLabelButtons[count].frame = CGRectMake(100 + (index)*70.0 , screenHeight/2, labelButtonWidth, labelButtonHeight)
+            dayLabelButtons[count].setTitle("day \(indexTime )", forState: UIControlState.Normal)
+            index++
+            count++
             indexTime++
-        }
-        
-        count = 0
-        index = 0.0 as CGFloat
-        indexTime = i
-        while(count < 9){
-            //pageLabelButtons[count].frame = CGRectMake(100 + (index)*70.0 , screenHeight - 100, labelButtonWidth, labelButtonHeight)
-            //pageLabelButtons[count].setTitle("day \(indexTime)", forState: UIControlState.Normal)
-            
-            dayLabelButtons[count].frame = CGRectMake(100 + (index++)*70.0 , screenHeight/2, labelButtonWidth, labelButtonHeight)
-            dayLabelButtons[count++].setTitle("day \(indexTime++ )", forState: UIControlState.Normal)
         }
     }
     func refreshBottomBarGraphs(i: Int){
@@ -166,7 +147,7 @@ class trendViewController: UIViewController {
     
     func createBarGraphs(){
         var count = 0
-
+        
         while(count < 9){
             barButtons.append(UIButton())
             barButtons[count].backgroundColor = UIColor.blueColor()
@@ -196,99 +177,6 @@ class trendViewController: UIViewController {
         refreshTopBarGraphs(topI)
         
     }
-    /*func createBarGraphs(){
-    //let screenWidth = view.frame.size.width
-    let screenHeight = self.view.frame.size.height
-    
-    let buttonWidth = 30.0 as CGFloat
-    var buttonHeight = 10.0 as CGFloat
-    let labelButtonWidth = 60.0 as CGFloat
-    let labelButtonHeight = 20.0 as CGFloat
-    
-    var count = 0
-    var index = 0.0 as CGFloat
-    var indexTime = 1
-    //for loop populuting array of buttons for bar graph
-    //for indexTime in glblLog.timeAtPageIndex{
-    while(indexTime <= glblLog.maxPageReached){
-    
-    if(count < 9){
-    buttonHeight = 0
-    var x = 0
-    
-    while( x < glblLog.timeAtPageIndex[indexTime] && x < 20){
-    buttonHeight = buttonHeight + 10.0
-    x++
-    }
-    
-    barButtons.append(UIButton(frame: CGRectMake(115 + (index)*70.0 , screenHeight-buttonHeight - 100, buttonWidth, buttonHeight)))
-    barButtons[count].backgroundColor = UIColor.blueColor()
-    self.view.addSubview(barButtons[count])
-    
-    timeAtPageLabels.append(UILabel(frame: CGRectMake(115 + (index++)*70.0 , screenHeight-buttonHeight - 120, buttonWidth, 20)))
-    timeAtPageLabels[count].text = "\(glblLog.timeAtPageIndex[indexTime])"
-    self.view.addSubview(timeAtPageLabels[count++])
-    
-    }
-    print("\(indexTime++) \(glblLog.timeAtPageIndex[indexTime])" )
-    }
-    
-    indexTime = 1
-    count = 0
-    index = 0.0
-    while(count < 9){
-    
-    if(indexTime <= glblLog.actualPagesPerDay.count){
-    buttonHeight = 0
-    var x = 0
-    //var j = 0
-    //var k = 0
-    while( x < glblLog.actualPagesPerDay[indexTime - 1].count && x < 20){
-    buttonHeight = buttonHeight + 10.0
-    x++
-    }
-    
-    barButtons2.append(UIButton(frame: CGRectMake(110 + (index)*70.0 , screenHeight-buttonHeight - 400, buttonWidth, buttonHeight)))
-    barButtons2[count].backgroundColor = UIColor.blueColor()
-    self.view.addSubview(barButtons2[count])
-    
-    
-    pagesPerDayLabels.append(UILabel(frame: CGRectMake(115 + (index++)*70.0 , screenHeight-buttonHeight - 420, buttonWidth, 20)))
-    pagesPerDayLabels[count].text = "\(glblLog.actualPagesPerDay[indexTime - 1].count)"
-    self.view.addSubview(pagesPerDayLabels[count++])
-    }
-    else{
-    barButtons2.append(UIButton(frame: CGRectMake(110 + (index)*70.0 , screenHeight-buttonHeight - 400, buttonWidth, 0)))
-    barButtons2[count].backgroundColor = UIColor.blueColor()
-    self.view.addSubview(barButtons2[count])
-    
-    pagesPerDayLabels.append(UILabel(frame: CGRectMake(115 + (index++)*70.0 , screenHeight-buttonHeight - 420, buttonWidth, 20)))
-    pagesPerDayLabels[count].text = "0"
-    self.view.addSubview(pagesPerDayLabels[count++])
-    }
-    
-    indexTime++
-    }
-    
-    count = 0
-    index = 0.0 as CGFloat
-    
-    while(count < 9){
-    pageLabelButtons.append(UIButton(frame: CGRectMake(100 + (index)*70.0 , screenHeight - 100, labelButtonWidth, labelButtonHeight)))
-    pageLabelButtons[count].setTitle("page \(count + 1)", forState: UIControlState.Normal)
-    pageLabelButtons[count].backgroundColor = UIColor.grayColor()
-    self.view.addSubview(pageLabelButtons[count])
-    
-    //if(count < glblLog.actualPagesPerDay.count){
-    dayLabelButtons.append(UIButton(frame: CGRectMake(100 + (index++)*70.0 , screenHeight - 400, labelButtonWidth, labelButtonHeight)))
-    dayLabelButtons[count].setTitle("day \(count + 1)", forState: UIControlState.Normal)
-    dayLabelButtons[count].backgroundColor = UIColor.grayColor()
-    self.view.addSubview(dayLabelButtons[count++])
-    //}
-    }
-    
-    
-    }*/
     
     func createLines(){
         let screenWidth = view.frame.size.width
@@ -314,7 +202,7 @@ class trendViewController: UIViewController {
         let scaleLine4 = UIView.init(frame: CGRectMake(100, scaleLineHeight4, screenWidth, 2))
         scaleLine4.backgroundColor = UIColor.grayColor()
         self.view.addSubview(scaleLine4)
-
+        
         let scaleLabel1 = UILabel(frame: CGRectMake(70, scaleLineHeight1 - 15, 30, 30))
         scaleLabel1.text = "20"
         self.view.addSubview(scaleLabel1)
@@ -377,12 +265,4 @@ class trendViewController: UIViewController {
         self.view.addSubview(bottomNextButton)
     }
 
-    /*
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    let destVC = segue.destinationViewController as! SWRevealViewController
-    let home = destVC.frontViewController as! ViewController
-    home.webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
-    }*/
-    
-    
 }
