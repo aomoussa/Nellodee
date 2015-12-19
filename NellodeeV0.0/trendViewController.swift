@@ -67,7 +67,7 @@ class trendViewController: UIViewController {
         }
         if(sender == self.topNextButton){
             print("TOPNextButton CLICKED")
-            if(topI<glblLog.numOfDays - 9){
+            if(topI<glblLog.actualPagesPerDay.count - 9){
                 refreshTopBarGraphs(++topI)
             }
         }
@@ -96,6 +96,11 @@ class trendViewController: UIViewController {
             
             dayLabelButtons[count].frame = CGRectMake(100 + (index)*70.0 , screenHeight/2, labelButtonWidth, labelButtonHeight)
             dayLabelButtons[count].setTitle("day \(indexTime )", forState: UIControlState.Normal)
+            
+            
+            pagesPerDayLabels[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight/2 - buttonHeight - 25, buttonWidth, 20)
+            pagesPerDayLabels[count].text = "\(glblLog.actualPagesPerDay[indexTime - 1].count)"
+            
             index++
             count++
             indexTime++
@@ -115,33 +120,26 @@ class trendViewController: UIViewController {
         var indexTime = i
         //for loop populuting array of buttons for bar graph
         //for indexTime in glblLog.timeAtPageIndex{
-        while(indexTime <= glblLog.maxPageReached){
+        while(indexTime <= glblLog.maxPageReached && count < 9){
             
-            if(count < 9){
-                buttonHeight = 0
-                var x = 0
-                print(glblLog.timeAtPageIndex.count)
-                while( x < glblLog.timeAtPageIndex[indexTime] && x < 20){
-                    buttonHeight = buttonHeight + 10.0
-                    x++
-                }
-                barButtons[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight*bottomGraphXaxisHeight - buttonHeight, buttonWidth, buttonHeight)
-                
-                
-                timeAtPageLabels[count].frame = CGRectMake(110 + (index++)*70.0 , screenHeight-buttonHeight - 125, buttonWidth, 20)
-                timeAtPageLabels[count++].text = "\(glblLog.timeAtPageIndex[indexTime])"
+            
+            buttonHeight = 0
+            
+            buttonHeight = buttonIncrements*screenHeight * CGFloat(glblLog.timeAtPageIndex[indexTime])
+            if(buttonHeight > screenHeight*0.4){
+                buttonHeight = screenHeight*0.4
             }
+            barButtons[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight*bottomGraphXaxisHeight - buttonHeight, buttonWidth, buttonHeight)
             
-            print("\(indexTime++) \(glblLog.timeAtPageIndex[indexTime])" )
-        }
-        
-        count = 0
-        index = 0.0 as CGFloat
-        indexTime = i
-        while(count < 9){
-            pageLabelButtons[count].frame = CGRectMake(100 + (index++)*70.0 , screenHeight*bottomGraphXaxisHeight, labelButtonWidth, labelButtonHeight)
-            pageLabelButtons[count++].setTitle("\(indexTime++)", forState: UIControlState.Normal)
+            timeAtPageLabels[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight-buttonHeight - 125, buttonWidth, 20)
+            timeAtPageLabels[count].text = "\(glblLog.timeAtPageIndex[indexTime])"
             
+            pageLabelButtons[count].frame = CGRectMake(100 + (index)*70.0 , screenHeight*bottomGraphXaxisHeight, labelButtonWidth, labelButtonHeight)
+            pageLabelButtons[count].setTitle("\(indexTime)", forState: UIControlState.Normal)
+            
+            index++
+            count++
+            indexTime++
         }
     }
     
@@ -264,5 +262,5 @@ class trendViewController: UIViewController {
         bottomNextButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(bottomNextButton)
     }
-
+    
 }

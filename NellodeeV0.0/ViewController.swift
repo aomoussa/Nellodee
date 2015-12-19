@@ -27,8 +27,8 @@ class ViewController: UIViewController, UIWebViewDelegate {
     //from storyboard
     @IBOutlet var webView: UIWebView!
     @IBAction func nextDay(sender: UIButton) {
-        glblLog.addDay("\(12+glblLog.daysRead.count)/12/15")
-        todaysDate = "\(12+glblLog.daysRead.count)/12/15"
+        glblLog.addDay("\(18+glblLog.daysRead.count)/12/15")
+        todaysDate = "\(18+glblLog.daysRead.count)/12/15"
         updateProgressBar()
     }
     @IBOutlet var burger: UIBarButtonItem!

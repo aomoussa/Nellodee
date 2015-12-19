@@ -410,14 +410,19 @@ class goalsViewController: UIViewController {
             return String(number)
         })
         defaults.setObject(stringArray2, forKey: "timeAtPageIndex")
-        /*
-        let stringArray2 = glblLog.actualPagesPerDay.map({
-            (number: Int) -> String in
-            return String(number)
-        })
-        defaults.setObject(stringArray2, forKey: "actualPagesPerDay")*/
         defaults.setObject(glblLog.startDate, forKey: "startDate")
         defaults.setObject(glblLog.finishDate, forKey: "finishDate")
+        
+        defaults.setObject(glblLog.actualPagesPerDay.count, forKey: "actualPagesPerDay.count")
+        var i = 0
+        for temp in glblLog.actualPagesPerDay{
+            let stringArray3 = temp.map({
+                (number: Int) -> String in
+                return String(number)
+            })
+            defaults.setObject(stringArray3, forKey: "actualPagesPerDay\(i++)")
+        }
+        
         
     }
     

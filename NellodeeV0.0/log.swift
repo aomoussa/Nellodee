@@ -8,6 +8,11 @@
 
 import Foundation
 class log{
+    
+    
+    
+    
+    
     let defaults = NSUserDefaults.standardUserDefaults()
     var pageHeight = 841.8 as CGFloat
     var allSessions = [session]()
@@ -97,9 +102,39 @@ class log{
         else{
                 glblLog.timeAtPageIndex.append(0)
         }
+        
+        var numberOfDaysRead = 0
+        if let APPDC: Optional = self.defaults.integerForKey("actualPagesPerDay.count")
+        {
+            numberOfDaysRead = APPDC!
+            print(APPDC)
+        }
+        
+        var i = 0
+        while(i < numberOfDaysRead){
+            actualPagesPerDay.append([Int]())
+            if let APPD: Optional = self.defaults.stringArrayForKey("actualPagesPerDay\(i)")
+            {
+                var j = 0
+                if(APPD != nil){
+                    for temp in APPD!{
+                        
+                        actualPagesPerDay[i].append(Int(temp)!)
+                        print(" actualPagesPerDay saving: \(j++) \(Int(temp)!) existing array count: \(actualPagesPerDay[i].count)")
+                        
+                    }
+                }
+                
+            }
+            else{
+                actualPagesPerDay[i].append(0)
+            }
+            
+            i++
+        }
 
         addSession(startDate, finishDate: finishDate, expectedPagesPerDay: 0)
-        var i = 0
+        i = 0
         while (i < currentSession.days.count){
             //currentSession.days[i].expectedPages = expectedPagesPerDay1[i]
             i++
