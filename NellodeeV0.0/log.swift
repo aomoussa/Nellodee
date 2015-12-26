@@ -73,6 +73,15 @@ class log{
             finishDate = "1/1/2016"
         }
         
+        if let DR: Optional = self.defaults.stringArrayForKey("daysRead")
+        {
+            if(DR != nil){
+                daysRead = DR!
+            }
+        }
+        else{
+            daysRead.append("1/1/2016")
+        }
         if let EPPD: Optional = self.defaults.stringArrayForKey("expectedPagesPerDay1")
         {
             if(EPPD != nil){
@@ -91,10 +100,8 @@ class log{
             var i = 0
             if(TAPI != nil){
                 for temp in TAPI!{
-                    
                     timeAtPageIndex.append(Int(temp)!)
-                    print(" time at page index saving: \(i++) \(Int(temp)!) existing array count: \(timeAtPageIndex.count)")
-                    
+                    //print(" time at page index saving: \(i++) \(Int(temp)!) existing array count: \(timeAtPageIndex.count)")
                 }
             }
             
@@ -107,7 +114,7 @@ class log{
         if let APPDC: Optional = self.defaults.integerForKey("actualPagesPerDay.count")
         {
             numberOfDaysRead = APPDC!
-            print(APPDC)
+            //print(APPDC)
         }
         
         var i = 0
@@ -115,13 +122,11 @@ class log{
             actualPagesPerDay.append([Int]())
             if let APPD: Optional = self.defaults.stringArrayForKey("actualPagesPerDay\(i)")
             {
-                var j = 0
+                //var j = 0
                 if(APPD != nil){
                     for temp in APPD!{
-                        
                         actualPagesPerDay[i].append(Int(temp)!)
-                        print(" actualPagesPerDay saving: \(j++) \(Int(temp)!) existing array count: \(actualPagesPerDay[i].count)")
-                        
+                        //print(" actualPagesPerDay saving: \(j++) \(Int(temp)!) existing array count: \(actualPagesPerDay[i].count)")
                     }
                 }
                 
@@ -179,7 +184,7 @@ class log{
         daysRead.append(d)
         actualPagesPerDay.append([Int]())
         currentSession.days.append(day(d: d, expectedNumOfPages: expectedPagesPerDay))
-        if(actualPagesPerDay.count > 1){
+        if(actualPagesPerDay.count > 1 && expectedPagesPerDay1.count >= actualPagesPerDay.count){
             if(actualPagesPerDay[actualPagesPerDay.count - 2].count < expectedPagesPerDay1[actualPagesPerDay.count - 2]){
                 expectedPagesPerDay1[actualPagesPerDay.count - 1] += expectedPagesPerDay1[actualPagesPerDay.count - 2] - actualPagesPerDay[actualPagesPerDay.count - 2].count
             }
@@ -193,7 +198,7 @@ class log{
         currentSession.days.append(day(expectedNumOfPages: expectedPagesPerDay))
         daysRead.append(dateFormatter.stringFromDate(NSDate()))
         actualPagesPerDay.append([Int]())
-        if(actualPagesPerDay.count > 1){
+        if(actualPagesPerDay.count > 1 && expectedPagesPerDay1.count > actualPagesPerDay.count){
             if(actualPagesPerDay[actualPagesPerDay.count - 2].count < expectedPagesPerDay1[actualPagesPerDay.count - 2]){
                 expectedPagesPerDay1[actualPagesPerDay.count - 1] += expectedPagesPerDay1[actualPagesPerDay.count - 2] - actualPagesPerDay[actualPagesPerDay.count - 2].count
             }

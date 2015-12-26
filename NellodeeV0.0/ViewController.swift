@@ -18,17 +18,19 @@ class ViewController: UIViewController, UIWebViewDelegate {
     var timeOnCurrentPage = 0
     var timer = NSTimer()
     
+    //UI stuff
     let guyView = UIButton()
     let currentPageLabel = UILabel()
     let startPageLabel = UILabel()
     let endPageLabel = UILabel()
     let button1 = UIButton()
     let button2 = UIButton()
+    
     //from storyboard
     @IBOutlet var webView: UIWebView!
     @IBAction func nextDay(sender: UIButton) {
-        glblLog.addDay("\(18+glblLog.daysRead.count)/12/15")
-        todaysDate = "\(18+glblLog.daysRead.count)/12/15"
+        glblLog.addDay("\(25+glblLog.daysRead.count)/12/15")
+        todaysDate = "\(25+glblLog.daysRead.count)/12/15"
         updateProgressBar()
     }
     @IBOutlet var burger: UIBarButtonItem!
@@ -43,8 +45,6 @@ class ViewController: UIViewController, UIWebViewDelegate {
             updateProgressBar()
             
         }
-        
-        
         self.path = NSBundle.mainBundle().pathForResource("pdfBook", ofType: "pdf")!
         let url = NSURL.fileURLWithPath(path)
         self.webView.loadRequest(NSURLRequest(URL: url))
@@ -54,7 +54,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
         
         if(glblLog.numberOfPages != pdfPageCount){
             if(glblLog.timeAtPageIndex.count <= 1){
-            glblLog.setBookNumOfPages(pdfPageCount)
+                glblLog.setBookNumOfPages(pdfPageCount)
             }
             else{
                 glblLog.numberOfPages = pdfPageCount
@@ -62,19 +62,14 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }
         webView.delegate = self
         
-        
-        
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "runTimedCode", userInfo: nil, repeats: true)
-        
         
         burger.target = self.revealViewController()
         burger.action = Selector("revealToggle:")
-        
     }
     
     @IBAction func nextPageButton(sender: UIButton) {
         glblLog.pageReadUpdate()
-        
         if(glblLog.currentPageNumber == glblLog.maxPageReached){
             glblLog.maxPageReached++
         }
@@ -82,32 +77,12 @@ class ViewController: UIViewController, UIWebViewDelegate {
         glblLog.scrollDestination = pageHeight + glblLog.scrollDestination
         webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
         updateProgressBar()
-        //var i = 0
-        //while(i < glblLog.currentPageNumber){
-            //print("page\(i++) time:\(glblLog.timeAtPageIndex[i])")
-        //}
-        //print("--------------------")
-        
-        print(glblLog.currentSession.toString())
-        /*
-        if(glblLog.timeAtPageIndex.count <= glblLog.currentPageNumber){
-        glblLog.timeAtPageIndex.append(timeOnCurrentPage)
-        timeOnCurrentPage = 0
-        }else{
-        timeOnCurrentPage = glblLog.timeAtPageIndex[glblLog.currentPageNumber]
-        }
-        
-        //print("scrollDest \(glblLog.currentPageNumber)")*/
     }
     @IBAction func prevPageButton(sender: UIButton) {
         glblLog.currentPageNumber--
         glblLog.scrollDestination = glblLog.scrollDestination - pageHeight
         webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
         updateProgressBar()
-        /*
-        print(glblLog.currentPageNumber)
-        print("scrollDest \(glblLog.currentPageNumber)")*/
-        
     }
     
     func runTimedCode() {
@@ -178,17 +153,17 @@ class ViewController: UIViewController, UIWebViewDelegate {
         var progress = 0.0 as CGFloat
         if(glblLog.numberOfPages > 0 && glblLog.expectedPagesPerDay1.count > glblLog.daysRead.count ){
             progress = CGFloat(glblLog.actualPagesPerDay[glblLog.daysRead.count - 1].count)/CGFloat(glblLog.expectedPagesPerDay1[glblLog.daysRead.count - 1]) * progressBarWidth
-            //progress = CGFloat(glblLog.actualPagesPerDay[glblLog.daysRead.count - 1].count)/CGFloat(glblLog.expectedPagesPerDay) * progressBarWidth
+        }
+        if(progress > progressBarWidth){
+            progress = progressBarWidth
         }
         let button1Width = progress
         let button2Width = progressBarWidth - progress
         let buttonHeight = screenHeight/25 as CGFloat
         let imageWidth = screenWidth/22
         
-        
         button1.frame = CGRectMake(100, screenHeight - 2*buttonHeight, button1Width, buttonHeight)
         button1.backgroundColor = UIColor.greenColor()
-        
         
         button2.frame = CGRectMake(100 + progress , screenHeight - 2*buttonHeight, button2Width, buttonHeight )
         button2.backgroundColor = UIColor.redColor()
@@ -207,15 +182,9 @@ class ViewController: UIViewController, UIWebViewDelegate {
         guyView.frame = CGRectMake(100 + progress - imageWidth/2, screenHeight - 2*buttonHeight, imageWidth, buttonHeight)
         
            }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        print("memory warning function was called")
-    }
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         timer.invalidate()
     }
-    
-    
 }
 
