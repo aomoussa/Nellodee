@@ -88,18 +88,24 @@ class trendViewController: UIViewController {
         //for loop populuting array of buttons for bar graph
         //for indexTime in glblLog.timeAtPageIndex{
         while(indexTime <= glblLog.currentSession.days.count && count < 9){
-            buttonHeight = buttonIncrements*screenHeight * CGFloat(glblLog.currentSession.days[indexTime - 1].pages.count)
+            buttonHeight = buttonIncrements*screenHeight * CGFloat(glblLog.currentSession.days[indexTime - 1].time)
             if(buttonHeight > screenHeight*0.4){
                 buttonHeight = screenHeight*0.4
             }
             barButtons2[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight/2 - buttonHeight - 5, buttonWidth, buttonHeight)
             
             dayLabelButtons[count].frame = CGRectMake(100 + (index)*70.0 , screenHeight/2, labelButtonWidth, labelButtonHeight)
-            dayLabelButtons[count].setTitle("day \(indexTime )", forState: UIControlState.Normal)
+            if(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date == glblLog.currentSession.days[indexTime - 1].date){
+                            dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
+            }
+            else{
+                            dayLabelButtons[count].setTitle("\(glblLog.currentSession.days[indexTime - 1].date)", forState: UIControlState.Normal)
+            }
+
             
             
             pagesPerDayLabels[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight/2 - buttonHeight - 25, buttonWidth, 20)
-            pagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexTime - 1].pages.count)"
+            pagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexTime - 1].time)"
             
             index++
             count++

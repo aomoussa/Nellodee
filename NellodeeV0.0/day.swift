@@ -8,21 +8,36 @@
 
 import Foundation
 class day{
+    //local variables
     var date: String
     var pages = [page]()
+    var startPage: Int
+    var endPage: Int
+    var time = 0
     var expectedPages: Int
     let dateFormatter = NSDateFormatter()
-    init(d: String, expectedNumOfPages: Int){
+    
+    
+    init(d: String, expectedNumOfPages: Int, startPage: Int, endPage: Int){
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         date = d
-        
-        self.expectedPages = expectedNumOfPages
+        self.startPage = startPage
+        self.endPage = endPage
+        self.expectedPages = endPage - startPage
     }
-    init(expectedNumOfPages: Int){
+    init(expectedNumOfPages: Int, startPage: Int, endPage: Int){
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         date = dateFormatter.stringFromDate(NSDate())
+        self.startPage = startPage
+        self.endPage = endPage
         
-        self.expectedPages = expectedNumOfPages
+        self.expectedPages = endPage - startPage
+    }
+    func setStartPage(startPage: Int){
+        if(startPage < self.startPage){
+        self.startPage = startPage
+        self.expectedPages = endPage - startPage
+        }
     }
     func addPage(pg: page) -> Bool{
         for temp in pages{

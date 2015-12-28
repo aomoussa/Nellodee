@@ -11,12 +11,13 @@ import UIKit
 class ViewController: UIViewController, UIWebViewDelegate {
     //local variables
     let defaults = NSUserDefaults.standardUserDefaults()
-    var todaysDate = "12/12/15"
+    var todaysDate = "12/28/15"
     var pageHeight = 841.8 as CGFloat
     var path = ""
     var pdfPageCount = 0
     var timeOnCurrentPage = 0
     var timer = NSTimer()
+    
     
     //UI stuff
     let guyView = UIButton()
@@ -29,8 +30,8 @@ class ViewController: UIViewController, UIWebViewDelegate {
     //from storyboard
     @IBOutlet var webView: UIWebView!
     @IBAction func nextDay(sender: UIButton) {
-        glblLog.addDay("\(25+glblLog.daysRead.count)/12/15")
-        todaysDate = "\(25+glblLog.daysRead.count)/12/15"
+        glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed + 1].setStartPage(glblLog.currentPageNumber)
+        todaysDate = "12/\(28+glblLog.currentSession.numberOfDaysPassed++)/15"
         updateProgressBar()
     }
     @IBOutlet var burger: UIBarButtonItem!
@@ -40,11 +41,6 @@ class ViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if(!glblLog.dayExists()){
-            glblLog.addToday()
-            updateProgressBar()
-            
-        }
         self.path = NSBundle.mainBundle().pathForResource("pdfBook", ofType: "pdf")!
         let url = NSURL.fileURLWithPath(path)
         self.webView.loadRequest(NSURLRequest(URL: url))
@@ -66,10 +62,23 @@ class ViewController: UIViewController, UIWebViewDelegate {
         
         burger.target = self.revealViewController()
         burger.action = Selector("revealToggle:")
+        
+        var currentSessionLastDateReached = todaysDate
+        if(glblLog.currentSession.days.count > 0)
+        {
+            currentSessionLastDateReached = glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date
+        }
+        if(currentSessionLastDateReached != todaysDate){
+            glblLog.currentSession.numberOfDaysPassed++
+            print("numberOfDaysPassed added todays date: \(todaysDate) and session.days[numberOfDaysPassed - 1] = \(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed - 1].date)")
+        }
+        else{
+            print("numberOfDaysPassed \n added todays date: \(todaysDate) ")
+        }
     }
     
     @IBAction func nextPageButton(sender: UIButton) {
-        glblLog.pageReadUpdate()
+        glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.append(page(pageNumber: glblLog.currentPageNumber, time: 0))
         if(glblLog.currentPageNumber == glblLog.maxPageReached){
             glblLog.maxPageReached++
         }
@@ -86,6 +95,10 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     
     func runTimedCode() {
+        if(glblLog.currentSession.days.count > 0){
+            glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].time++
+        }
+        
         timeOnCurrentPage = glblLog.timeAtPageIndex[glblLog.currentPageNumber]
         timerLabel.text = "\(timeOnCurrentPage)"
         
@@ -134,11 +147,9 @@ class ViewController: UIViewController, UIWebViewDelegate {
         let labelHeight = screenHeight/30
         
         startPageLabel.frame = CGRectMake(100, screenHeight - 1.5*labelHeight, labelWidth, labelHeight )
-        startPageLabel.text = "\(glblLog.startPage)"
         self.view.addSubview(startPageLabel)
         
         endPageLabel.frame = CGRectMake(screenWidth - labelWidth/2 - 100, screenHeight - 1.5*labelHeight, labelWidth, labelHeight)
-        endPageLabel.text = "\(glblLog.startPage + glblLog.expectedPagesPerDay)"
         self.view.addSubview(endPageLabel)
         
         currentPageLabel.frame = CGRectMake(100 +  labelWidth/2, screenHeight - labelHeight - (2 * screenHeight/25), labelWidth, labelHeight )
@@ -151,8 +162,8 @@ class ViewController: UIViewController, UIWebViewDelegate {
         let screenHeight = self.view.frame.size.height
         let progressBarWidth = screenWidth - 200 as CGFloat
         var progress = 0.0 as CGFloat
-        if(glblLog.numberOfPages > 0 && glblLog.expectedPagesPerDay1.count > glblLog.daysRead.count ){
-            progress = CGFloat(glblLog.actualPagesPerDay[glblLog.daysRead.count - 1].count)/CGFloat(glblLog.expectedPagesPerDay1[glblLog.daysRead.count - 1]) * progressBarWidth
+        if(glblLog.currentSession.days.count > 0 ){
+            progress = CGFloat(glblLog.currentPageNumber - glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].startPage)/CGFloat(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].expectedPages) * progressBarWidth
         }
         if(progress > progressBarWidth){
             progress = progressBarWidth
@@ -171,10 +182,9 @@ class ViewController: UIViewController, UIWebViewDelegate {
         let labelWidth = screenWidth/15
         let labelHeight = screenHeight/30
         
-        startPageLabel.text = "\(glblLog.startPage)"
-
-        if(glblLog.expectedPagesPerDay1.count > glblLog.daysRead.count){
-        endPageLabel.text = "\(glblLog.startPage + glblLog.expectedPagesPerDay1[glblLog.daysRead.count - 1])"//"\(glblLog.startPage + glblLog.expectedPagesPerDay)"
+        if(glblLog.currentSession.days.count > 0){
+            startPageLabel.text = "\(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].startPage)"
+            endPageLabel.text = "\(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].endPage)"//"\(glblLog.startPage + glblLog.expectedPagesPerDay)"
         }
         currentPageLabel.frame = CGRectMake(100 + progress - 5, screenHeight - labelHeight - 2*buttonHeight, labelWidth, labelHeight )
         currentPageLabel.text = "\(glblLog.currentPageNumber)"

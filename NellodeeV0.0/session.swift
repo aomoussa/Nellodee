@@ -11,10 +11,12 @@ class session{
     var days = [day]()
     var startDate: String
     var endDate: String
+    var numberOfDaysPassed = 0
     var expectedPagesPerDay: Int
     var expectedNumOfDays: Int
-    
     let dateFormatter = NSDateFormatter()
+    var state = "pagesPerDayState"//"completionDateState"
+    
     init(){
         self.startDate = ""
         self.endDate = ""
@@ -22,7 +24,7 @@ class session{
         self.expectedNumOfDays = 0
         
     }
-    init(startDate: String, endDate: String, expectedPagesPerDay: Int){// numOfPagesRem: Int){
+    init(startDate: String, endDate: String, expectedPagesPerDay: Int, state: String){// numOfPagesRem: Int){
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         let unit:NSCalendarUnit = NSCalendarUnit.Day
         if(startDate != "" && endDate != ""){
@@ -39,12 +41,21 @@ class session{
         self.startDate = startDate
         self.endDate = endDate
         self.expectedPagesPerDay = expectedPagesPerDay
-
+        self.state = state
         var i = 0
-        while(i < expectedNumOfDays)
+        var startPage = 0
+        if(glblLog.currentPageNumber >= 0){
+            startPage = glblLog.currentPageNumber
+        }
+        var endPage = startPage + expectedPagesPerDay
+        while(i <= expectedNumOfDays)
         {
-            days.append(day(expectedNumOfPages: expectedPagesPerDay))
-            
+            days.append(day(expectedNumOfPages: expectedPagesPerDay, startPage: startPage, endPage: endPage))
+            startPage+=expectedPagesPerDay
+            endPage+=expectedPagesPerDay
+            if (endPage >= glblLog.numberOfPages){
+                endPage = glblLog.numberOfPages
+            }
             if #available(iOS 8.0, *) {
                 days[i].date = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: i, toDate: NSDate(), options: [])!)
             } else {
@@ -79,6 +90,7 @@ class session{
         var i = 0
         for temp in days{
             str += "Day \(i) \(temp.date)"
+            str += "\n ---- from pages \(temp.startPage) to \(temp.endPage)"
             for tempPage in days[i].pages{
                 str += "\n ----- page #\(tempPage.pageNumber ) time: \(tempPage.time)secs"
             }
