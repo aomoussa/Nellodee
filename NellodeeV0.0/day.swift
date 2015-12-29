@@ -35,8 +35,40 @@ class day{
     }
     func setStartPage(startPage: Int){
         if(startPage < self.startPage){
-        self.startPage = startPage
-        self.expectedPages = endPage - startPage
+            self.startPage = startPage
+            self.expectedPages = endPage - startPage
+        }
+        else{
+            let extraPagesRead = glblLog.currentPageNumber - self.startPage
+            self.startPage = startPage
+            self.endPage = self.startPage + self.expectedPages
+            /*var i = 0
+            var startPage = 0
+            if(glblLog.currentPageNumber >= 0){
+            startPage = glblLog.currentPageNumber
+            }
+            var endPage = startPage + expectedPagesPerDay
+            while(i <= expectedNumOfDays)
+            {
+            days.append(day(expectedNumOfPages: expectedPagesPerDay, startPage: startPage, endPage: endPage))
+            startPage+=expectedPagesPerDay
+            endPage+=expectedPagesPerDay
+            if (endPage >= glblLog.numberOfPages){
+            endPage = glblLog.numberOfPages
+            }
+            if #available(iOS 8.0, *) {
+            days[i].date = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: i, toDate: NSDate(), options: [])!)
+            } else {
+            print("device too old... session class mess up")
+            }
+            i++
+            }*/
+            var i = glblLog.currentSession.numberOfDaysPassed + 1
+            while(i<glblLog.currentSession.days.count){
+                glblLog.currentSession.days[i].startPage += extraPagesRead
+                glblLog.currentSession.days[i].endPage += extraPagesRead
+                i++
+            }
         }
     }
     func addPage(pg: page) -> Bool{
@@ -67,10 +99,5 @@ class day{
             i++
         }
         return -1
-    }
-    func addTime(){
-        if(pages.count != 0){
-            pages[pages.count-1].addTime()
-        }
     }
 }

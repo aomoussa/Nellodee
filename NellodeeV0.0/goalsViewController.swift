@@ -110,7 +110,7 @@ class goalsViewController: UIViewController {
         createPrevAndNextButtons()
         createLabels()
         createBarGraphs()
-       
+        
     }
     func buttonAction(sender: UIButton){
         
@@ -210,80 +210,80 @@ class goalsViewController: UIViewController {
                 if(buttonHeight > screenHeight*0.5){
                     buttonHeight = screenHeight*0.5
                 }
-                    bars[count].frame = CGRectMake(70 + (index)*70.0 , screenHeight-buttonHeight - 100, buttonWidth, buttonHeight)
-                    
-                    expectedPagesPerDayLabels[count].frame = CGRectMake(70 + (index)*70.0 , screenHeight-buttonHeight - 120, buttonWidth*2, 20)
-                    if(count < glblLog.currentSession.expectedNumOfDays){
-                        expectedPagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexPage].expectedPages)"
-                    }
-                    else{
-                        expectedPagesPerDayLabels[count].text = "0"
-                    }
-                    
-                    
-                    var buttonHeight2 = 0.0 as CGFloat
-                    buttonHeight2 = CGFloat(glblLog.currentSession.days[indexPage].pages.count) * CGFloat(15)
-                    if(buttonHeight2 > screenHeight*0.5){
-                        buttonHeight2 = screenHeight*0.5
-                    }
-                    expectedBars[count].frame = CGRectMake(45 + (index)*70.0 , screenHeight-buttonHeight2 - 100, buttonWidth, buttonHeight2)
-                    
-                    pagesPerDayLabels[count].frame = CGRectMake(45 + (index)*70.0 , screenHeight-buttonHeight2 - 120, buttonWidth*2, 20)
-                    pagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexPage].pages.count)"
-                    
-                    let thisDate = glblLog.currentSession.days[indexPage].date
+                bars[count].frame = CGRectMake(70 + (index)*70.0 , screenHeight-buttonHeight - 100, buttonWidth, buttonHeight)
+                
+                expectedPagesPerDayLabels[count].frame = CGRectMake(70 + (index)*70.0 , screenHeight-buttonHeight - 120, buttonWidth*2, 20)
+                if(count < glblLog.currentSession.expectedNumOfDays){
+                    expectedPagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexPage].expectedPages)"
+                }
+                else{
+                    expectedPagesPerDayLabels[count].text = "0"
+                }
+                
+                
+                var buttonHeight2 = 0.0 as CGFloat
+                buttonHeight2 = CGFloat(glblLog.currentSession.days[indexPage].pages.count) * CGFloat(15)
+                if(buttonHeight2 > screenHeight*0.5){
+                    buttonHeight2 = screenHeight*0.5
+                }
+                expectedBars[count].frame = CGRectMake(45 + (index)*70.0 , screenHeight-buttonHeight2 - 100, buttonWidth, buttonHeight2)
+                
+                pagesPerDayLabels[count].frame = CGRectMake(45 + (index)*70.0 , screenHeight-buttonHeight2 - 120, buttonWidth*2, 20)
+                pagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexPage].pages.count)"
+                
+                let thisDate = glblLog.currentSession.days[indexPage].date
                 if(thisDate == glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date){
                     dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
                 }else{
                     dayLabelButtons[count].setTitle(thisDate.substringToIndex(thisDate.startIndex.advancedBy(5)), forState: UIControlState.Normal)
                 }
-                    index++
+                index++
                 
-                }
-                indexPage++
-                count++
             }
-            
-            
+            indexPage++
+            count++
         }
-        func createBarGraphs(){
-            var count = 0
-            //for loop populsting array of buttons for bar graph
-            while(count < 10){
-                bars.append(UIButton())
-                bars[count].backgroundColor = UIColor.blueColor()
-                self.view.addSubview(bars[count])
-                
-                expectedPagesPerDayLabels.append(UILabel())
-                self.view.addSubview(expectedPagesPerDayLabels[count])
-                
-                expectedBars.append(UIButton())
-                expectedBars[count].backgroundColor = UIColor.redColor()
-                self.view.addSubview(expectedBars[count])
-                
-                pagesPerDayLabels.append(UILabel())
-                self.view.addSubview(pagesPerDayLabels[count])
-                
-                count++
-            }
-            refreshBarGraphs(0)
+        
+        
+    }
+    func createBarGraphs(){
+        var count = 0
+        //for loop populsting array of buttons for bar graph
+        while(count < 10){
+            bars.append(UIButton())
+            bars[count].backgroundColor = UIColor.blueColor()
+            self.view.addSubview(bars[count])
+            
+            expectedPagesPerDayLabels.append(UILabel())
+            self.view.addSubview(expectedPagesPerDayLabels[count])
+            
+            expectedBars.append(UIButton())
+            expectedBars[count].backgroundColor = UIColor.redColor()
+            self.view.addSubview(expectedBars[count])
+            
+            pagesPerDayLabels.append(UILabel())
+            self.view.addSubview(pagesPerDayLabels[count])
+            
+            count++
         }
+        refreshBarGraphs(0)
+    }
     
-        func createLabels(){
-            //let screenWidth = view.frame.size.width
-            let screenHeight = self.view.frame.size.height
-            let dayLabelbuttonHeight = 20.0 as CGFloat
-            let dayLabelbuttonWidth = dayLabelbuttonHeight*3
-            
-            var count = 0
-            while(count < 10){
-                dayLabelButtons.append(UIButton(frame: CGRectMake(40 + (CGFloat(count))*70.0 , screenHeight - dayLabelbuttonHeight - 75, dayLabelbuttonWidth, dayLabelbuttonHeight)))
-                dayLabelButtons[count].backgroundColor = UIColor.grayColor()
-                self.view.addSubview(dayLabelButtons[count])
-                count++
-            }
-            
+    func createLabels(){
+        //let screenWidth = view.frame.size.width
+        let screenHeight = self.view.frame.size.height
+        let dayLabelbuttonHeight = 20.0 as CGFloat
+        let dayLabelbuttonWidth = dayLabelbuttonHeight*3
+        
+        var count = 0
+        while(count < 10){
+            dayLabelButtons.append(UIButton(frame: CGRectMake(40 + (CGFloat(count))*70.0 , screenHeight - dayLabelbuttonHeight - 75, dayLabelbuttonWidth, dayLabelbuttonHeight)))
+            dayLabelButtons[count].backgroundColor = UIColor.grayColor()
+            self.view.addSubview(dayLabelButtons[count])
+            count++
         }
+        
+    }
     override func viewDidDisappear(animated: Bool) {
         
         defaults.setObject(glblLog.currentPageNumber, forKey: "currentPageNumber")
@@ -292,6 +292,35 @@ class goalsViewController: UIViewController {
             return String(number)
         })
         defaults.setObject(stringArray2, forKey: "timeAtPageIndex")
+        
+        defaults.setObject(glblLog.currentSession.numberOfDaysPassed, forKey: "currentSessionNumberOfDaysPassed")
+        defaults.setObject(glblLog.currentSession.state, forKey: "currentSessionSelectorState")
+        defaults.setObject(glblLog.currentSession.startDate, forKey: "currentSessionStartDate")
+        defaults.setObject(glblLog.currentSession.endDate, forKey: "currentSessionEndDate")
+        defaults.setObject(glblLog.currentSession.expectedPagesPerDay, forKey: "currentSessionExpectedPagesPerDay")
+        
+        var startPagesString = [String]()
+        var endPagesString = [String]()
+        var timeOnDay = [String]()
+        var pagesReadAtIndexPage = [[String]]()
+        var i = 0
+        var j = 0
+        for temp in glblLog.currentSession.days{
+            startPagesString.append("\(temp.startPage)")
+            endPagesString.append("\(temp.endPage)")
+            timeOnDay.append("\(temp.time)")
+            pagesReadAtIndexPage.append([String]())
+            for tempPage in temp.pages{
+                
+                pagesReadAtIndexPage[i].append("\(tempPage.pageNumber)")
+                j++
+            }
+            defaults.setObject(pagesReadAtIndexPage[i], forKey: "actualPagesPerDay\(i)")
+            i++
+        }
+        defaults.setObject(timeOnDay, forKey: "timePerDay")
+        defaults.setObject(startPagesString, forKey: "startPagesStringArray")
+        defaults.setObject(endPagesString, forKey: "endPagesStringArray")
     }
 }
 /*

@@ -64,27 +64,6 @@ class session{
             i++
         }
     }
-    func getTodaysIndex() -> Int{
-        var i = 0
-        for temp in days{
-            if (temp.date == dateFormatter.stringFromDate(NSDate())){
-                return i
-            }
-            i++
-        }
-        return -1
-    }
-    func getTodaysIndex(todaysDate: String) -> Int{
-        var i = 0
-        for temp in days{
-            if (temp.date == todaysDate){
-                return i
-            }
-            i++
-        }
-        
-        return -1
-    }
     func toString() -> String{
         var str = ""
         var i = 0
@@ -98,10 +77,5 @@ class session{
             i++
         }
         return str
-    }
-    func addTime(){
-        if(days.count != 0){
-            days[days.count-1].addTime()
-        }
     }
 }

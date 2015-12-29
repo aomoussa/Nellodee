@@ -70,19 +70,22 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }
         if(currentSessionLastDateReached != todaysDate){
             glblLog.currentSession.numberOfDaysPassed++
+            glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].setStartPage(glblLog.currentPageNumber)
             print("numberOfDaysPassed added todays date: \(todaysDate) and session.days[numberOfDaysPassed - 1] = \(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed - 1].date)")
         }
         else{
             print("numberOfDaysPassed \n added todays date: \(todaysDate) ")
         }
+        retrieveSavedData()
     }
-    
     @IBAction func nextPageButton(sender: UIButton) {
         glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.append(page(pageNumber: glblLog.currentPageNumber, time: 0))
+        
         if(glblLog.currentPageNumber == glblLog.maxPageReached){
             glblLog.maxPageReached++
         }
         glblLog.currentPageNumber++
+        
         glblLog.scrollDestination = pageHeight + glblLog.scrollDestination
         webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
         updateProgressBar()
@@ -113,20 +116,14 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }
         
         if(timeOnCurrentPage < 5){
-            paceLabel.text = "fast"}
+            paceLabel.text = "fast"
+        }
         else if(timeOnCurrentPage < 10){
-            paceLabel.text = "arright"}
+            paceLabel.text = "arright"
+        }
         else {
-            paceLabel.text = "sloww"}
-//        let todaysIndex = glblLog.currentSession.getTodaysIndex(todaysDate)
-//        if(todaysIndex >= 0 ){
-//            var pageIndex = glblLog.currentSession.days[todaysIndex].getPageIndex(glblLog.currentPageNumber - 1)
-//            if(pageIndex >= 0){
-//                glblLog.currentSession.days[todaysIndex].pages[pageIndex].time++
-//            }
-//            //print("todays index: \(todaysIndex) page number: \(glblLog.currentPageNumber) page index: \(pageIndex)")
-//        }
-        glblLog.currentSession.addTime()
+            paceLabel.text = "sloww"
+        }
         glblLog.timeAtPageIndex[glblLog.currentPageNumber]++
     }
     
@@ -168,6 +165,10 @@ class ViewController: UIViewController, UIWebViewDelegate {
         if(progress > progressBarWidth){
             progress = progressBarWidth
         }
+        if(progress < 0){
+            progress = 0
+        }
+
         let button1Width = progress
         let button2Width = progressBarWidth - progress
         let buttonHeight = screenHeight/25 as CGFloat
@@ -188,13 +189,148 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }
         currentPageLabel.frame = CGRectMake(100 + progress - 5, screenHeight - labelHeight - 2*buttonHeight, labelWidth, labelHeight )
         currentPageLabel.text = "\(glblLog.currentPageNumber)"
-
+        
         guyView.frame = CGRectMake(100 + progress - imageWidth/2, screenHeight - 2*buttonHeight, imageWidth, buttonHeight)
         
-           }
+    }
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         timer.invalidate()
+    }
+    func retrieveSavedData(){
+        if(glblLog.allSessions.count < 1){
+            var startDate = ""
+            var endDate = ""
+            var currentSessionSelectorState = ""
+            var currentSessionNumberOfDaysPassed = 0
+            var currentSessionExpectedPagesPerDay = 10
+            var timePerDay = [Int]()
+            var startPages = [Int]()
+            var endPages = [Int]()
+            var actualPagesPerDay = [[Int]]()
+            //-------------------------------------------------------------------> startDate retrieval
+            if let SD: Optional = self.defaults.stringForKey("currentSessionStartDate")
+            {
+                if(SD != nil){
+                    startDate = SD!
+                }
+            }
+            else{
+                startDate = "1/1/2016"
+            }
+            //------------------------------------------------------------------> endDate retrieval
+            if let ED: Optional = self.defaults.stringForKey("currentSessionEndDate")
+            {
+                if(ED != nil){
+                    endDate = ED!
+                }
+            }
+            else{
+                endDate = "1/1/2016"
+            }
+            //------------------------------------------------------------------> currentSessionSelectorState retrieval
+            if let SS: Optional = self.defaults.stringForKey("currentSessionSelectorState")
+            {
+                if(SS != nil){
+                    currentSessionSelectorState = SS!
+                }
+            }
+            else{
+                currentSessionSelectorState = "pagesPerDay"
+            }
+            //------------------------------------------------------------------> currentSessionSelectorState retrieval
+            if let EPPD: Optional = self.defaults.integerForKey("currentSessionExpectedPagesPerDay")
+            {
+                if(EPPD != nil && EPPD! > 0){
+                    currentSessionExpectedPagesPerDay = EPPD!
+                }
+            }
+            
+            //------------------------------------------------------------------> currentSession initiation
+            glblLog.addSession(session(startDate: startDate, endDate: endDate, expectedPagesPerDay: currentSessionExpectedPagesPerDay, state: currentSessionSelectorState))
+            print(glblLog.currentSession.toString())
+            //------------------------------------------------------------------> currentSessionNumberOfDaysPassed retrieval
+            if let ND: Optional = self.defaults.integerForKey("currentSessionNumberOfDaysPassed")
+            {
+                if(ND != 0){
+                    currentSessionNumberOfDaysPassed = ND!
+                }
+            }
+            
+            
+            //------------------------------------------------------------------> timePerDay retrieval
+            if let TPD: Optional = self.defaults.stringArrayForKey("timePerDay")
+            {
+                if(TPD != nil){
+                    for temp in TPD!{
+                        timePerDay.append(Int(temp)!)
+                    }
+                }
+            }
+            else{
+                timePerDay.append(0)
+            }
+            
+            //------------------------------------------------------------------> startDaysStringArray retrieval
+            if let SP: Optional = self.defaults.stringArrayForKey("startPagesStringArray")
+            {
+                if(SP != nil){
+                    for temp in SP!{
+                        startPages.append(Int(temp)!)
+                    }
+                }
+            }
+            else{
+                startPages.append(0)
+            }
+
+            //------------------------------------------------------------------> endPagesStringArray retrieval
+            if let EP: Optional = self.defaults.stringArrayForKey("endPagesStringArray")
+            {
+                if(EP != nil){
+                    for temp in EP!{
+                        endPages.append(Int(temp)!)
+                    }
+                }
+            }
+            else{
+                endPages.append(0)
+            }
+            
+            //------------------------------------------------------------------> actualPagesPerDay retrieval
+            var j = 0
+            while(j < currentSessionNumberOfDaysPassed){
+                actualPagesPerDay.append([Int]())
+                if let APPD: Optional = self.defaults.stringArrayForKey("actualPagesPerDay\(j)")
+                {
+                    if(APPD != nil){
+                        for temp in APPD!{
+                            actualPagesPerDay[j].append(Int(temp)!)
+                        }
+                    }
+                }
+                j++
+            }
+            
+            //------------------------------------------------------------------> setting the current Session Data
+            if(timePerDay.count == glblLog.currentSession.days.count){
+                glblLog.currentSession.numberOfDaysPassed = currentSessionNumberOfDaysPassed
+                
+                var i = 0
+                for temp in glblLog.currentSession.days{
+                    temp.startPage = startPages[i]
+                    temp.endPage = endPages[i]
+                    temp.expectedPages = temp.endPage - temp.startPage
+                    temp.time = timePerDay[i]
+                    if(i < currentSessionNumberOfDaysPassed){
+                        for tempPages in actualPagesPerDay[i]{
+                            temp.pages.append(page(pageNumber: tempPages, time: 0))
+                        }
+                    }
+                    i++
+                }
+            }
+        }
     }
 }
 
