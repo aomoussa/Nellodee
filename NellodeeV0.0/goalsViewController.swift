@@ -23,8 +23,7 @@ class goalsViewController: UIViewController {
     var dayLabelButtons = [UIButton]()
     var pagesPerDayLabels = [UILabel]()
     var expectedPagesPerDayLabels = [UILabel]()
-    var pagesPerDayStateLabel = UILabel()
-    var completionDayStateLabel = UILabel()
+    var segmentedControl = UISegmentedControl(items: ["Pages per Day", "Completion Date"])
     
     
     @IBAction func setChanges(sender: UIButton) {
@@ -43,12 +42,10 @@ class goalsViewController: UIViewController {
         currentState = "pages"
         
         currentStateLabel.text = currentState
+        segmentedControl.selectedSegmentIndex = 0
         
         let pagesPerDay = Int(sender.value).description
         pagesSelectorLabel.text = pagesPerDay
-        
-        self.view.addSubview(pagesPerDayStateLabel)
-        completionDayStateLabel.removeFromSuperview()
         
         let expectedPagesPerDay = Int(pagesPerDay)!
         var numOfDays = 0
@@ -89,8 +86,8 @@ class goalsViewController: UIViewController {
         
         currentState = "date"
         currentStateLabel.text = currentState
-        self.view.addSubview(completionDayStateLabel)
-        pagesPerDayStateLabel.removeFromSuperview()
+        segmentedControl.selectedSegmentIndex = 1
+        
         
         let strDate = dateFormatter.stringFromDate(datePicker.date)
         print(strDate)
@@ -140,17 +137,8 @@ class goalsViewController: UIViewController {
         let screenHeight = self.view.frame.size.height
         let YlineHeight = 350.0 as CGFloat
         
-        
-        completionDayStateLabel.frame = CGRectMake(screenWidth/2 + 100 , screenHeight/2 - 250, screenWidth/3, screenHeight/40)
-        completionDayStateLabel.text = "Completion Day State"
-        if(glblLog.currentState == "completionDateState"){//"pagesPerDayState"
-            self.view.addSubview(completionDayStateLabel)
-        }
-        pagesPerDayStateLabel.frame = CGRectMake(screenWidth/2  - 300, screenHeight/2 - 250, screenWidth/3, screenHeight/40)
-        pagesPerDayStateLabel.text = "Pages Per Day State"
-        if(glblLog.currentState == "pagesPerDayState"){//"completionDateState"
-            self.view.addSubview(pagesPerDayStateLabel)
-        }
+        segmentedControl.frame =  CGRectMake(screenWidth/2 - 100 , screenHeight/2 - 250, screenWidth/3, screenHeight/40)
+        self.view.addSubview(segmentedControl)
         
         let lineViewX = UIView.init(frame: CGRectMake(45, screenHeight - 100, screenWidth, 1))
         lineViewX.backgroundColor = UIColor.blackColor()

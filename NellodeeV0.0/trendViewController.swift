@@ -27,7 +27,7 @@ class trendViewController: UIViewController {
     var bottomI = glblLog.maxPageReached-9//1//glblLog.currentPageNumber - 9
     
     //scale variables
-    let buttonIncrements = 0.03 as CGFloat //(3% to be multiplies by screenHeight)
+    let buttonIncrements = 0.01 as CGFloat //(3% to be multiplies by screenHeight)
     let topGraphXaxisHeight = 0.5 as CGFloat//(50% to be multiplies by screenHeight)
     let bottomGraphXaxisHeight = 0.9 as CGFloat//(90% to be multiplies by screenHeight)
     
@@ -92,7 +92,7 @@ class trendViewController: UIViewController {
             if(buttonHeight > screenHeight*0.4){
                 buttonHeight = screenHeight*0.4
             }
-            barButtons2[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight/2 - buttonHeight - 5, buttonWidth, buttonHeight)
+            barButtons2[count].frame = CGRectMake(115 + (index)*70.0 , screenHeight/2 - buttonHeight, buttonWidth, buttonHeight)
             
             dayLabelButtons[count].frame = CGRectMake(100 + (index)*70.0 , screenHeight/2, labelButtonWidth, labelButtonHeight)
             if(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date == glblLog.currentSession.days[indexTime - 1].date){
@@ -104,7 +104,7 @@ class trendViewController: UIViewController {
 
             
             
-            pagesPerDayLabels[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight/2 - buttonHeight - 25, buttonWidth, 20)
+            pagesPerDayLabels[count].frame = CGRectMake(120 + (index)*70.0 , screenHeight/2 - buttonHeight - 20, buttonWidth, 20)
             pagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexTime - 1].time)"
             
             index++

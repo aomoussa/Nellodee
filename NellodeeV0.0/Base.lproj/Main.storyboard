@@ -226,6 +226,13 @@
                                     <action selector="setChanges:" destination="9BJ-W8-iIU" eventType="touchUpInside" id="l8n-wy-Z2A"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Za5-QW-VUy">
+                                <rect key="frame" x="226" y="286" width="103" height="29"/>
+                                <segments>
+                                    <segment title="pages"/>
+                                    <segment title="Goals"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -235,6 +242,11 @@
                             <constraint firstAttribute="trailingMargin" secondItem="yrw-TE-4gE" secondAttribute="trailing" id="TVP-Qw-Kff"/>
                             <constraint firstItem="Yxm-qr-MPC" firstAttribute="top" secondItem="VeH-pU-kfF" secondAttribute="topMargin" constant="13" id="aFR-Ie-Jqo"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="Za5-QW-VUy"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="currentStateLabel" destination="wmk-aL-rIV" id="e7B-nz-PKI"/>

@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController, UIWebViewDelegate {
     //local variables
     let defaults = NSUserDefaults.standardUserDefaults()
-    var todaysDate = "12/28/15"
+    var todaysDate = "12/30/15"
     var pageHeight = 841.8 as CGFloat
     var path = ""
     var pdfPageCount = 0
@@ -30,8 +30,18 @@ class ViewController: UIViewController, UIWebViewDelegate {
     //from storyboard
     @IBOutlet var webView: UIWebView!
     @IBAction func nextDay(sender: UIButton) {
-        glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed + 1].setStartPage(glblLog.currentPageNumber)
-        todaysDate = "12/\(28+glblLog.currentSession.numberOfDaysPassed++)/15"
+        glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed+1].setStartPage(glblLog.currentPageNumber)
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        let startDate = dateFormatter.stringFromDate(NSDate())
+        todaysDate = startDate
+        let unit:NSCalendarUnit = NSCalendarUnit.Day
+        if #available(iOS 8.0, *) {
+            todaysDate = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(unit, value: glblLog.currentSession.numberOfDaysPassed++, toDate: NSDate(), options: [])!)
+        } else {
+            print("device too old... datePicker mess up")
+        }
+        
         updateProgressBar()
     }
     @IBOutlet var burger: UIBarButtonItem!
@@ -63,6 +73,15 @@ class ViewController: UIViewController, UIWebViewDelegate {
         burger.target = self.revealViewController()
         burger.action = Selector("revealToggle:")
         
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        todaysDate = dateFormatter.stringFromDate(NSDate())
+        let unit:NSCalendarUnit = NSCalendarUnit.Day
+        if #available(iOS 8.0, *) {
+            todaysDate = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(unit, value: glblLog.currentSession.numberOfDaysPassed, toDate: NSDate(), options: [])!)
+        } else {
+            print("device too old... datePicker mess up")
+        }
         var currentSessionLastDateReached = todaysDate
         if(glblLog.currentSession.days.count > 0)
         {
@@ -79,7 +98,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
         retrieveSavedData()
     }
     @IBAction func nextPageButton(sender: UIButton) {
-        glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.append(page(pageNumber: glblLog.currentPageNumber, time: 0))
+        glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.append(page(pageNumber: glblLog.currentPageNumber+1, time: 0))
         
         if(glblLog.currentPageNumber == glblLog.maxPageReached){
             glblLog.maxPageReached++
