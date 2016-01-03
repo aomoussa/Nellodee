@@ -17,7 +17,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
     var pdfPageCount = 0
     var timeOnCurrentPage = 0
     var timer = NSTimer()
-    
+    var scrollDestinationUpdated = false
     
     //UI stuff
     let guyView = UIButton()
@@ -119,6 +119,9 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     
     func runTimedCode() {
+        if(!scrollDestinationUpdated){
+            webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
+        }
         if(glblLog.currentSession.days.count > 0){
             glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].time++
         }
