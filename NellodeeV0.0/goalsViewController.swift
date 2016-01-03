@@ -39,9 +39,6 @@ class goalsViewController: UIViewController {
     var currentState = "date"//"pages"
     
     @IBAction func pagesSelectorEdited(sender: UIStepper) {
-        currentState = "pages"
-        
-        currentStateLabel.text = currentState
         segmentedControl.selectedSegmentIndex = 0
         
         let pagesPerDay = Int(sender.value).description
@@ -78,16 +75,19 @@ class goalsViewController: UIViewController {
         
         pagesSelector.autorepeat = true
         pagesSelector.maximumValue = 100
+        
+        if(glblLog.currentSession.state == ""){
+            segmentedControl.selectedSegmentIndex = 0
+        }
+        else{
+            segmentedControl.selectedSegmentIndex = 1
+        }
     }
     
     
     
-    func datePickerChanged(){//(datePicker:UIDatePicker) {
-        
-        currentState = "date"
-        currentStateLabel.text = currentState
+    func datePickerChanged(){
         segmentedControl.selectedSegmentIndex = 1
-        
         
         let strDate = dateFormatter.stringFromDate(datePicker.date)
         print(strDate)
@@ -112,20 +112,15 @@ class goalsViewController: UIViewController {
     func buttonAction(sender: UIButton){
         
         if(sender == self.bottomPrevButton){
-            print("bottomPrevButton CLICKED")
             if(barGraphStartIndex > 0){
-                print(dayLabelButtons.count)
-                print(barGraphStartIndex--)
+                barGraphStartIndex--
                 refreshBarGraphs(barGraphStartIndex)
             }
             
         }
         if(sender == self.bottomNextButton){
-            print("bottomNextButton CLICKED")
-            if(glblLog.currentSession.days.count >= barGraphStartIndex + 10){
-                
-                print(expectedBars.count)
-                print(barGraphStartIndex++)
+            if(glblLog.currentSession.days.count > barGraphStartIndex + 10){
+                barGraphStartIndex++
                 refreshBarGraphs(barGraphStartIndex)
             }
         }
@@ -135,22 +130,34 @@ class goalsViewController: UIViewController {
         
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
-        let YlineHeight = 350.0 as CGFloat
+        let YlineHeight = screenHeight*0.5
         
         segmentedControl.frame =  CGRectMake(screenWidth/2 - 100 , screenHeight/2 - 250, screenWidth/3, screenHeight/40)
         self.view.addSubview(segmentedControl)
         
-        let lineViewX = UIView.init(frame: CGRectMake(45, screenHeight - 100, screenWidth, 1))
+        let lineViewX = UIView.init(frame: CGRectMake(40, screenHeight - 100, screenWidth, 1))
         lineViewX.backgroundColor = UIColor.blackColor()
         self.view.addSubview(lineViewX)
         
-        let lineViewY = UIView.init(frame: CGRectMake(45, screenHeight - YlineHeight - 100, 2, YlineHeight))
+        let lineViewY = UIView.init(frame: CGRectMake(40, screenHeight - YlineHeight - 100, 2, YlineHeight))
         lineViewY.backgroundColor = UIColor.blackColor()
         self.view.addSubview(lineViewY)
         
-        let scaleLine1 = UIView(frame: CGRectMake(45, screenHeight - 300, screenWidth, 1))
+        let scaleLine1 = UIView(frame: CGRectMake(40, screenHeight*0.68, screenWidth, 1))
         scaleLine1.backgroundColor = UIColor.blackColor()
         self.view.addSubview(scaleLine1)
+        
+        let scaleLine2 = UIView(frame: CGRectMake(40, screenHeight*0.46, screenWidth, 1))
+        scaleLine2.backgroundColor = UIColor.blackColor()
+        self.view.addSubview(scaleLine2)
+        
+        let scaleLabel1 = UILabel(frame: CGRectMake(20, screenHeight*0.68 - 10, 30, 20))
+        scaleLabel1.text = "15"
+        self.view.addSubview(scaleLabel1)
+        
+        let scaleLabel2 = UILabel(frame: CGRectMake(20, screenHeight*0.46 - 10, 30, 20))
+        scaleLabel2.text = "30"
+        self.view.addSubview(scaleLabel2)
     }
     func createPrevAndNextButtons(){
         let screenWidth = view.frame.size.width

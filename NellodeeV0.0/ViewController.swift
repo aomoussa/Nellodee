@@ -30,7 +30,8 @@ class ViewController: UIViewController, UIWebViewDelegate {
     //from storyboard
     @IBOutlet var webView: UIWebView!
     @IBAction func nextDay(sender: UIButton) {
-        glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed+1].setStartPage(glblLog.currentPageNumber)
+        glblLog.currentSession.setNextDayStartPage()
+        
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         let startDate = dateFormatter.stringFromDate(NSDate())
@@ -88,8 +89,8 @@ class ViewController: UIViewController, UIWebViewDelegate {
             currentSessionLastDateReached = glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date
         }
         if(currentSessionLastDateReached != todaysDate){
+            glblLog.currentSession.setNextDayStartPage()
             glblLog.currentSession.numberOfDaysPassed++
-            glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].setStartPage(glblLog.currentPageNumber)
             print("numberOfDaysPassed added todays date: \(todaysDate) and session.days[numberOfDaysPassed - 1] = \(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed - 1].date)")
         }
         else{
@@ -99,15 +100,16 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     @IBAction func nextPageButton(sender: UIButton) {
         glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.append(page(pageNumber: glblLog.currentPageNumber+1, time: 0))
-        
-        if(glblLog.currentPageNumber == glblLog.maxPageReached){
-            glblLog.maxPageReached++
+        if(glblLog.currentPageNumber < glblLog.numberOfPages){
+            if(glblLog.currentPageNumber == glblLog.maxPageReached){
+                glblLog.maxPageReached++
+            }
+            glblLog.currentPageNumber++
+            
+            glblLog.scrollDestination = pageHeight + glblLog.scrollDestination
+            webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
+            updateProgressBar()
         }
-        glblLog.currentPageNumber++
-        
-        glblLog.scrollDestination = pageHeight + glblLog.scrollDestination
-        webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
-        updateProgressBar()
     }
     @IBAction func prevPageButton(sender: UIButton) {
         glblLog.currentPageNumber--
@@ -187,7 +189,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
         if(progress < 0){
             progress = 0
         }
-
+        
         let button1Width = progress
         let button2Width = progressBarWidth - progress
         let buttonHeight = screenHeight/25 as CGFloat
@@ -302,7 +304,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
             else{
                 startPages.append(0)
             }
-
+            
             //------------------------------------------------------------------> endPagesStringArray retrieval
             if let EP: Optional = self.defaults.stringArrayForKey("endPagesStringArray")
             {

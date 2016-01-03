@@ -23,8 +23,8 @@ class trendViewController: UIViewController {
     var topNextButton = UIButton()
     var bottomNextButton = UIButton()
     
-    var topI = 1//glblLog.numOfDays - 9
-    var bottomI = glblLog.maxPageReached-9//1//glblLog.currentPageNumber - 9
+    var topI = 1//glblLog.currentSession.numberOfDaysPassed - 9
+    var bottomI = 1//glblLog.maxPageReached-9
     
     //scale variables
     let buttonIncrements = 0.01 as CGFloat //(3% to be multiplies by screenHeight)
@@ -34,6 +34,19 @@ class trendViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if(glblLog.maxPageReached<=9){
+            bottomI = 1
+        }
+        else{
+            bottomI = glblLog.maxPageReached-9
+        }
+        if(glblLog.currentSession.numberOfDaysPassed <= 9){
+            topI = 1
+        }
+        else{
+            topI = glblLog.currentSession.numberOfDaysPassed - 9
+        }
         
     }
     override func viewDidAppear(animated: Bool) {
@@ -112,39 +125,7 @@ class trendViewController: UIViewController {
             indexTime++
         }
     }
-//    func refreshTopBarGraphs(i: Int){
-//        //let screenWidth = view.frame.size.width
-//        let screenHeight = self.view.frame.size.height
-//        
-//        let buttonWidth = 30.0 as CGFloat
-//        var buttonHeight = 10.0 as CGFloat
-//        let labelButtonWidth = 60.0 as CGFloat
-//        let labelButtonHeight = 20.0 as CGFloat
-//        
-//        var count = 0
-//        var index = 0.0 as CGFloat
-//        var indexTime = i
-//        //for loop populuting array of buttons for bar graph
-//        //for indexTime in glblLog.timeAtPageIndex{
-//        while(indexTime <= glblLog.actualPagesPerDay.count && count < 9){
-//            buttonHeight = buttonIncrements*screenHeight * CGFloat(glblLog.actualPagesPerDay[indexTime - 1].count)
-//            if(buttonHeight > screenHeight*0.4){
-//                buttonHeight = screenHeight*0.4
-//            }
-//            barButtons2[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight/2 - buttonHeight - 5, buttonWidth, buttonHeight)
-//            
-//            dayLabelButtons[count].frame = CGRectMake(100 + (index)*70.0 , screenHeight/2, labelButtonWidth, labelButtonHeight)
-//            dayLabelButtons[count].setTitle("day \(indexTime )", forState: UIControlState.Normal)
-//            
-//            
-//            pagesPerDayLabels[count].frame = CGRectMake(110 + (index)*70.0 , screenHeight/2 - buttonHeight - 25, buttonWidth, 20)
-//            pagesPerDayLabels[count].text = "\(glblLog.actualPagesPerDay[indexTime - 1].count)"
-//            
-//            index++
-//            count++
-//            indexTime++
-//        }
-//    }
+
     func refreshBottomBarGraphs(i: Int){
         //let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height

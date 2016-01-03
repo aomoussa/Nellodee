@@ -39,13 +39,22 @@ class day{
             self.expectedPages = endPage - currentPage
         }
         else if(currentPage > self.startPage){
-            let extraPagesRead = currentPage - self.endPage
+            let extraPagesRead = currentPage - self.startPage
             self.startPage = currentPage
             self.endPage = currentPage + self.expectedPages
-            var i = glblLog.currentSession.numberOfDaysPassed //+ 1
+            var i = glblLog.currentSession.numberOfDaysPassed + 2
             while(i<glblLog.currentSession.days.count){
                 glblLog.currentSession.days[i].startPage += extraPagesRead
                 glblLog.currentSession.days[i].endPage += extraPagesRead
+                if(glblLog.currentSession.days[i].startPage > glblLog.numberOfPages){
+                    glblLog.currentSession.days[i].startPage = glblLog.numberOfPages
+                    glblLog.currentSession.days[i].endPage = glblLog.numberOfPages
+                    glblLog.currentSession.days[i].expectedPages = 0
+                }
+                else if(glblLog.currentSession.days[i].endPage > glblLog.numberOfPages){
+                    glblLog.currentSession.days[i].endPage = glblLog.numberOfPages
+                    glblLog.currentSession.days[i].expectedPages = glblLog.numberOfPages - glblLog.currentSession.days[i].startPage
+                }
                 i++
             }
             print(glblLog.currentSession.toString())
