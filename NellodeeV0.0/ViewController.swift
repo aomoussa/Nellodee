@@ -26,6 +26,8 @@ class ViewController: UIViewController, UIWebViewDelegate {
     let endPageLabel = UILabel()
     let button1 = UIButton()
     let button2 = UIButton()
+    let nextPageButton = UIButton()
+    let prevPageButton = UIButton()
     
     //from storyboard
     @IBOutlet var webView: UIWebView!
@@ -98,6 +100,80 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }
         retrieveSavedData()
     }
+    func buttonAction(sender: UIButton){
+        
+        if(sender == self.prevPageButton){
+            glblLog.currentPageNumber--
+            glblLog.scrollDestination = glblLog.scrollDestination - pageHeight
+            webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
+            updateProgressBar()
+        }
+        if(sender == self.nextPageButton){
+            glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.append(page(pageNumber: glblLog.currentPageNumber+1, time: 0))
+            if(glblLog.currentPageNumber < glblLog.numberOfPages){
+                if(glblLog.currentPageNumber == glblLog.maxPageReached){
+                    glblLog.maxPageReached++
+                }
+                glblLog.currentPageNumber++
+                
+                glblLog.scrollDestination = pageHeight + glblLog.scrollDestination
+                webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
+                updateProgressBar()
+            }
+
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        let screenWidth = view.frame.size.width
+        let screenHeight = self.view.frame.size.height
+        webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
+        webView.frame = CGRectMake(0, webView.frame.minY, screenWidth, pageHeight )
+        
+        let bottomView = UIView(frame: CGRectMake(0, webView.frame.maxY, screenWidth, screenHeight -  webView.frame.maxY))
+        bottomView.backgroundColor = UIColor.grayColor()
+        self.view.addSubview(bottomView)
+        
+        let buttonsHeight = screenHeight*0.1
+        let buttonsWidth = screenWidth*0.1
+        
+        self.prevPageButton.frame = CGRectMake(0, screenHeight - buttonsHeight, buttonsWidth, buttonsWidth)
+        prevPageButton.backgroundColor = UIColor.blueColor()
+        prevPageButton.setTitle("prev", forState: UIControlState.Normal)
+        prevPageButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.nextPageButton.frame = CGRectMake(screenWidth - buttonsWidth, screenHeight - buttonsHeight, buttonsWidth, buttonsWidth)
+        nextPageButton.backgroundColor = UIColor.blueColor()
+        nextPageButton.setTitle("next", forState: UIControlState.Normal)
+        nextPageButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        self.view.addSubview(nextPageButton)
+        self.view.addSubview(prevPageButton)
+        self.view.addSubview(button1)
+        self.view.addSubview(button2)
+        self.view.addSubview(guyView)
+        let imageD = 50.0 as CGFloat
+        
+        guyView.frame = CGRectMake(100 + imageD/2, screenHeight - 2*imageD, imageD, imageD)
+        updateProgressBar()
+        
+        let labelWidth = screenWidth/15
+        let labelHeight = screenHeight/30
+        
+        startPageLabel.frame = CGRectMake(100, screenHeight - 1.5*labelHeight, labelWidth, labelHeight )
+        self.view.addSubview(startPageLabel)
+        
+        endPageLabel.frame = CGRectMake(screenWidth - labelWidth/2 - 100, screenHeight - 1.5*labelHeight, labelWidth, labelHeight)
+        self.view.addSubview(endPageLabel)
+        
+        currentPageLabel.frame = CGRectMake(100 +  labelWidth/2, screenHeight - labelHeight - (2 * screenHeight/25), labelWidth, labelHeight )
+        currentPageLabel.text = "\(glblLog.currentPageNumber)"
+        self.view.addSubview(currentPageLabel)
+        
+    }
+    
     @IBAction func nextPageButton(sender: UIButton) {
         glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.append(page(pageNumber: glblLog.currentPageNumber+1, time: 0))
         if(glblLog.currentPageNumber < glblLog.numberOfPages){
@@ -152,32 +228,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        let screenWidth = view.frame.size.width
-        let screenHeight = self.view.frame.size.height
-        webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
-        webView.frame = CGRectMake(0, webView.frame.minY, screenWidth, pageHeight )
-        
-        self.view.addSubview(button1)
-        self.view.addSubview(button2)
-        self.view.addSubview(guyView)
-        updateProgressBar()
-        
-        let labelWidth = screenWidth/15
-        let labelHeight = screenHeight/30
-        
-        startPageLabel.frame = CGRectMake(100, screenHeight - 1.5*labelHeight, labelWidth, labelHeight )
-        self.view.addSubview(startPageLabel)
-        
-        endPageLabel.frame = CGRectMake(screenWidth - labelWidth/2 - 100, screenHeight - 1.5*labelHeight, labelWidth, labelHeight)
-        self.view.addSubview(endPageLabel)
-        
-        currentPageLabel.frame = CGRectMake(100 +  labelWidth/2, screenHeight - labelHeight - (2 * screenHeight/25), labelWidth, labelHeight )
-        currentPageLabel.text = "\(glblLog.currentPageNumber)"
-        self.view.addSubview(currentPageLabel)
-        
-    }
+   
     func updateProgressBar(){
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8910AC8D1C3BC291001F7044 /* infoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8910AC8C1C3BC291001F7044 /* infoViewController.swift */; };
 		891896AA1C0195B800D9B0C2 /* goalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891896A91C0195B800D9B0C2 /* goalsViewController.swift */; };
 		8995BBF71BF548F4006E42AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BBF61BF548F4006E42AE /* AppDelegate.swift */; };
 		8995BBF91BF548F4006E42AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BBF81BF548F4006E42AE /* ViewController.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8910AC8C1C3BC291001F7044 /* infoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = infoViewController.swift; sourceTree = "<group>"; };
 		891896A91C0195B800D9B0C2 /* goalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = goalsViewController.swift; sourceTree = "<group>"; };
 		8995BBF31BF548F4006E42AE /* NellodeeV1.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NellodeeV1.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8995BBF61BF548F4006E42AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				8995BBF61BF548F4006E42AE /* AppDelegate.swift */,
 				8995BBF81BF548F4006E42AE /* ViewController.swift */,
 				891896A91C0195B800D9B0C2 /* goalsViewController.swift */,
+				8910AC8C1C3BC291001F7044 /* infoViewController.swift */,
 				89B3DB541BF820F90095B94A /* trendViewController.swift */,
 				8995BC2C1BF55209006E42AE /* slideOutTableViewController.swift */,
 				8995BBFA1BF548F4006E42AE /* Main.storyboard */,
@@ -312,6 +315,7 @@
 				8995BBF71BF548F4006E42AE /* AppDelegate.swift in Sources */,
 				8995BC2D1BF55209006E42AE /* slideOutTableViewController.swift in Sources */,
 				8995BBFF1BF548F4006E42AE /* NellodeeV0_0.xcdatamodeld in Sources */,
+				8910AC8D1C3BC291001F7044 /* infoViewController.swift in Sources */,
 				89B3DB551BF820F90095B94A /* trendViewController.swift in Sources */,
 				89B3DB521BF818930095B94A /* log.swift in Sources */,
 				89BF72031C10D8B800F464B6 /* day.swift in Sources */,

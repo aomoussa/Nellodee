@@ -72,10 +72,10 @@
             </objects>
             <point key="canvasLocation" x="1484" y="299"/>
         </scene>
-        <!--View Controller-->
+        <!--Info View Controller-->
         <scene sceneID="ZSp-w4-hsG">
             <objects>
-                <viewController id="0nx-oD-gvv" sceneMemberID="viewController">
+                <viewController id="0nx-oD-gvv" customClass="infoViewController" customModule="NellodeeV1_0" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tpq-mj-smk"/>
                         <viewControllerLayoutGuide type="bottom" id="eRk-wm-qR5"/>

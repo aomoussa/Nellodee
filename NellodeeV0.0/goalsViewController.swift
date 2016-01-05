@@ -139,25 +139,33 @@ class goalsViewController: UIViewController {
         lineViewX.backgroundColor = UIColor.blackColor()
         self.view.addSubview(lineViewX)
         
-        let lineViewY = UIView.init(frame: CGRectMake(40, screenHeight - YlineHeight - 100, 2, YlineHeight))
+        let lineViewY = UIView.init(frame: CGRectMake(40, screenHeight - YlineHeight - 150, 2, YlineHeight + 50))
         lineViewY.backgroundColor = UIColor.blackColor()
         self.view.addSubview(lineViewY)
         
-        let scaleLine1 = UIView(frame: CGRectMake(40, screenHeight*0.68, screenWidth, 1))
+        let scaleLine1 = UIView(frame: CGRectMake(40, screenHeight*0.725, screenWidth, 2))
         scaleLine1.backgroundColor = UIColor.blackColor()
         self.view.addSubview(scaleLine1)
         
-        let scaleLine2 = UIView(frame: CGRectMake(40, screenHeight*0.46, screenWidth, 1))
+        let scaleLine2 = UIView(frame: CGRectMake(40, screenHeight*0.53, screenWidth, 2))
         scaleLine2.backgroundColor = UIColor.blackColor()
         self.view.addSubview(scaleLine2)
         
-        let scaleLabel1 = UILabel(frame: CGRectMake(20, screenHeight*0.68 - 10, 30, 20))
-        scaleLabel1.text = "15"
+        let scaleLine3 = UIView(frame: CGRectMake(40, screenHeight - YlineHeight - 100, screenWidth, 2))
+        scaleLine3.backgroundColor = UIColor.blackColor()
+        self.view.addSubview(scaleLine3)
+        
+        let scaleLabel1 = UILabel(frame: CGRectMake(10, screenHeight*0.725 - 10, 30, 20))
+        scaleLabel1.text = "20"
         self.view.addSubview(scaleLabel1)
         
-        let scaleLabel2 = UILabel(frame: CGRectMake(20, screenHeight*0.46 - 10, 30, 20))
-        scaleLabel2.text = "30"
+        let scaleLabel2 = UILabel(frame: CGRectMake(10, screenHeight*0.53 - 10, 30, 20))
+        scaleLabel2.text = "40"
         self.view.addSubview(scaleLabel2)
+        
+        let scaleLabel3 = UILabel(frame: CGRectMake(10, screenHeight - YlineHeight - 100, 50, 20))
+        scaleLabel3.text = "50+"
+        self.view.addSubview(scaleLabel3)
     }
     func createPrevAndNextButtons(){
         let screenWidth = view.frame.size.width
@@ -186,7 +194,8 @@ class goalsViewController: UIViewController {
         
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
-        
+        let distanceBetweenBars = screenWidth*0.09
+        let buttonIncrements = screenHeight*0.01
         var count = 0
         var index = 0.0 as CGFloat
         //for loop populsting array of buttons for bar graph
@@ -201,13 +210,13 @@ class goalsViewController: UIViewController {
                 let dayLabelbuttonWidth = buttonWidth*3
                 
                 
-                buttonHeight = CGFloat(glblLog.currentSession.days[indexPage].expectedPages) * CGFloat(15)
+                buttonHeight = CGFloat(glblLog.currentSession.days[indexPage].expectedPages) * buttonIncrements
                 if(buttonHeight > screenHeight*0.5){
                     buttonHeight = screenHeight*0.5
                 }
-                bars[count].frame = CGRectMake(70 + (index)*70.0 , screenHeight-buttonHeight - 100, buttonWidth, buttonHeight)
+                bars[count].frame = CGRectMake(70 + (index)*distanceBetweenBars , screenHeight-buttonHeight - 100, buttonWidth, buttonHeight)
                 
-                expectedPagesPerDayLabels[count].frame = CGRectMake(70 + (index)*70.0 , screenHeight-buttonHeight - 120, buttonWidth*2, 20)
+                expectedPagesPerDayLabels[count].frame = CGRectMake(70 + (index)*distanceBetweenBars , screenHeight-buttonHeight - 120, buttonWidth*2, 20)
                 if(count < glblLog.currentSession.expectedNumOfDays){
                     expectedPagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexPage].expectedPages)"
                 }
@@ -221,9 +230,9 @@ class goalsViewController: UIViewController {
                 if(buttonHeight2 > screenHeight*0.5){
                     buttonHeight2 = screenHeight*0.5
                 }
-                expectedBars[count].frame = CGRectMake(45 + (index)*70.0 , screenHeight-buttonHeight2 - 100, buttonWidth, buttonHeight2)
+                expectedBars[count].frame = CGRectMake(45 + (index)*distanceBetweenBars , screenHeight-buttonHeight2 - 100, buttonWidth, buttonHeight2)
                 
-                pagesPerDayLabels[count].frame = CGRectMake(45 + (index)*70.0 , screenHeight-buttonHeight2 - 120, buttonWidth*2, 20)
+                pagesPerDayLabels[count].frame = CGRectMake(45 + (index)*distanceBetweenBars , screenHeight-buttonHeight2 - 120, buttonWidth*2, 20)
                 pagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexPage].pages.count)"
                 
                 let thisDate = glblLog.currentSession.days[indexPage].date
@@ -265,14 +274,14 @@ class goalsViewController: UIViewController {
     }
     
     func createLabels(){
-        //let screenWidth = view.frame.size.width
+        let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
         let dayLabelbuttonHeight = 20.0 as CGFloat
         let dayLabelbuttonWidth = dayLabelbuttonHeight*3
-        
+        let distanceBetweenBars = screenWidth*0.09
         var count = 0
         while(count < 10){
-            dayLabelButtons.append(UIButton(frame: CGRectMake(40 + (CGFloat(count))*70.0 , screenHeight - dayLabelbuttonHeight - 75, dayLabelbuttonWidth, dayLabelbuttonHeight)))
+            dayLabelButtons.append(UIButton(frame: CGRectMake(40 + (CGFloat(count))*distanceBetweenBars , screenHeight - dayLabelbuttonHeight - 75, dayLabelbuttonWidth, dayLabelbuttonHeight)))
             dayLabelButtons[count].backgroundColor = UIColor.grayColor()
             self.view.addSubview(dayLabelButtons[count])
             count++
