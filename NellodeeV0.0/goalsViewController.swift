@@ -27,6 +27,7 @@ class goalsViewController: UIViewController {
     
     
     @IBAction func setChanges(sender: UIButton) {
+        glblLog.maxPageReached = glblLog.currentPageNumber
         glblLog.addSession(goalSession)
         print(glblLog.currentSession.toString())
         refreshBarGraphs(0)
@@ -143,11 +144,11 @@ class goalsViewController: UIViewController {
         lineViewY.backgroundColor = UIColor.blackColor()
         self.view.addSubview(lineViewY)
         
-        let scaleLine1 = UIView(frame: CGRectMake(40, screenHeight*0.725, screenWidth, 2))
+        let scaleLine1 = UIView(frame: CGRectMake(40, screenHeight*0.75, screenWidth, 2))
         scaleLine1.backgroundColor = UIColor.blackColor()
         self.view.addSubview(scaleLine1)
         
-        let scaleLine2 = UIView(frame: CGRectMake(40, screenHeight*0.53, screenWidth, 2))
+        let scaleLine2 = UIView(frame: CGRectMake(40, screenHeight*0.6, screenWidth, 2))
         scaleLine2.backgroundColor = UIColor.blackColor()
         self.view.addSubview(scaleLine2)
         
@@ -155,12 +156,12 @@ class goalsViewController: UIViewController {
         scaleLine3.backgroundColor = UIColor.blackColor()
         self.view.addSubview(scaleLine3)
         
-        let scaleLabel1 = UILabel(frame: CGRectMake(10, screenHeight*0.725 - 10, 30, 20))
-        scaleLabel1.text = "20"
+        let scaleLabel1 = UILabel(frame: CGRectMake(10, screenHeight*0.75 - 10, 30, 20))
+        scaleLabel1.text = "15"
         self.view.addSubview(scaleLabel1)
         
-        let scaleLabel2 = UILabel(frame: CGRectMake(10, screenHeight*0.53 - 10, 30, 20))
-        scaleLabel2.text = "40"
+        let scaleLabel2 = UILabel(frame: CGRectMake(10, screenHeight*0.6 - 10, 30, 20))
+        scaleLabel2.text = "30"
         self.view.addSubview(scaleLabel2)
         
         let scaleLabel3 = UILabel(frame: CGRectMake(10, screenHeight - YlineHeight - 100, 50, 20))
@@ -217,7 +218,7 @@ class goalsViewController: UIViewController {
                 bars[count].frame = CGRectMake(70 + (index)*distanceBetweenBars , screenHeight-buttonHeight - 100, buttonWidth, buttonHeight)
                 
                 expectedPagesPerDayLabels[count].frame = CGRectMake(70 + (index)*distanceBetweenBars , screenHeight-buttonHeight - 120, buttonWidth*2, 20)
-                if(count < glblLog.currentSession.expectedNumOfDays){
+                if(count <= glblLog.currentSession.expectedNumOfDays){
                     expectedPagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexPage].expectedPages)"
                 }
                 else{
@@ -226,7 +227,8 @@ class goalsViewController: UIViewController {
                 
                 
                 var buttonHeight2 = 0.0 as CGFloat
-                buttonHeight2 = CGFloat(glblLog.currentSession.days[indexPage].pages.count) * CGFloat(15)
+                buttonHeight2 = CGFloat(glblLog.currentSession.days[indexPage].pages.count) * buttonIncrements
+                
                 if(buttonHeight2 > screenHeight*0.5){
                     buttonHeight2 = screenHeight*0.5
                 }
@@ -290,6 +292,9 @@ class goalsViewController: UIViewController {
     }
     override func viewDidDisappear(animated: Bool) {
         
+        self.saveData()
+    }
+    func saveData(){
         defaults.setObject(glblLog.currentPageNumber, forKey: "currentPageNumber")
         let stringArray2 = glblLog.timeAtPageIndex.map({
             (number: Int) -> String in
@@ -306,20 +311,20 @@ class goalsViewController: UIViewController {
         var startPagesString = [String]()
         var endPagesString = [String]()
         var timeOnDay = [String]()
-        var pagesReadAtIndexPage = [[String]]()
+        var pagesReadAtIndexDay = [[String]]()
         var i = 0
         var j = 0
         for temp in glblLog.currentSession.days{
             startPagesString.append("\(temp.startPage)")
             endPagesString.append("\(temp.endPage)")
             timeOnDay.append("\(temp.time)")
-            pagesReadAtIndexPage.append([String]())
+            pagesReadAtIndexDay.append([String]())
             for tempPage in temp.pages{
                 
-                pagesReadAtIndexPage[i].append("\(tempPage.pageNumber)")
+                pagesReadAtIndexDay[i].append("\(tempPage.pageNumber)")
                 j++
             }
-            defaults.setObject(pagesReadAtIndexPage[i], forKey: "actualPagesPerDay\(i)")
+            defaults.setObject(pagesReadAtIndexDay[i], forKey: "actualPagesPerDay\(i)")
             i++
         }
         defaults.setObject(timeOnDay, forKey: "timePerDay")

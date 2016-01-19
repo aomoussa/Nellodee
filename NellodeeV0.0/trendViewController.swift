@@ -26,6 +26,8 @@ class trendViewController: UIViewController {
     var topI = 1//glblLog.currentSession.numberOfDaysPassed - 9
     var bottomI = 1//glblLog.maxPageReached-9
     
+    let timeSpentPerDay = [Int]()
+    
     //scale variables
     let buttonIncrements = 0.01 as CGFloat //(3% to be multiplies by screenHeight)
     let topGraphXaxisHeight = 0.5 as CGFloat//(50% to be multiplies by screenHeight)
@@ -34,6 +36,8 @@ class trendViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         if(glblLog.maxPageReached<=9){
             bottomI = 1

@@ -42,10 +42,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-                
+        
+        self.saveData()
         self.saveContext()
     }
-
+    func saveData(){
+        defaults.setObject(glblLog.currentPageNumber, forKey: "currentPageNumber")
+        let stringArray2 = glblLog.timeAtPageIndex.map({
+            (number: Int) -> String in
+            return String(number)
+        })
+        defaults.setObject(stringArray2, forKey: "timeAtPageIndex")
+        
+        defaults.setObject(glblLog.currentSession.numberOfDaysPassed, forKey: "currentSessionNumberOfDaysPassed")
+        defaults.setObject(glblLog.currentSession.state, forKey: "currentSessionSelectorState")
+        defaults.setObject(glblLog.currentSession.startDate, forKey: "currentSessionStartDate")
+        defaults.setObject(glblLog.currentSession.endDate, forKey: "currentSessionEndDate")
+        defaults.setObject(glblLog.currentSession.expectedPagesPerDay, forKey: "currentSessionExpectedPagesPerDay")
+        
+        var startPagesString = [String]()
+        var endPagesString = [String]()
+        var timeOnDay = [String]()
+        var pagesReadAtIndexDay = [[String]]()
+        var i = 0
+        var j = 0
+        for temp in glblLog.currentSession.days{
+            startPagesString.append("\(temp.startPage)")
+            endPagesString.append("\(temp.endPage)")
+            timeOnDay.append("\(temp.time)")
+            for tempPage in temp.pages{
+                pagesReadAtIndexDay[i].append("\(tempPage.pageNumber)")
+                j++
+            }
+            defaults.setObject(pagesReadAtIndexDay[i], forKey: "actualPagesPerDay\(i)")
+            i++
+        }
+        defaults.setObject(timeOnDay, forKey: "timePerDay")
+        defaults.setObject(startPagesString, forKey: "startPagesStringArray")
+        defaults.setObject(endPagesString, forKey: "endPagesStringArray")
+    }
     // MARK: - Core Data stack
 
     lazy var applicationDocumentsDirectory: NSURL = {
