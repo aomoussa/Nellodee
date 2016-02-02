@@ -141,6 +141,12 @@ class log{
                 }
                 i--
             }
+            sesh.previousDays = currentSession.previousDays
+            for tempDay in allSessions[allSessions.count-1].days{
+                sesh.previousDays.append(tempDay)
+            }
+            
+            
         }
         currentSession = sesh
         allSessions.append(sesh)

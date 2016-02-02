@@ -8,6 +8,7 @@
 
 import Foundation
 class session{
+    var previousDays = [day]()
     var days = [day]()
     var startDate: String
     var endDate: String

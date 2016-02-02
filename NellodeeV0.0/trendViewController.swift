@@ -26,6 +26,8 @@ class trendViewController: UIViewController {
     var topI = 1//glblLog.currentSession.numberOfDaysPassed - 9
     var bottomI = 1//glblLog.maxPageReached-9
     
+    var daysToDisplay = [day]()
+    
     let timeSpentPerDay = [Int]()
     
     //scale variables
@@ -37,7 +39,10 @@ class trendViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        daysToDisplay = glblLog.currentSession.previousDays
+        for temp in glblLog.currentSession.days{
+            daysToDisplay.append(temp)
+        }
         
         if(glblLog.maxPageReached<=9){
             bottomI = 1
@@ -45,11 +50,11 @@ class trendViewController: UIViewController {
         else{
             bottomI = glblLog.maxPageReached-9
         }
-        if(glblLog.currentSession.numberOfDaysPassed <= 9){
+        if(daysToDisplay.count <= 9){
             topI = 1
         }
         else{
-            topI = glblLog.currentSession.numberOfDaysPassed - 9
+            topI = glblLog.currentSession.previousDays.count
         }
         
     }
@@ -64,26 +69,26 @@ class trendViewController: UIViewController {
     func buttonAction(sender: UIButton){
         
         if(sender == self.bottomPrevButton){
-            print("bottomPrevButton CLICKED")
+            //print("bottomPrevButton CLICKED")
             if(bottomI>1){
                 refreshBottomBarGraphs(--bottomI)
             }
             
         }
         if(sender == self.bottomNextButton){
-            print("bottomNextButton CLICKED")
+            //print("bottomNextButton CLICKED")
             if(bottomI<glblLog.maxPageReached - 9){
                 refreshBottomBarGraphs(++bottomI)
             }
         }
         if(sender == self.topPrevButton){
-            print("TOPPrevButton CLICKED")
+            //print("TOPPrevButton CLICKED")
             if(topI>1){
                 refreshTopBarGraphs(--topI)
             }
         }
         if(sender == self.topNextButton){
-            print("TOPNextButton CLICKED")
+            //print("TOPNextButton CLICKED")
             if(topI<glblLog.currentSession.days.count - 9){
                 refreshTopBarGraphs(++topI)
             }
@@ -104,25 +109,28 @@ class trendViewController: UIViewController {
         var indexTime = i
         //for loop populuting array of buttons for bar graph
         //for indexTime in glblLog.timeAtPageIndex{
-        while(indexTime <= glblLog.currentSession.days.count && count < 9){
-            buttonHeight = buttonIncrements*screenHeight * CGFloat(glblLog.currentSession.days[indexTime - 1].time)
+        while(indexTime <= daysToDisplay.count && count < 9){
+            buttonHeight = buttonIncrements*screenHeight * CGFloat(daysToDisplay[indexTime - 1].time)
             if(buttonHeight > screenHeight*0.4){
                 buttonHeight = screenHeight*0.4
             }
             barButtons2[count].frame = CGRectMake(115 + (index)*distanceBetweenBars , screenHeight/2 - buttonHeight, buttonWidth, buttonHeight)
             
             dayLabelButtons[count].frame = CGRectMake(100 + (index)*distanceBetweenBars , screenHeight/2, labelButtonWidth, labelButtonHeight)
-            if(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date == glblLog.currentSession.days[indexTime - 1].date){
+            //------------------------------ TODAY Label ----------------------------------------------
+            let thisDate = daysToDisplay[indexTime].date
+            if(thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count + 1].date){
+                
                             dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
             }
             else{
-                            dayLabelButtons[count].setTitle("\(glblLog.currentSession.days[indexTime - 1].date)", forState: UIControlState.Normal)
+                            dayLabelButtons[count].setTitle("\(daysToDisplay[indexTime - 1].date)", forState: UIControlState.Normal)
             }
 
             
             
             pagesPerDayLabels[count].frame = CGRectMake(120 + (index)*distanceBetweenBars , screenHeight/2 - buttonHeight - 20, buttonWidth, 20)
-            pagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexTime - 1].time)"
+            pagesPerDayLabels[count].text = "\(daysToDisplay[indexTime - 1].time)"
             
             index++
             count++
