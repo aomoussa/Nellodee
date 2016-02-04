@@ -118,8 +118,8 @@ class trendViewController: UIViewController {
             
             dayLabelButtons[count].frame = CGRectMake(100 + (index)*distanceBetweenBars , screenHeight/2, labelButtonWidth, labelButtonHeight)
             //------------------------------ TODAY Label ----------------------------------------------
-            let thisDate = daysToDisplay[indexTime].date
-            if(thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count + 1].date){
+            let thisDate = daysToDisplay[indexTime - 1].date
+            if(thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count].date){
                 
                             dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
             }
