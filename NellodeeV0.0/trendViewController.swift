@@ -109,8 +109,8 @@ class trendViewController: UIViewController {
         var indexTime = i
         //for loop populuting array of buttons for bar graph
         //for indexTime in glblLog.timeAtPageIndex{
-        while(indexTime <= daysToDisplay.count && count < 9){
-            buttonHeight = buttonIncrements*screenHeight * CGFloat(daysToDisplay[indexTime - 1].time)
+        while(indexTime < daysToDisplay.count && count < 9){
+            buttonHeight = buttonIncrements*screenHeight * CGFloat(daysToDisplay[indexTime].time)
             if(buttonHeight > screenHeight*0.4){
                 buttonHeight = screenHeight*0.4
             }
@@ -118,19 +118,19 @@ class trendViewController: UIViewController {
             
             dayLabelButtons[count].frame = CGRectMake(100 + (index)*distanceBetweenBars , screenHeight/2, labelButtonWidth, labelButtonHeight)
             //------------------------------ TODAY Label ----------------------------------------------
-            let thisDate = daysToDisplay[indexTime - 1].date
+            let thisDate = daysToDisplay[indexTime].date
             if(thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count].date){
                 
                             dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
             }
             else{
-                            dayLabelButtons[count].setTitle("\(daysToDisplay[indexTime - 1].date)", forState: UIControlState.Normal)
+                            dayLabelButtons[count].setTitle("\(daysToDisplay[indexTime].date)", forState: UIControlState.Normal)
             }
 
             
             
             pagesPerDayLabels[count].frame = CGRectMake(120 + (index)*distanceBetweenBars , screenHeight/2 - buttonHeight - 20, buttonWidth, 20)
-            pagesPerDayLabels[count].text = "\(daysToDisplay[indexTime - 1].time)"
+            pagesPerDayLabels[count].text = "\(daysToDisplay[indexTime].time)"
             
             index++
             count++

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIWebViewDelegate {
+class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate {
     //local variables
     let defaults = NSUserDefaults.standardUserDefaults()
     var todaysDate = "12/30/15"
@@ -73,7 +73,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
             }
         }
         webView.delegate = self
-        
+        webView.scrollView.delegate = self
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "runTimedCode", userInfo: nil, repeats: true)
         
         burger.target = self.revealViewController()
@@ -103,8 +103,24 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }
         retrieveSavedData()
     }
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if(scrollView.zoomScale == 1){
+            if(scrollView.contentOffset.y > glblLog.scrollDestination || scrollView.contentOffset.y < glblLog.scrollDestination){
+                self.webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
+            }
+        }
+        else{
+            if(scrollView.contentOffset.y > (glblLog.scrollDestination )*scrollView.zoomScale  + self.pageHeight/scrollView.zoomScale){
+                self.webView.scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, (glblLog.scrollDestination)*scrollView.zoomScale  + self.pageHeight/scrollView.zoomScale), animated: false)
+            }
+            else if(scrollView.contentOffset.y < glblLog.scrollDestination * scrollView.zoomScale ){
+                self.webView.scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, glblLog.scrollDestination*scrollView.zoomScale), animated: false)
+            }
+            
+        }
+    }
     func buttonAction(sender: UIButton){
-        
+        self.webView.scrollView.zoomScale = 1.0
         if(sender == self.prevPageButton){
             glblLog.currentPageNumber--
             glblLog.scrollDestination = glblLog.scrollDestination - pageHeight
@@ -188,6 +204,9 @@ class ViewController: UIViewController, UIWebViewDelegate {
             
             glblLog.scrollDestination = pageHeight + glblLog.scrollDestination
             webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
+            //--------- ----------- zoom stuff trials
+            //webView.scrollView.maximumZoomScale
+            //--------- ----------- zoom stuff trials
             updateProgressBar()
         }
     }

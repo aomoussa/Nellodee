@@ -360,7 +360,7 @@ class goalsViewController: UIViewController {
                 
                 //------------------------------ TODAY Label ----------------------------------------------
                 let thisDate = daysToDisplay[indexPage].date
-                if(thisDate == daysToDisplay[displaySession.numberOfDaysPassed + displaySession.previousDays.count].date){
+                if(daysToDisplay.count > displaySession.numberOfDaysPassed + displaySession.previousDays.count && thisDate == daysToDisplay[displaySession.numberOfDaysPassed + displaySession.previousDays.count].date){
                     dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
                 }else{
                     dayLabelButtons[count].setTitle(thisDate.substringToIndex(thisDate.startIndex.advancedBy(5)), forState: UIControlState.Normal)
