@@ -103,15 +103,22 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         }
         retrieveSavedData()
     }
+    func webViewDidFinishLoad(webView: UIWebView) {
+        self.webView.userInteractionEnabled = true
+    }
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if(scrollView.zoomScale == 1){
+        print("zoom scale rn \(scrollView.zoomScale)")
+        if(scrollView.zoomScale < 1){
+            self.webView.scrollView.zoomScale = 1
+        }
+        else if(scrollView.zoomScale == 1){
             if(scrollView.contentOffset.y > glblLog.scrollDestination || scrollView.contentOffset.y < glblLog.scrollDestination){
                 self.webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
             }
         }
         else{
-            if(scrollView.contentOffset.y > (glblLog.scrollDestination )*scrollView.zoomScale  + self.pageHeight/scrollView.zoomScale){
-                self.webView.scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, (glblLog.scrollDestination)*scrollView.zoomScale  + self.pageHeight/scrollView.zoomScale), animated: false)
+            if(scrollView.contentOffset.y > (glblLog.scrollDestination + self.pageHeight)*scrollView.zoomScale  - self.pageHeight){
+                self.webView.scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, (glblLog.scrollDestination + self.pageHeight)*scrollView.zoomScale  - self.pageHeight), animated: false)
             }
             else if(scrollView.contentOffset.y < glblLog.scrollDestination * scrollView.zoomScale ){
                 self.webView.scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, glblLog.scrollDestination*scrollView.zoomScale), animated: false)
