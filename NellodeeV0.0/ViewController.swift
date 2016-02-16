@@ -19,6 +19,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     var timeOnCurrentPage = 0
     var timer = NSTimer()
     var scrollDestinationUpdated = false
+    var pageFitZoom = 1.0 as CGFloat
     
     //UI stuff
     let bottomView = UIView()
@@ -56,7 +57,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.path = NSBundle.mainBundle().pathForResource("pdfBook", ofType: "pdf")!
+        self.path = NSBundle.mainBundle().pathForResource("Frankenstein", ofType: "pdf")!
         self.url = NSURL.fileURLWithPath(path)
         self.webView.loadRequest(NSURLRequest(URL: url))
         self.webView.scalesPageToFit = true
@@ -106,17 +107,24 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     func webViewDidFinishLoad(webView: UIWebView) {
         self.webView.userInteractionEnabled = true
     }
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        print("zoom scale rn \(scrollView.zoomScale)")
-        if(scrollView.zoomScale < 1){
+    func scrollViewDidZoom(scrollView: UIScrollView) {
+        if(scrollView.zoomScale <= 1){
             self.webView.scrollView.zoomScale = 1
         }
-        else if(scrollView.zoomScale == 1){
-            if(scrollView.contentOffset.y > glblLog.scrollDestination || scrollView.contentOffset.y < glblLog.scrollDestination){
+        if(scrollView.zoomScale == 1){
+            self.webView.scrollView.scrollEnabled = false
+            if(scrollView.contentOffset.y != glblLog.scrollDestination){
+                print("glblLog.scrollDestination \(glblLog.scrollDestination)")
                 self.webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
             }
         }
-        else{
+        else {
+            self.webView.scrollView.scrollEnabled = true
+        }
+    }
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if(scrollView.zoomScale > 1){
             if(scrollView.contentOffset.y > (glblLog.scrollDestination + self.pageHeight)*scrollView.zoomScale  - self.pageHeight){
                 self.webView.scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, (glblLog.scrollDestination + self.pageHeight)*scrollView.zoomScale  - self.pageHeight), animated: false)
             }
@@ -230,6 +238,11 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         if(!scrollDestinationUpdated){
             if(self.webView.scrollView.contentSize.height > 0){
                 self.pageHeight = self.webView.scrollView.contentSize.height / CGFloat(glblLog.numberOfPages)
+                //--------------- -------------- ----------------- page fit zoom stuff ------------- ----------- --------
+                pageFitZoom = (self.view.frame.height * CGFloat(0.85) * CGFloat(glblLog.numberOfPages))/self.webView.scrollView.contentSize.height
+                //self.webView.scrollView.zoomScale = pageFitZoom
+                webView.scrollView.scrollEnabled = false
+                //--------------- -------------- ----------------- page fit zoom stuff ------------- ----------- --------
             }
             else{
                 self.pageHeight = 0

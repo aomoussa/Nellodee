@@ -26,6 +26,7 @@
 		89BF72031C10D8B800F464B6 /* day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF72021C10D8B800F464B6 /* day.swift */; };
 		89BF72051C10D9F400F464B6 /* page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF72041C10D9F400F464B6 /* page.swift */; };
 		89BF72071C10EC9200F464B6 /* session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF72061C10EC9200F464B6 /* session.swift */; };
+		89FE708C1C72E00C004AF305 /* Frankenstein.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 89FE708B1C72E00C004AF305 /* Frankenstein.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		89BF72021C10D8B800F464B6 /* day.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = day.swift; sourceTree = "<group>"; };
 		89BF72041C10D9F400F464B6 /* page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = page.swift; sourceTree = "<group>"; };
 		89BF72061C10EC9200F464B6 /* session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = session.swift; sourceTree = "<group>"; };
+		89FE708B1C72E00C004AF305 /* Frankenstein.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Frankenstein.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			children = (
 				89A82FDA1C1D6DE700F9A90A /* pdfBook2.pdf */,
 				89A82FD31C1D6B4200F9A90A /* pdfBook.pdf */,
+				89FE708B1C72E00C004AF305 /* Frankenstein.pdf */,
 				8995BBF61BF548F4006E42AE /* AppDelegate.swift */,
 				8995BBF81BF548F4006E42AE /* ViewController.swift */,
 				891896A91C0195B800D9B0C2 /* goalsViewController.swift */,
@@ -280,6 +283,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89FE708C1C72E00C004AF305 /* Frankenstein.pdf in Resources */,
 				89A82FD41C1D6B4200F9A90A /* pdfBook.pdf in Resources */,
 				8995BC041BF548F5006E42AE /* LaunchScreen.storyboard in Resources */,
 				8995BC011BF548F5006E42AE /* Assets.xcassets in Resources */,

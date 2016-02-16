@@ -27,6 +27,7 @@ class trendViewController: UIViewController {
     var bottomI = 1//glblLog.maxPageReached-9
     
     var daysToDisplay = [day]()
+    var indexAtTodaysDate = 0
     
     let timeSpentPerDay = [Int]()
     
@@ -117,16 +118,6 @@ class trendViewController: UIViewController {
             barButtons2[count].frame = CGRectMake(115 + (index)*distanceBetweenBars , screenHeight/2 - buttonHeight, buttonWidth, buttonHeight)
             
             dayLabelButtons[count].frame = CGRectMake(100 + (index)*distanceBetweenBars , screenHeight/2, labelButtonWidth, labelButtonHeight)
-            //------------------------------ TODAY Label ----------------------------------------------
-            let thisDate = daysToDisplay[indexTime].date
-            if(thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count].date){
-                
-                            dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
-            }
-            else{
-                            dayLabelButtons[count].setTitle("\(daysToDisplay[indexTime].date)", forState: UIControlState.Normal)
-            }
-
             
             
             pagesPerDayLabels[count].frame = CGRectMake(120 + (index)*distanceBetweenBars , screenHeight/2 - buttonHeight - 20, buttonWidth, 20)
@@ -135,6 +126,37 @@ class trendViewController: UIViewController {
             index++
             count++
             indexTime++
+        }
+        indexTime = i + 8
+        count = 8
+        while(count >= 0){
+            //------------------------------ TODAY Label ----------------------------------------------
+            var thisDate = "whatever"
+            if(indexTime < daysToDisplay.count){
+                thisDate = daysToDisplay[indexTime].date
+            }
+            if(indexTime > indexAtTodaysDate){
+                dayLabelButtons[count].backgroundColor = UIColor.redColor()
+            }
+            else{
+                dayLabelButtons[count].backgroundColor = UIColor.greenColor()
+            }
+
+            if(indexAtTodaysDate == 0 && thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count].date){
+                indexAtTodaysDate = indexTime
+                dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
+                dayLabelButtons[count].backgroundColor = UIColor.blueColor()
+            }
+            else if (indexTime == indexAtTodaysDate){
+                dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
+                dayLabelButtons[count].backgroundColor = UIColor.blueColor()
+            }
+            else{
+                dayLabelButtons[count].setTitle("\(daysToDisplay[indexTime].date)", forState: UIControlState.Normal)
+            }
+            //------------------------------ TODAY Label ----------------------------------------------
+            count--
+            indexTime--
         }
     }
 
@@ -184,6 +206,7 @@ class trendViewController: UIViewController {
             self.view.addSubview(barButtons[count])
             
             timeAtPageLabels.append(UILabel())
+            timeAtPageLabels[count].backgroundColor = UIColor.greenColor()
             self.view.addSubview(timeAtPageLabels[count])
             
             barButtons2.append(UIButton())

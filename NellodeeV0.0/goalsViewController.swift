@@ -17,6 +17,7 @@ class goalsViewController: UIViewController {
     var sessionIndex = glblLog.allSessions.count - 1
     var displaySession = session()
     var daysToDisplay = [day]()
+    var indexAtTodaysDate = 0
     
     //UI stuff
     var bottomPrevButton = UIButton()
@@ -384,6 +385,41 @@ class goalsViewController: UIViewController {
             indexPage++
             count++
         }
+        
+        //------------------------------ TODAY, prev and future Label clrs ----------------------------------------------
+        indexPage = i + 9
+        count = 9
+        while(count >= 0){
+            //------------------------------ TODAY Label ----------------------------------------------
+            var thisDate = "whatever"
+            if(indexPage < daysToDisplay.count){
+                thisDate = daysToDisplay[indexPage].date
+            }
+            if(indexPage > indexAtTodaysDate){
+                dayLabelButtons[count].backgroundColor = UIColor.redColor()
+            }
+            else{
+                dayLabelButtons[count].backgroundColor = UIColor.greenColor()
+            }
+            
+            if(indexAtTodaysDate == 0 && glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count < daysToDisplay.count && thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count].date){
+                indexAtTodaysDate = indexPage
+                dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
+                dayLabelButtons[count].backgroundColor = UIColor.blueColor()
+            }
+            else if (indexPage == indexAtTodaysDate){
+                dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
+                dayLabelButtons[count].backgroundColor = UIColor.blueColor()
+            }
+            else if(indexPage < daysToDisplay.count)
+            {
+                dayLabelButtons[count].setTitle("\(daysToDisplay[indexPage].date)", forState: UIControlState.Normal)
+            }
+            //------------------------------ TODAY Label ----------------------------------------------
+            count--
+            indexPage--
+        }
+        //------------------------------ TODAY, prev and future Label clrs ----------------------------------------------
         
         
     }
