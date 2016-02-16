@@ -324,7 +324,7 @@ class goalsViewController: UIViewController {
         //for loop populsting array of buttons for bar graph
         var indexPage = i
         while(count < 10){
-            if(indexPage < daysToDisplay.count){
+            if(indexPage>=0 && indexPage < daysToDisplay.count){
                 
                 let buttonWidth = 20.0 as CGFloat
                 var buttonHeight = 10.0 as CGFloat
@@ -387,8 +387,8 @@ class goalsViewController: UIViewController {
         }
         
         //------------------------------ TODAY, prev and future Label clrs ----------------------------------------------
-        indexPage = i + 9
-        count = 9
+        indexPage--
+        count--
         while(count >= 0){
             //------------------------------ TODAY Label ----------------------------------------------
             var thisDate = "whatever"
@@ -456,6 +456,7 @@ class goalsViewController: UIViewController {
         var count = 0
         while(count < 10){
             dayLabelButtons.append(UIButton(frame: CGRectMake(40 + (CGFloat(count))*distanceBetweenBars , screenHeight - dayLabelbuttonHeight - 75, dayLabelbuttonWidth, dayLabelbuttonHeight)))
+            dayLabelButtons[count].titleLabel?.font = UIFont.systemFontOfSize(UIFont.smallSystemFontSize())
             dayLabelButtons[count].backgroundColor = UIColor.grayColor()
             self.view.addSubview(dayLabelButtons[count])
             count++

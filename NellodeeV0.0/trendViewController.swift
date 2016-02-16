@@ -110,7 +110,7 @@ class trendViewController: UIViewController {
         var indexTime = i
         //for loop populuting array of buttons for bar graph
         //for indexTime in glblLog.timeAtPageIndex{
-        while(indexTime < daysToDisplay.count && count < 9){
+        while(indexTime>=0 && indexTime < daysToDisplay.count && count < 9){
             buttonHeight = buttonIncrements*screenHeight * CGFloat(daysToDisplay[indexTime].time)
             if(buttonHeight > screenHeight*0.4){
                 buttonHeight = screenHeight*0.4
@@ -127,9 +127,9 @@ class trendViewController: UIViewController {
             count++
             indexTime++
         }
-        indexTime = i + 8
-        count = 8
-        while(count >= 0){
+        indexTime--
+        count--
+        while(indexTime>=0 && indexTime<daysToDisplay.count && count >= 0){
             //------------------------------ TODAY Label ----------------------------------------------
             var thisDate = "whatever"
             if(indexTime < daysToDisplay.count){
@@ -206,7 +206,6 @@ class trendViewController: UIViewController {
             self.view.addSubview(barButtons[count])
             
             timeAtPageLabels.append(UILabel())
-            timeAtPageLabels[count].backgroundColor = UIColor.greenColor()
             self.view.addSubview(timeAtPageLabels[count])
             
             barButtons2.append(UIButton())
@@ -218,11 +217,12 @@ class trendViewController: UIViewController {
             self.view.addSubview(pagesPerDayLabels[count])
             
             pageLabelButtons.append(UIButton())
-            pageLabelButtons[count].backgroundColor = UIColor.grayColor()
+            pageLabelButtons[count].backgroundColor = UIColor.greenColor()
             self.view.addSubview(pageLabelButtons[count])
             
             dayLabelButtons.append(UIButton())
             dayLabelButtons[count].backgroundColor = UIColor.grayColor()
+            dayLabelButtons[count].titleLabel?.font = UIFont.systemFontOfSize(UIFont.smallSystemFontSize())
             self.view.addSubview(dayLabelButtons[count++])
             
         }
