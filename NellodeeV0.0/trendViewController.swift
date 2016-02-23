@@ -191,6 +191,10 @@ class trendViewController: UIViewController {
             pageLabelButtons[count].frame = CGRectMake(100 + (index)*distanceBetweenBars , screenHeight*bottomGraphXaxisHeight, labelButtonWidth, labelButtonHeight)
             pageLabelButtons[count].setTitle("\(indexTime)", forState: UIControlState.Normal)
             
+            if(indexTime == glblLog.maxPageReached){
+                pageLabelButtons[count].backgroundColor = UIColor.blueColor()
+            }
+            
             index++
             count++
             indexTime++

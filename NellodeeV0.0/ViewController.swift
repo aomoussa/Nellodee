@@ -49,6 +49,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         }
         
         updateProgressBar()
+
     }
     @IBOutlet var burger: UIBarButtonItem!
     @IBOutlet var paceLabel: UILabel!
@@ -56,11 +57,19 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        webView.delegate = self
+        webView.scrollView.delegate = self
         
         self.path = NSBundle.mainBundle().pathForResource("Frankenstein", ofType: "pdf")!
         self.url = NSURL.fileURLWithPath(path)
         self.webView.loadRequest(NSURLRequest(URL: url))
+        self.webView.scrollView.maximumZoomScale = 5
+        self.webView.scrollView.minimumZoomScale = 0.5
+        self.webView.scrollView.userInteractionEnabled = true
+        
         self.webView.scalesPageToFit = true
+        self.webView.contentMode = UIViewContentMode.BottomLeft
+        //self..webView.
         
         let pdf = CGPDFDocumentCreateWithURL(url)
         pdfPageCount = CGPDFDocumentGetNumberOfPages(pdf)
@@ -73,8 +82,6 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
                 glblLog.numberOfPages = pdfPageCount
             }
         }
-        webView.delegate = self
-        webView.scrollView.delegate = self
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "runTimedCode", userInfo: nil, repeats: true)
         
         burger.target = self.revealViewController()
@@ -108,9 +115,9 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         self.webView.userInteractionEnabled = true
     }
     func scrollViewDidZoom(scrollView: UIScrollView) {
-        if(scrollView.zoomScale <= 1){
-            self.webView.scrollView.zoomScale = 1
-        }
+        //if(scrollView.zoomScale <= 1){
+            //self.webView.scrollView.zoomScale = 1
+        //}
         if(scrollView.zoomScale == 1){
             self.webView.scrollView.scrollEnabled = false
             if(scrollView.contentOffset.y != glblLog.scrollDestination){
@@ -135,7 +142,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         }
     }
     func buttonAction(sender: UIButton){
-        self.webView.scrollView.zoomScale = 1.0
+        webView.scrollView.zoomToRect(webView.frame, animated: true)
         if(sender == self.prevPageButton){
             glblLog.currentPageNumber--
             glblLog.scrollDestination = glblLog.scrollDestination - pageHeight
@@ -208,7 +215,6 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         self.view.addSubview(currentPageLabel)
         
     }
-    
     @IBAction func nextPageButton(sender: UIButton) {
         glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.append(page(pageNumber: glblLog.currentPageNumber+1, time: 0))
         if(glblLog.currentPageNumber < glblLog.numberOfPages){
@@ -251,6 +257,10 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
                 glblLog.scrollDestination = CGFloat(glblLog.currentPageNumber)*pageHeight
                 webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
                 webView.frame = CGRectMake(0, webView.frame.minY, screenWidth, self.pageHeight )
+                webView.scrollView.minimumZoomScale = 0.5
+                webView.scrollView.zoomToRect(CGRectMake(0, webView.frame.minY, screenWidth/pageFitZoom, self.pageHeight/pageFitZoom ), animated: true)
+                webView.scrollView.zoomScale = pageFitZoom
+                print("webView.scrollView.zoom \(webView.scrollView.zoomScale) but pageFitZoom \(pageFitZoom)")
                 bottomView.frame =  CGRectMake(0, webView.frame.maxY, screenWidth, screenHeight -  webView.frame.maxY)
                 scrollDestinationUpdated = true
             }
