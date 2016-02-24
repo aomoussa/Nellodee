@@ -60,7 +60,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         webView.delegate = self
         webView.scrollView.delegate = self
         
-        self.path = NSBundle.mainBundle().pathForResource("Frankenstein", ofType: "pdf")!
+        self.path = NSBundle.mainBundle().pathForResource("Frankenstein", ofType: "pdf")! //pdfBook2
         self.url = NSURL.fileURLWithPath(path)
         self.webView.loadRequest(NSURLRequest(URL: url))
         self.webView.scrollView.maximumZoomScale = 5
@@ -117,9 +117,9 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     }
     
     func scrollViewDidZoom(scrollView: UIScrollView) {
-        //if(scrollView.zoomScale <= 1){
-            //self.webView.scrollView.zoomScale = 1
-        //}
+        if(scrollView.zoomScale <= 1){
+            self.webView.scrollView.zoomScale = 1
+        }
         if(scrollView.zoomScale == 1){
             self.webView.scrollView.scrollEnabled = false
             if(scrollView.contentOffset.y != glblLog.scrollDestination){
