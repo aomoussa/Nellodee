@@ -295,42 +295,13 @@
                                 <rect key="frame" x="61" y="64" width="375" height="409"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                             </webView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="pace" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBQ-Bu-bp7">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="pace" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBQ-Bu-bp7">
                                 <rect key="frame" x="385" y="535" width="105" height="21"/>
                                 <color key="backgroundColor" red="1" green="0.20371107129999999" blue="0.15920226160000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t9P-YK-cSH">
-                                <rect key="frame" x="6" y="542" width="144" height="30"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="prev">
-                                    <color key="titleColor" red="1" green="0.20371107129999999" blue="0.15920226160000001" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="prevPageButton:" destination="1OE-c9-5E8" eventType="touchUpInside" id="Bei-T9-1py"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mHs-lj-Yap">
-                                <rect key="frame" x="196" y="546" width="121" height="21"/>
-                                <color key="backgroundColor" red="1" green="0.20371107129999999" blue="0.15920226160000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZLH-01-i0g">
-                                <rect key="frame" x="521" y="542" width="74" height="30"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
-                                <state key="normal" title="next">
-                                    <color key="titleColor" red="1" green="0.20371107129999999" blue="0.15920226160000001" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="nextPageButton:" destination="1OE-c9-5E8" eventType="touchUpInside" id="y2L-gm-gGq"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WfG-ps-IvK">
                                 <rect key="frame" x="141" y="254" width="197" height="30"/>
                                 <state key="normal" title="next Day"/>
@@ -344,25 +315,22 @@
                             <constraint firstItem="WfG-ps-IvK" firstAttribute="centerY" secondItem="R7u-eu-x70" secondAttribute="centerY" id="3rr-bE-QZN"/>
                             <constraint firstItem="olG-zv-4iH" firstAttribute="centerY" secondItem="R7u-eu-x70" secondAttribute="centerY" id="FKg-VB-DX5"/>
                             <constraint firstItem="2Sb-FM-4jJ" firstAttribute="top" secondItem="cBQ-Bu-bp7" secondAttribute="bottom" id="Ger-Ef-msD"/>
-                            <constraint firstItem="2Sb-FM-4jJ" firstAttribute="top" secondItem="t9P-YK-cSH" secondAttribute="bottom" id="HAt-Op-ehs"/>
-                            <constraint firstItem="t9P-YK-cSH" firstAttribute="leading" secondItem="R7u-eu-x70" secondAttribute="leadingMargin" id="LYq-pB-odg"/>
                             <constraint firstItem="olG-zv-4iH" firstAttribute="centerX" secondItem="R7u-eu-x70" secondAttribute="centerX" id="V5d-cg-3Ym"/>
                             <constraint firstItem="olG-zv-4iH" firstAttribute="top" secondItem="XSx-ys-U2P" secondAttribute="bottom" id="YAQ-jE-I5M"/>
-                            <constraint firstItem="2Sb-FM-4jJ" firstAttribute="top" secondItem="ZLH-01-i0g" secondAttribute="bottom" id="YW9-Qa-GVy"/>
-                            <constraint firstItem="2Sb-FM-4jJ" firstAttribute="top" secondItem="mHs-lj-Yap" secondAttribute="bottom" id="bmy-be-L6l"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="ZLH-01-i0g" secondAttribute="trailing" id="jfR-yT-qdd"/>
-                            <constraint firstItem="mHs-lj-Yap" firstAttribute="centerX" secondItem="R7u-eu-x70" secondAttribute="centerX" id="meX-bM-4og"/>
                             <constraint firstItem="olG-zv-4iH" firstAttribute="width" secondItem="R7u-eu-x70" secondAttribute="width" id="tca-nz-CbJ"/>
                             <constraint firstItem="WfG-ps-IvK" firstAttribute="centerX" secondItem="R7u-eu-x70" secondAttribute="centerX" id="v15-99-Jn8"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="cBQ-Bu-bp7"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="7Ta-XK-Dcl">
                         <barButtonItem key="leftBarButtonItem" title="burger" id="vGh-je-z85"/>
                     </navigationItem>
                     <connections>
                         <outlet property="burger" destination="vGh-je-z85" id="HKL-uN-aQ0"/>
-                        <outlet property="paceLabel" destination="cBQ-Bu-bp7" id="kDs-ug-NmE"/>
-                        <outlet property="timerLabel" destination="mHs-lj-Yap" id="LEz-Qg-UzP"/>
                         <outlet property="webView" destination="olG-zv-4iH" id="2Nf-yf-oa4"/>
                     </connections>
                 </viewController>

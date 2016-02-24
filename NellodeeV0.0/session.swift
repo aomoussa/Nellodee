@@ -66,7 +66,9 @@ class session{
         }
     }
     func setNextDayStartPage(){
+        if(numberOfDaysPassed+1 < self.days.count){
         self.days[numberOfDaysPassed+1].setStartPage(glblLog.currentPageNumber)
+        }
     }
     func toString() -> String{
         var str = ""

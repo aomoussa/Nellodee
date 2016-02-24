@@ -49,7 +49,7 @@ class trendViewController: UIViewController {
             bottomI = 1
         }
         else{
-            bottomI = glblLog.maxPageReached-9
+            bottomI = glblLog.maxPageReached - 8
         }
         if(daysToDisplay.count <= 9){
             topI = 1
@@ -78,7 +78,7 @@ class trendViewController: UIViewController {
         }
         if(sender == self.bottomNextButton){
             //print("bottomNextButton CLICKED")
-            if(bottomI<glblLog.maxPageReached - 9){
+            if(bottomI<=glblLog.maxPageReached - 9){
                 refreshBottomBarGraphs(++bottomI)
             }
         }
