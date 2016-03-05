@@ -37,8 +37,12 @@ class goalsViewController: UIViewController {
         if(displaySession.previousDays.count > 5){
            barGraphStartIndex = displaySession.previousDays.count - 5
         }
-        
+        daysToDisplay = displaySession.previousDays
+        for temp in displaySession.days{
+            daysToDisplay.append(temp)
+        }
         refreshBarGraphs(barGraphStartIndex)
+        //performSegueWithIdentifier("reloadGoals", sender: self)
     }
     @IBOutlet var nextButton: UIButton!
     @IBOutlet var prevButton: UIButton!
@@ -107,7 +111,18 @@ class goalsViewController: UIViewController {
             
         }
     }
-    
+    /*
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == "reloadGoals"){
+            glblLog.maxPageReached = glblLog.currentPageNumber
+            glblLog.addSession(goalSession)
+            
+            displaySession = glblLog.allSessions[++sessionIndex]
+            if(displaySession.previousDays.count > 5){
+                barGraphStartIndex = displaySession.previousDays.count - 5
+            }
+        }
+    }*/
     
     
     func datePickerChanged(){

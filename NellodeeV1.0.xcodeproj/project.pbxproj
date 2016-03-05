@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8910AC8D1C3BC291001F7044 /* infoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8910AC8C1C3BC291001F7044 /* infoViewController.swift */; };
 		891896AA1C0195B800D9B0C2 /* goalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891896A91C0195B800D9B0C2 /* goalsViewController.swift */; };
+		892B9A591C867B68009136E7 /* cooperPDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 892B9A581C867B68009136E7 /* cooperPDF.pdf */; };
 		8995BBF71BF548F4006E42AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BBF61BF548F4006E42AE /* AppDelegate.swift */; };
 		8995BBF91BF548F4006E42AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BBF81BF548F4006E42AE /* ViewController.swift */; };
 		8995BBFC1BF548F4006E42AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8995BBFA1BF548F4006E42AE /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		8910AC8C1C3BC291001F7044 /* infoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = infoViewController.swift; sourceTree = "<group>"; };
 		891896A91C0195B800D9B0C2 /* goalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = goalsViewController.swift; sourceTree = "<group>"; };
+		892B9A581C867B68009136E7 /* cooperPDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = cooperPDF.pdf; sourceTree = "<group>"; };
 		8995BBF31BF548F4006E42AE /* NellodeeV1.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NellodeeV1.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8995BBF61BF548F4006E42AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8995BBF81BF548F4006E42AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			children = (
 				89A82FDA1C1D6DE700F9A90A /* pdfBook2.pdf */,
 				89A82FD31C1D6B4200F9A90A /* pdfBook.pdf */,
+				892B9A581C867B68009136E7 /* cooperPDF.pdf */,
 				89FE708B1C72E00C004AF305 /* Frankenstein.pdf */,
 				8995BBF61BF548F4006E42AE /* AppDelegate.swift */,
 				8995BBF81BF548F4006E42AE /* ViewController.swift */,
@@ -289,6 +292,7 @@
 				8995BC011BF548F5006E42AE /* Assets.xcassets in Resources */,
 				89A82FDB1C1D6DE700F9A90A /* pdfBook2.pdf in Resources */,
 				8995BBFC1BF548F4006E42AE /* Main.storyboard in Resources */,
+				892B9A591C867B68009136E7 /* cooperPDF.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +478,7 @@
 				PRODUCT_NAME = NellodeeV1.0;
 				SWIFT_OBJC_BRIDGING_HEADER = "NellodeeV0.0/NellodeeV0.0-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -488,6 +493,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.NellodeeV0-0";
 				PRODUCT_NAME = NellodeeV1.0;
 				SWIFT_OBJC_BRIDGING_HEADER = "NellodeeV0.0/NellodeeV0.0-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

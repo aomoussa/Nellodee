@@ -210,15 +210,14 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yxm-qr-MPC">
-                                <rect key="frame" x="244" y="13" width="47" height="30"/>
-                                <state key="normal" title="Reload"/>
-                                <connections>
-                                    <segue destination="9BJ-W8-iIU" kind="presentation" identifier="reloadGoals" id="dNA-Rd-N4d"/>
-                                </connections>
-                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Goals" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wmk-aL-rIV">
+                                <rect key="frame" x="288" y="319" width="120" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nMs-Sz-f2y">
-                                <rect key="frame" x="342" y="13" width="88" height="30"/>
+                                <rect key="frame" x="223" y="13" width="88" height="30"/>
                                 <state key="normal" title="Set Changes"/>
                                 <connections>
                                     <action selector="setChanges:" destination="9BJ-W8-iIU" eventType="touchUpInside" id="l8n-wy-Z2A"/>
@@ -231,20 +230,12 @@
                                     <segment title="Goals"/>
                                 </segments>
                             </segmentedControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Goals" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wmk-aL-rIV">
-                                <rect key="frame" x="288" y="319" width="120" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="yrw-TE-4gE" firstAttribute="width" secondItem="VeH-pU-kfF" secondAttribute="width" multiplier="0.5" id="0sc-xZ-pjx"/>
-                            <constraint firstItem="Yxm-qr-MPC" firstAttribute="centerX" secondItem="VeH-pU-kfF" secondAttribute="centerX" id="CL1-Bf-bZE"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="nMs-Sz-f2y" secondAttribute="trailing" constant="50" id="Nyp-tL-8V7"/>
                             <constraint firstAttribute="trailingMargin" secondItem="yrw-TE-4gE" secondAttribute="trailing" id="TVP-Qw-Kff"/>
-                            <constraint firstItem="Yxm-qr-MPC" firstAttribute="top" secondItem="VeH-pU-kfF" secondAttribute="topMargin" constant="13" id="aFR-Ie-Jqo"/>
+                            <constraint firstItem="nMs-Sz-f2y" firstAttribute="centerX" secondItem="VeH-pU-kfF" secondAttribute="centerX" id="hE4-UG-dqK"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -261,7 +252,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uBk-Rd-BTJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2276" y="299"/>
+            <point key="canvasLocation" x="2264" y="336"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gee-vl-1Kt">
@@ -302,23 +293,14 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WfG-ps-IvK">
-                                <rect key="frame" x="141" y="254" width="197" height="30"/>
-                                <state key="normal" title="next Day"/>
-                                <connections>
-                                    <action selector="nextDay:" destination="1OE-c9-5E8" eventType="touchUpInside" id="YWe-QW-RCs"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WfG-ps-IvK" firstAttribute="centerY" secondItem="R7u-eu-x70" secondAttribute="centerY" id="3rr-bE-QZN"/>
                             <constraint firstItem="olG-zv-4iH" firstAttribute="centerY" secondItem="R7u-eu-x70" secondAttribute="centerY" id="FKg-VB-DX5"/>
                             <constraint firstItem="2Sb-FM-4jJ" firstAttribute="top" secondItem="cBQ-Bu-bp7" secondAttribute="bottom" id="Ger-Ef-msD"/>
                             <constraint firstItem="olG-zv-4iH" firstAttribute="centerX" secondItem="R7u-eu-x70" secondAttribute="centerX" id="V5d-cg-3Ym"/>
                             <constraint firstItem="olG-zv-4iH" firstAttribute="top" secondItem="XSx-ys-U2P" secondAttribute="bottom" id="YAQ-jE-I5M"/>
                             <constraint firstItem="olG-zv-4iH" firstAttribute="width" secondItem="R7u-eu-x70" secondAttribute="width" id="tca-nz-CbJ"/>
-                            <constraint firstItem="WfG-ps-IvK" firstAttribute="centerX" secondItem="R7u-eu-x70" secondAttribute="centerX" id="v15-99-Jn8"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -336,7 +318,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0tB-Cc-bLz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2264" y="1025"/>
+            <point key="canvasLocation" x="2290" y="1033"/>
         </scene>
     </scenes>
     <resources>
@@ -344,7 +326,6 @@
         <image name="b" width="1224" height="1632"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jfz-1w-5eO"/>
-        <segue reference="EQH-ci-6gk"/>
+        <segue reference="lmQ-dC-NcI"/>
     </inferredMetricsTieBreakers>
 </document>

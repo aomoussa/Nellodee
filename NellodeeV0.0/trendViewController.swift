@@ -191,8 +191,11 @@ class trendViewController: UIViewController {
             pageLabelButtons[count].frame = CGRectMake(100 + (index)*distanceBetweenBars , screenHeight*bottomGraphXaxisHeight, labelButtonWidth, labelButtonHeight)
             pageLabelButtons[count].setTitle("\(indexTime)", forState: UIControlState.Normal)
             
-            if(indexTime == glblLog.maxPageReached){
+            if(count == 8 && indexTime == glblLog.maxPageReached){
                 pageLabelButtons[count].backgroundColor = UIColor.blueColor()
+            }
+            else if(count == 8){
+                pageLabelButtons[count].backgroundColor = UIColor.greenColor()
             }
             
             index++
@@ -300,6 +303,8 @@ class trendViewController: UIViewController {
         let bottomYs = screenHeight*0.93
         
         let buttonWidth = screenWidth/25 as CGFloat
+        print(screenHeight)
+        print(buttonWidth)
         
         self.topPrevButton = UIButton(frame: CGRectMake(prevButtonX, topYs, buttonWidth, buttonWidth))
         topPrevButton.setBackgroundImage(UIImage(named: "a.jpg"), forState: UIControlState.Normal)

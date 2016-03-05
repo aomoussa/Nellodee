@@ -19,7 +19,6 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     var timeOnCurrentPage = 0
     var timer = NSTimer()
     var scrollDestinationUpdated = false
-    var pageFitZoom = 1.0 as CGFloat
     
     //UI stuff
     let bottomView = UIView()
@@ -34,25 +33,27 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     
     //from storyboard
     @IBOutlet var webView: UIWebView!
+    /*
     @IBAction func nextDay(sender: UIButton) {
         if(glblLog.currentSession.numberOfDaysPassed < glblLog.currentSession.days.count-1){
-        glblLog.currentSession.setNextDayStartPage()
-        
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        let startDate = dateFormatter.stringFromDate(NSDate())
-        todaysDate = startDate
-        let unit:NSCalendarUnit = NSCalendarUnit.Day
-        if #available(iOS 8.0, *) {
-            todaysDate = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(unit, value: glblLog.currentSession.numberOfDaysPassed++, toDate: NSDate(), options: [])!)
-        } else {
-            print("device too old... datePicker mess up")
+            glblLog.currentSession.setNextDayStartPage()
+            
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+            let startDate = dateFormatter.stringFromDate(NSDate())
+            todaysDate = startDate
+            let unit:NSCalendarUnit = NSCalendarUnit.Day
+            if #available(iOS 8.0, *) {
+                todaysDate = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(unit, value: glblLog.currentSession.numberOfDaysPassed++, toDate: NSDate(), options: [])!)
+            } else {
+                print("device too old... datePicker mess up")
+            }
+            
+            updateProgressBar()
         }
         
-        updateProgressBar()
-        }
-
     }
+*/
     @IBOutlet var burger: UIBarButtonItem!
     
     override func viewDidLoad() {
@@ -60,13 +61,13 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         webView.delegate = self
         webView.scrollView.delegate = self
         
-        self.path = NSBundle.mainBundle().pathForResource("Frankenstein", ofType: "pdf")! //pdfBook2
+        self.path = NSBundle.mainBundle().pathForResource("Frankenstein", ofType: "pdf")! //pdfBook2//Frankenstein//circuitsBook//cooperPDF
         self.url = NSURL.fileURLWithPath(path)
         self.webView.loadRequest(NSURLRequest(URL: url))
         self.webView.scrollView.maximumZoomScale = 5
         self.webView.scrollView.minimumZoomScale = 0.5
         self.webView.scrollView.userInteractionEnabled = true
-        
+        self.webView.scrollView.scrollEnabled = false
         self.webView.scalesPageToFit = true
         self.webView.contentMode = UIViewContentMode.ScaleAspectFit
         //self..webView.
@@ -118,24 +119,24 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     
     func scrollViewDidZoom(scrollView: UIScrollView) {
         if(scrollView.zoomScale <= 1){
-            self.webView.scrollView.zoomScale = 1
+            self.webView.scrollView.zoomScale = 1.01
         }
-        if(scrollView.zoomScale == 1){
-            self.webView.scrollView.scrollEnabled = false
-            if(scrollView.contentOffset.y != glblLog.scrollDestination){
-                print("glblLog.scrollDestination \(glblLog.scrollDestination)")
-                self.webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
-            }
-        }
-        else {
-            self.webView.scrollView.scrollEnabled = true
-        }
+        
     }
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        if(scrollView.zoomScale > 1){
-            if(scrollView.contentOffset.y > (glblLog.scrollDestination + self.pageHeight)*scrollView.zoomScale  - self.pageHeight){
-                self.webView.scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, (glblLog.scrollDestination + self.pageHeight)*scrollView.zoomScale  - self.pageHeight), animated: false)
+        let webViewHeight = self.webView.frame.size.height
+        let screenHeight = self.view.frame.size.height
+        var partSeen = pageHeight
+        if(scrollDestinationUpdated && self.webView.loading == false && scrollView.zoomScale > 1){
+            if(screenHeight*0.837 < pageHeight){
+                partSeen = screenHeight*0.837
+            }
+            
+            if(scrollView.contentOffset.y > (glblLog.scrollDestination + pageHeight)*scrollView.zoomScale  - partSeen){
+                print("webViewHeight \(webViewHeight)")
+                print("pageHeight \(pageHeight)")
+                print("screenHeight*0.837 \(screenHeight*0.837)")
+                self.webView.scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, (glblLog.scrollDestination + pageHeight)*scrollView.zoomScale  - partSeen), animated: false)
             }
             else if(scrollView.contentOffset.y < glblLog.scrollDestination * scrollView.zoomScale ){
                 self.webView.scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, glblLog.scrollDestination*scrollView.zoomScale), animated: false)
@@ -144,8 +145,8 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         }
     }
     func buttonAction(sender: UIButton){
-        webView.scrollView.setZoomScale(pageFitZoom, animated: true)
-        if(sender == self.prevPageButton){
+        webView.scrollView.setZoomScale(1.01, animated: true)
+        if(glblLog.currentPageNumber > 0 && sender == self.prevPageButton){
             glblLog.currentPageNumber--
             glblLog.scrollDestination = glblLog.scrollDestination - pageHeight
             webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
@@ -224,11 +225,6 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         if(!scrollDestinationUpdated){
             if(self.webView.scrollView.contentSize.height > 0){
                 self.pageHeight = self.webView.scrollView.contentSize.height / CGFloat(glblLog.numberOfPages)
-                //--------------- -------------- ----------------- page fit zoom stuff ------------- ----------- --------
-                pageFitZoom = (self.view.frame.height * CGFloat(0.85) * CGFloat(glblLog.numberOfPages))/self.webView.scrollView.contentSize.height
-                //self.webView.scrollView.zoomScale = pageFitZoom
-                webView.scrollView.scrollEnabled = false
-                //--------------- -------------- ----------------- page fit zoom stuff ------------- ----------- --------
             }
             else{
                 self.pageHeight = 0
@@ -243,10 +239,11 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
                 else{
                     webView.frame = CGRectMake(0, webView.frame.minY, screenWidth, screenHeight*0.837 )
                 }
-                webView.scrollView.minimumZoomScale = 1
-                //webView.scrollView.zoomToRect(CGRectMake(0, webView.frame.minY, screenWidth/pageFitZoom, self.pageHeight/pageFitZoom ), animated: true)
-                //webView.scrollView.zoomScale = pageFitZoom
-                print("webView.scrollView.zoom \(webView.scrollView.zoomScale) but pageFitZoom \(pageFitZoom)")
+                let webViewHeight = self.webView.frame.size.height
+                print("webViewHeight \(webViewHeight)")
+                print("pageHeight \(pageHeight)")
+                print("screenHeight*0.837 \(screenHeight*0.837)")
+                webView.scrollView.zoomScale = 1.01
                 bottomView.frame =  CGRectMake(0, webView.frame.maxY, screenWidth, screenHeight -  webView.frame.maxY)
                 scrollDestinationUpdated = true
             }
@@ -267,7 +264,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         else if(timeOnCurrentPage == 10){
             guyView.setBackgroundImage(UIImage(named: "a.jpg"), forState: UIControlState.Normal)
         }
-
+        
         glblLog.timeAtPageIndex[glblLog.currentPageNumber]++
     }
     
