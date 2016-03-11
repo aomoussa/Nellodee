@@ -133,9 +133,6 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             }
             
             if(scrollView.contentOffset.y > (glblLog.scrollDestination + pageHeight)*scrollView.zoomScale  - partSeen){
-                print("webViewHeight \(webViewHeight)")
-                print("pageHeight \(pageHeight)")
-                print("screenHeight*0.837 \(screenHeight*0.837)")
                 self.webView.scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, (glblLog.scrollDestination + pageHeight)*scrollView.zoomScale  - partSeen), animated: false)
             }
             else if(scrollView.contentOffset.y < glblLog.scrollDestination * scrollView.zoomScale ){
@@ -146,6 +143,12 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     }
     func buttonAction(sender: UIButton){
         webView.scrollView.setZoomScale(1.01, animated: true)
+        let screenHeight = self.view.frame.size.height
+        var partSeen = pageHeight
+        if(screenHeight*0.837 < pageHeight){
+            partSeen = screenHeight*0.837
+        }
+        self.webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination + (pageHeight - partSeen)/2), animated: false)
         if(glblLog.currentPageNumber > 0 && sender == self.prevPageButton){
             glblLog.currentPageNumber--
             glblLog.scrollDestination = glblLog.scrollDestination - pageHeight
@@ -231,7 +234,6 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             }
             if(self.pageHeight > screenHeight*0.6){
                 glblLog.scrollDestination = CGFloat(glblLog.currentPageNumber)*pageHeight
-                print("CGFloat(glblLog.currentPageNumber)*pageHeight \(CGFloat(glblLog.currentPageNumber)*pageHeight)")
                 webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
                 if(self.pageHeight < screenHeight*0.837){
                     webView.frame = CGRectMake(0, webView.frame.minY, screenWidth, self.pageHeight )
@@ -239,10 +241,6 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
                 else{
                     webView.frame = CGRectMake(0, webView.frame.minY, screenWidth, screenHeight*0.837 )
                 }
-                let webViewHeight = self.webView.frame.size.height
-                print("webViewHeight \(webViewHeight)")
-                print("pageHeight \(pageHeight)")
-                print("screenHeight*0.837 \(screenHeight*0.837)")
                 webView.scrollView.zoomScale = 1.01
                 bottomView.frame =  CGRectMake(0, webView.frame.maxY, screenWidth, screenHeight -  webView.frame.maxY)
                 scrollDestinationUpdated = true
