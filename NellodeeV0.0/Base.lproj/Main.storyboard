@@ -182,42 +182,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nW8-sR-3mN">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nW8-sR-3mN">
                                 <rect key="frame" x="0.0" y="13" width="136" height="30"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
                                     <segue destination="1eS-Q7-YMi" kind="presentation" id="lmQ-dC-NcI"/>
                                 </connections>
                             </button>
-                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="yrw-TE-4gE">
-                                <rect key="frame" x="288" y="76" width="312" height="216"/>
-                                <date key="date" timeIntervalSinceReferenceDate="469252540.12162298">
-                                    <!--2015-11-15 03:55:40 +0000-->
-                                </date>
-                                <date key="minimumDate" timeIntervalSinceReferenceDate="468932400">
-                                    <!--2015-11-11 11:00:00 +0000-->
-                                </date>
-                            </datePicker>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="200" translatesAutoresizingMaskIntoConstraints="NO" id="R17-aI-N1q">
-                                <rect key="frame" x="90" y="76" width="94" height="29"/>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="200" translatesAutoresizingMaskIntoConstraints="NO" id="R17-aI-N1q">
+                                <rect key="frame" x="21" y="59" width="94" height="29"/>
                                 <connections>
                                     <action selector="pagesSelectorEdited:" destination="9BJ-W8-iIU" eventType="valueChanged" id="lU5-ec-5yo"/>
                                 </connections>
                             </stepper>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HtO-3t-Fb5">
-                                <rect key="frame" x="54" y="136" width="159" height="44"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HtO-3t-Fb5">
+                                <rect key="frame" x="-11" y="101" width="159" height="44"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Goals" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wmk-aL-rIV">
-                                <rect key="frame" x="288" y="319" width="120" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nMs-Sz-f2y">
-                                <rect key="frame" x="223" y="13" width="88" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nMs-Sz-f2y">
+                                <rect key="frame" x="145" y="59" width="88" height="30"/>
                                 <state key="normal" title="Set Changes"/>
                                 <connections>
                                     <action selector="setChanges:" destination="9BJ-W8-iIU" eventType="touchUpInside" id="l8n-wy-Z2A"/>
@@ -230,12 +215,28 @@
                                     <segment title="Goals"/>
                                 </segments>
                             </segmentedControl>
+                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="yrw-TE-4gE">
+                                <rect key="frame" x="288" y="0.0" width="312" height="216"/>
+                                <date key="date" timeIntervalSinceReferenceDate="469252540.12162298">
+                                    <!--2015-11-15 03:55:40 +0000-->
+                                </date>
+                                <date key="minimumDate" timeIntervalSinceReferenceDate="468932400">
+                                    <!--2015-11-11 11:00:00 +0000-->
+                                </date>
+                            </datePicker>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="yrw-TE-4gE" firstAttribute="width" secondItem="VeH-pU-kfF" secondAttribute="width" multiplier="0.5" id="0sc-xZ-pjx"/>
+                            <constraint firstItem="R17-aI-N1q" firstAttribute="centerX" secondItem="nW8-sR-3mN" secondAttribute="centerX" id="76d-ur-wEt"/>
+                            <constraint firstItem="nMs-Sz-f2y" firstAttribute="leading" secondItem="R17-aI-N1q" secondAttribute="trailing" constant="30" id="D7j-be-ezs"/>
+                            <constraint firstItem="HtO-3t-Fb5" firstAttribute="centerX" secondItem="R17-aI-N1q" secondAttribute="centerX" id="NbX-vh-1Sx"/>
                             <constraint firstAttribute="trailingMargin" secondItem="yrw-TE-4gE" secondAttribute="trailing" id="TVP-Qw-Kff"/>
-                            <constraint firstItem="nMs-Sz-f2y" firstAttribute="centerX" secondItem="VeH-pU-kfF" secondAttribute="centerX" id="hE4-UG-dqK"/>
+                            <constraint firstItem="R17-aI-N1q" firstAttribute="top" secondItem="nW8-sR-3mN" secondAttribute="bottom" constant="16" id="Y1y-Nk-kv3"/>
+                            <constraint firstItem="nW8-sR-3mN" firstAttribute="centerX" secondItem="VeH-pU-kfF" secondAttribute="centerX" multiplier="0.2" id="bX0-To-sAP"/>
+                            <constraint firstItem="HtO-3t-Fb5" firstAttribute="top" secondItem="R17-aI-N1q" secondAttribute="bottom" constant="13" id="o44-9X-rEu"/>
+                            <constraint firstItem="nMs-Sz-f2y" firstAttribute="centerY" secondItem="R17-aI-N1q" secondAttribute="centerY" id="oNf-V7-mmg"/>
+                            <constraint firstItem="nW8-sR-3mN" firstAttribute="centerY" secondItem="VeH-pU-kfF" secondAttribute="centerY" multiplier="0.1" id="y8H-fo-6k5"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -244,7 +245,6 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="currentStateLabel" destination="wmk-aL-rIV" id="e7B-nz-PKI"/>
                         <outlet property="datePicker" destination="yrw-TE-4gE" id="RLs-pi-EIn"/>
                         <outlet property="pagesSelector" destination="R17-aI-N1q" id="3ND-In-HXe"/>
                         <outlet property="pagesSelectorLabel" destination="HtO-3t-Fb5" id="Mym-7g-4JH"/>
@@ -252,7 +252,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uBk-Rd-BTJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2264" y="336"/>
+            <point key="canvasLocation" x="2315" y="360"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gee-vl-1Kt">

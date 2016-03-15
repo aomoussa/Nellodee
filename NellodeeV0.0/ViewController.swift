@@ -173,7 +173,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
                 glblLog.currentPageNumber++
                 
                 glblLog.scrollDestination = pageHeight + glblLog.scrollDestination
-                webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
+                webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination + 1000), animated: false)
                 updateProgressBar()
             }
             
