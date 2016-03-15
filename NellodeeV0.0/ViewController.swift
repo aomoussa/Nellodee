@@ -88,6 +88,8 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         burger.target = self.revealViewController()
         burger.action = Selector("revealToggle:")
         
+        retrieveSavedData()
+        
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         todaysDate = dateFormatter.stringFromDate(NSDate())
@@ -101,7 +103,10 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         if(glblLog.currentSession.days.count > 0)
         {
             currentSessionLastDateReached = glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date
-        }
+        }/*
+        print("currentSessionLastDateReached \(currentSessionLastDateReached)")
+        print("today: \(NSDate())")
+        print("todays date from calc: \(todaysDate)")*/
         if(currentSessionLastDateReached != todaysDate){
             glblLog.currentSession.setNextDayStartPage()
             glblLog.currentSession.numberOfDaysPassed++
@@ -111,7 +116,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         else{
             print("numberOfDaysPassed \n added todays date: \(todaysDate) ")
         }
-        retrieveSavedData()
+        
     }
     func webViewDidFinishLoad(webView: UIWebView) {
         self.webView.userInteractionEnabled = true
