@@ -30,6 +30,8 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     let button2 = UIButton()
     let nextPageButton = UIButton()
     let prevPageButton = UIButton()
+    var diff = 0 as CGFloat// difference in pixels between the bottom of the webview and the start of the progress (bottomView)
+    var filler = UIView() // actual view that covers up the difference between the bottom of the webview and the start of the progress (bottomView)
     
     //from storyboard
     @IBOutlet var webView: UIWebView!
@@ -126,7 +128,16 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         if(scrollView.zoomScale <= 1){
             self.webView.scrollView.zoomScale = 1.01
         }
-        
+        if(diff > 0){
+            let fillerHeightInc = pageHeight*(scrollView.zoomScale - 1)
+            let fillerOldY = bottomView.frame.minY - diff
+            if(diff - fillerHeightInc > 0){
+                filler.frame = CGRect(x: 0, y: fillerOldY + fillerHeightInc, width: filler.frame.width, height: diff - fillerHeightInc)
+            }
+            else{
+                filler.frame = CGRect(x: 0, y: bottomView.frame.minY, width: filler.frame.width, height: 0)
+            }
+        }
     }
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let webViewHeight = self.webView.frame.size.height
@@ -240,14 +251,18 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             if(self.pageHeight > screenHeight*0.6){
                 glblLog.scrollDestination = CGFloat(glblLog.currentPageNumber)*pageHeight
                 webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
+                webView.frame = CGRectMake(0, webView.frame.minY, screenWidth, screenHeight*0.837 )
+                bottomView.frame =  CGRectMake(0, webView.frame.maxY, screenWidth, screenHeight -  webView.frame.maxY)
                 if(self.pageHeight < screenHeight*0.837){
-                    webView.frame = CGRectMake(0, webView.frame.minY, screenWidth, self.pageHeight )
+                    diff = screenHeight*0.837 - self.pageHeight
+                    filler = UIView(frame: CGRectMake(0, bottomView.frame.minY - diff, screenWidth, diff))
+                    filler.backgroundColor = UIColor.blackColor()
+                    self.view.addSubview(filler)
                 }
                 else{
-                    webView.frame = CGRectMake(0, webView.frame.minY, screenWidth, screenHeight*0.837 )
+                    
                 }
                 webView.scrollView.zoomScale = 1.01
-                bottomView.frame =  CGRectMake(0, webView.frame.maxY, screenWidth, screenHeight -  webView.frame.maxY)
                 scrollDestinationUpdated = true
             }
             
@@ -544,6 +559,33 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             }
             i--
         }
+        //------------------------------ --------------- New day when opening app ---------------- -------------- -----------
+        //let dateFormatter = NSDateFormatter()
+        let unit:NSCalendarUnit = NSCalendarUnit.Day
+        if #available(iOS 8.0, *) {
+            todaysDate = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(unit, value: glblLog.currentSession.numberOfDaysPassed, toDate: NSDate(), options: [])!)
+        } else {
+            print("device too old... datePicker mess up")
+        }
+        var currentSessionLastDateReached = todaysDate
+        if(glblLog.currentSession.days.count > 0)
+        {
+            currentSessionLastDateReached = glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date
+        }/*
+        print("currentSessionLastDateReached \(currentSessionLastDateReached)")
+        print("today: \(NSDate())")
+        print("todays date from calc: \(todaysDate)")*/
+        if(currentSessionLastDateReached != todaysDate){
+            glblLog.currentSession.setNextDayStartPage()
+            glblLog.currentSession.numberOfDaysPassed++
+            print("numberOfDaysPassed added todays date: \(todaysDate) and session.days[numberOfDaysPassed - 1] = \(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed - 1].date)")
+            updateProgressBar()
+        }
+        else{
+            print("numberOfDaysPassed \n added todays date: \(todaysDate) ")
+        }
+        //------------------------------ --------------- New day when opening app ---------------- -------------- -----------
+        
         //days[i].date = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: i, toDate: NSDate(), options: [])!)
     }
     /*
