@@ -96,20 +96,25 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         todaysDate = dateFormatter.stringFromDate(NSDate())
         let unit:NSCalendarUnit = NSCalendarUnit.Day
+        /*
         if #available(iOS 8.0, *) {
             todaysDate = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(unit, value: glblLog.currentSession.numberOfDaysPassed, toDate: NSDate(), options: [])!)
         } else {
             print("device too old... datePicker mess up")
-        }
+        }*/
         var currentSessionLastDateReached = todaysDate
         if(glblLog.currentSession.days.count > 0)
         {
             currentSessionLastDateReached = glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date
-        }/*
+        }
+        print("today is \(todaysDate) and current session last date reached is \(currentSessionLastDateReached) comparision:")
+        print(NSDate().compare(dateFormatter.dateFromString(currentSessionLastDateReached)!).rawValue)
+        let dateComparison = dateFormatter.dateFromString(currentSessionLastDateReached)!.compare(NSDate()).rawValue
+        /*
         print("currentSessionLastDateReached \(currentSessionLastDateReached)")
         print("today: \(NSDate())")
         print("todays date from calc: \(todaysDate)")*/
-        if(currentSessionLastDateReached != todaysDate){
+        if(currentSessionLastDateReached != todaysDate && dateComparison < 1){
             glblLog.currentSession.setNextDayStartPage()
             glblLog.currentSession.numberOfDaysPassed++
             print("numberOfDaysPassed added todays date: \(todaysDate) and session.days[numberOfDaysPassed - 1] = \(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed - 1].date)")
@@ -212,6 +217,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         self.view.addSubview(guyView)
         let imageD = 50.0 as CGFloat
         
+        guyView.setBackgroundImage(UIImage(named: "RunningMan_A.jpg"), forState: UIControlState.Normal)
         guyView.frame = CGRectMake(100 + imageD/2, screenHeight - 2*imageD, imageD, imageD)
         updateProgressBar()
         
@@ -586,21 +592,14 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         }
         //------------------------------ --------------- New day when opening app ---------------- -------------- -----------
         //let dateFormatter = NSDateFormatter()
-        let unit:NSCalendarUnit = NSCalendarUnit.Day
-        if #available(iOS 8.0, *) {
-            todaysDate = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(unit, value: glblLog.currentSession.numberOfDaysPassed, toDate: NSDate(), options: [])!)
-        } else {
-            print("device too old... datePicker mess up")
-        }
+        todaysDate = dateFormatter.stringFromDate(NSDate())
         var currentSessionLastDateReached = todaysDate
         if(glblLog.currentSession.days.count > 0)
         {
             currentSessionLastDateReached = glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date
-        }/*
-        print("currentSessionLastDateReached \(currentSessionLastDateReached)")
-        print("today: \(NSDate())")
-        print("todays date from calc: \(todaysDate)")*/
-        if(currentSessionLastDateReached != todaysDate){
+        }
+        let dateComparison = dateFormatter.dateFromString(currentSessionLastDateReached)!.compare(NSDate()).rawValue
+        if(currentSessionLastDateReached != todaysDate && dateComparison < 1){
             glblLog.currentSession.setNextDayStartPage()
             glblLog.currentSession.numberOfDaysPassed++
             print("numberOfDaysPassed added todays date: \(todaysDate) and session.days[numberOfDaysPassed - 1] = \(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed - 1].date)")
