@@ -77,6 +77,10 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         let pdf = CGPDFDocumentCreateWithURL(url)
         pdfPageCount = CGPDFDocumentGetNumberOfPages(pdf)
         
+        
+        let pdfName = CGPDFDictionaryGetString(CGPDFDocumentGetInfo(pdf), "Title", UnsafeMutablePointer.init())
+        print("pdf name: ", pdfName)
+        
         if(glblLog.numberOfPages != pdfPageCount){
             if(glblLog.timeAtPageIndex.count <= 1){
                 glblLog.setBookNumOfPages(pdfPageCount)
@@ -124,7 +128,14 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             print("numberOfDaysPassed \(glblLog.currentSession.numberOfDaysPassed) \n added todays date: \(todaysDate) ")
             print(" \(glblLog.currentSession.toString())  ")
         }
+        setTopBar()
+    }
+    func setTopBar(){
+        //navigationItem.rightBarButtonItem?.image = UIImage(named: "logo.jpg")
         
+        navigationItem.title = "Nellodee"
+        
+
     }
     func webViewDidFinishLoad(webView: UIWebView) {
         self.webView.userInteractionEnabled = true
@@ -210,7 +221,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         bottomView.backgroundColor = UIColor.grayColor()
         self.view.addSubview(bottomView)
         
-        triangleNextAndPrevButtons()
+        createNextAndPrevButtons()
         
         self.view.addSubview(button1)
         self.view.addSubview(button2)
@@ -240,25 +251,25 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         currentPageLabel.textColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
         button1.backgroundColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
         button2.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
-        prevPageButton.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
-        nextPageButton.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
         webView.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
     }
-    func triangleNextAndPrevButtons(){
+    func createNextAndPrevButtons(){
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
         
-        let buttonsHeight = screenHeight*0.07
         let buttonsWidth = screenWidth*0.07
+        let distanceFromSides = screenWidth*0.03
+        let distanceFromBottom = buttonsWidth + screenWidth*0.03
         
-        self.prevPageButton.frame = CGRectMake(0, screenHeight - buttonsHeight, buttonsWidth, buttonsWidth)
-        prevPageButton.setTitle("prev", forState: UIControlState.Normal)
+        self.prevPageButton.frame = CGRectMake(distanceFromSides, screenHeight - distanceFromBottom, buttonsWidth, buttonsWidth)
+        //prevPageButton.setTitle("prev", forState: UIControlState.Normal)
         prevPageButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        prevPageButton.setBackgroundImage(UIImage(named: "leftArrow.jpg"), forState: UIControlState.Normal)
         
-        self.nextPageButton.frame = CGRectMake(screenWidth - buttonsWidth, screenHeight - buttonsHeight, buttonsWidth, buttonsWidth)
-        
-        nextPageButton.setTitle("next", forState: UIControlState.Normal)
+        self.nextPageButton.frame = CGRectMake(screenWidth - buttonsWidth - distanceFromSides, screenHeight - distanceFromBottom, buttonsWidth, buttonsWidth)
+        //nextPageButton.setTitle("next", forState: UIControlState.Normal)
         nextPageButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        nextPageButton.setBackgroundImage(UIImage(named: "rightArrow.jpg"), forState: UIControlState.Normal)
         
         
         self.view.addSubview(nextPageButton)

@@ -18,6 +18,8 @@ class goalsViewController: UIViewController {
     var displaySession = session()
     var daysToDisplay = [day]()
     var indexAtTodaysDate = 0
+    let NellodeeMaroonColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
+    let NellodeeMidGray = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
     
     //UI stuff
     var bottomPrevButton = UIButton()
@@ -27,7 +29,20 @@ class goalsViewController: UIViewController {
     var dayLabelButtons = [UIButton]()
     var pagesPerDayLabels = [UILabel]()
     var expectedPagesPerDayLabels = [UILabel]()
-    var segmentedControl = UISegmentedControl(items: ["Pages per Day", "Completion Date"])
+    
+    
+    //box stuff
+    var leftLineOfBox1 = UIView()
+    var rightLineOfBox1 = UIView()
+    var topLineOfBox1 = UIView()
+    var bottomLineOfBox1 = UIView()
+    
+    var leftLineOfBox2 = UIView()
+    var rightLineOfBox2 = UIView()
+    var topLineOfBox2 = UIView()
+    var bottomLineOfBox2 = UIView()
+    
+    //var segmentedControl = UISegmentedControl(items: ["Pages per Day", "Completion Date"])
     
     
     @IBAction func setChanges(sender: UIButton) {
@@ -35,7 +50,7 @@ class goalsViewController: UIViewController {
         glblLog.addSession(goalSession)
         displaySession = glblLog.allSessions[++sessionIndex]
         if(displaySession.previousDays.count > 5){
-           barGraphStartIndex = displaySession.previousDays.count - 5
+            barGraphStartIndex = displaySession.previousDays.count - 5
         }
         daysToDisplay = displaySession.previousDays
         for temp in displaySession.days{
@@ -44,15 +59,14 @@ class goalsViewController: UIViewController {
         refreshBarGraphs(barGraphStartIndex)
         //performSegueWithIdentifier("reloadGoals", sender: self)
     }
-    @IBOutlet var nextButton: UIButton!
-    @IBOutlet var prevButton: UIButton!
     
     
     @IBOutlet var datePicker: UIDatePicker!
     var currentState = "date"//"pages"
     
     @IBAction func pagesSelectorEdited(sender: UIStepper) {
-        segmentedControl.selectedSegmentIndex = 0
+        //segmentedControl.selectedSegmentIndex = 0
+        setBoxesForState("pagesPerDay")
         
         let pagesPerDay = Int(sender.value).description
         pagesSelectorLabel.text = pagesPerDay
@@ -86,11 +100,14 @@ class goalsViewController: UIViewController {
         pagesSelector.autorepeat = true
         pagesSelector.maximumValue = 100
         
+        
         if(glblLog.currentSession.state == "pagesPerDayState"){
-            segmentedControl.selectedSegmentIndex = 0
+            //segmentedControl.selectedSegmentIndex = 0
+            setBoxesForState("pagesPerDay")
         }
         else{
-            segmentedControl.selectedSegmentIndex = 1
+            //segmentedControl.selectedSegmentIndex = 1
+            setBoxesForState("endDate")
         }
         
         
@@ -113,7 +130,8 @@ class goalsViewController: UIViewController {
     }
     
     func datePickerChanged(){
-        segmentedControl.selectedSegmentIndex = 1
+        //segmentedControl.selectedSegmentIndex = 1
+        setBoxesForState("endDate")
         
         let strDate = dateFormatter.stringFromDate(datePicker.date)
         let unit:NSCalendarUnit = NSCalendarUnit.Day
@@ -129,6 +147,7 @@ class goalsViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         createLines()
+        createBoxes()
         createPrevAndNextButtons()
         createLabels()
         createBarGraphs()
@@ -150,6 +169,74 @@ class goalsViewController: UIViewController {
         }
     }
     
+    func createBoxes(){
+        
+        let screenWidth = view.frame.size.width
+        let screenHeight = self.view.frame.size.height
+        let topY = screenHeight*0.1
+        let bottomY = screenHeight*0.37
+        let leftXBox1 = screenWidth*0.05
+        let rightXBox1 = screenWidth*0.5 - 2
+        let leftXBox2 = screenWidth*0.5 + 2
+        let rightXBox2 = screenWidth*0.95
+        
+        //segmentedControl.frame =  CGRectMake(screenWidth/2 - 100 , screenHeight/2 - 250, screenWidth/3, screenHeight/40)
+        //self.view.addSubview(segmentedControl)
+        leftLineOfBox1.frame = CGRectMake(leftXBox1, topY, 4, bottomY - topY)
+        rightLineOfBox1.frame = CGRectMake(rightXBox1, topY, 4, bottomY - topY)
+        topLineOfBox1.frame = CGRectMake(leftXBox1, topY, rightXBox1 - leftXBox1, 4)
+        bottomLineOfBox1.frame = CGRectMake(leftXBox1, bottomY, rightXBox1 - leftXBox1, 4)
+        
+        leftLineOfBox2.frame = CGRectMake(leftXBox2, topY, 4, bottomY - topY)
+        rightLineOfBox2.frame = CGRectMake(rightXBox2, topY, 4, bottomY - topY)
+        topLineOfBox2.frame = CGRectMake(leftXBox2, topY, rightXBox2 - leftXBox2, 4)
+        bottomLineOfBox2.frame = CGRectMake(leftXBox2, bottomY, rightXBox2 - leftXBox2, 4)
+        
+        leftLineOfBox1.backgroundColor = UIColor.grayColor()
+        rightLineOfBox1.backgroundColor = UIColor.grayColor()
+        topLineOfBox1.backgroundColor = UIColor.grayColor()
+        bottomLineOfBox1.backgroundColor = UIColor.grayColor()
+        
+        leftLineOfBox2.backgroundColor = UIColor.grayColor()
+        rightLineOfBox2.backgroundColor = UIColor.grayColor()
+        topLineOfBox2.backgroundColor = UIColor.grayColor()
+        bottomLineOfBox2.backgroundColor = UIColor.grayColor()
+        
+        self.view.addSubview(leftLineOfBox1)
+        self.view.addSubview(rightLineOfBox1)
+        self.view.addSubview(topLineOfBox1)
+        self.view.addSubview(bottomLineOfBox1)
+        
+        self.view.addSubview(leftLineOfBox2)
+        self.view.addSubview(rightLineOfBox2)
+        self.view.addSubview(topLineOfBox2)
+        self.view.addSubview(bottomLineOfBox2)
+    }
+    func setBoxesForState(goalState: String){
+        var leftBoxColor = UIColor.grayColor()
+        var rightBoxColor = UIColor.grayColor()
+        switch(goalState){
+        case "pagesPerDay":
+            leftBoxColor = NellodeeMaroonColor
+            break
+        case "endDate":
+            rightBoxColor = NellodeeMaroonColor
+            break
+        default:
+            break
+            
+        }
+        leftLineOfBox1.backgroundColor = leftBoxColor
+        rightLineOfBox1.backgroundColor = leftBoxColor
+        topLineOfBox1.backgroundColor = leftBoxColor
+        bottomLineOfBox1.backgroundColor = leftBoxColor
+        
+        leftLineOfBox2.backgroundColor = rightBoxColor
+        rightLineOfBox2.backgroundColor = rightBoxColor
+        topLineOfBox2.backgroundColor = rightBoxColor
+        bottomLineOfBox2.backgroundColor = rightBoxColor
+    }
+    
     func createLines(){
         
         let screenWidth = view.frame.size.width
@@ -160,8 +247,8 @@ class goalsViewController: UIViewController {
         let linesOffset = screenWidth*0.12
         let labelWidth = screenWidth*0.1
         
-        segmentedControl.frame =  CGRectMake(screenWidth/2 - 100 , screenHeight/2 - 250, screenWidth/3, screenHeight/40)
-        self.view.addSubview(segmentedControl)
+        //segmentedControl.frame =  CGRectMake(screenWidth/2 - 100 , screenHeight/2 - 250, screenWidth/3, screenHeight/40)
+        //self.view.addSubview(segmentedControl)
         
         let lineViewX = UIView.init(frame: CGRectMake(linesOffset, screenHeight - bottomOffset, screenWidth, 2))
         lineViewX.backgroundColor = UIColor.grayColor()
@@ -206,12 +293,14 @@ class goalsViewController: UIViewController {
         let buttonWidth = screenWidth/25 as CGFloat
         
         self.bottomPrevButton = UIButton(frame: CGRectMake(prevButtonX, bottomYs, buttonWidth, buttonWidth))
-        bottomPrevButton.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+        //bottomPrevButton.backgroundColor = NellodeeMidGray
         bottomPrevButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        bottomPrevButton.setBackgroundImage(UIImage(named: "leftArrow.jpg"), forState: UIControlState.Normal)
         self.view.addSubview(bottomPrevButton)
         
         self.bottomNextButton = UIButton(frame: CGRectMake(nextButtonX , bottomYs, buttonWidth, buttonWidth))
-        bottomNextButton.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+        //bottomNextButton.backgroundColor = NellodeeMidGray
+        bottomNextButton.setBackgroundImage(UIImage(named: "rightArrow.jpg"), forState: UIControlState.Normal)
         bottomNextButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(bottomNextButton)
         
@@ -279,7 +368,7 @@ class goalsViewController: UIViewController {
     
     
     }
-*/
+    */
     func refreshBarGraphs(i: Int){
         
         let screenWidth = view.frame.size.width
@@ -338,7 +427,7 @@ class goalsViewController: UIViewController {
                 }else{
                     dayLabelButtons[count].setTitle(thisDate.substringToIndex(thisDate.startIndex.advancedBy(5)), forState: UIControlState.Normal)
                 }
-
+                
                 index++
                 
             }
@@ -368,20 +457,20 @@ class goalsViewController: UIViewController {
                 thisDate = daysToDisplay[indexPage].date
             }
             if(indexPage > indexAtTodaysDate){
-                dayLabelButtons[count].setTitleColor(UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1), forState: UIControlState.Normal)
+                dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
             }
             else{
-                dayLabelButtons[count].setTitleColor(UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1), forState: UIControlState.Normal)
+                dayLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
             }
             
             if(indexAtTodaysDate == 0 && glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count < daysToDisplay.count && thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count].date){
                 indexAtTodaysDate = indexPage
                 dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
-                dayLabelButtons[count].setTitleColor(UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1), forState: UIControlState.Normal)
+                dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
             }
             else if (indexPage == indexAtTodaysDate){
                 dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
-                dayLabelButtons[count].setTitleColor(UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1), forState: UIControlState.Normal)
+                dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
             }
             else if(indexPage < daysToDisplay.count)
             {
@@ -410,7 +499,7 @@ class goalsViewController: UIViewController {
             self.view.addSubview(expectedPagesPerDayLabels[count])
             
             expectedBars.append(UIButton())
-            expectedBars[count].backgroundColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
+            expectedBars[count].backgroundColor = NellodeeMaroonColor
             self.view.addSubview(expectedBars[count])
             
             pagesPerDayLabels.append(UILabel())
@@ -491,7 +580,7 @@ class goalsViewController: UIViewController {
             var previousDaysPagesReadAtIndexDay = [[String]]()
             var i = 0
             var j = 0
-
+            
             for temp in glblLog.currentSession.previousDays{
                 previousDaysStartPagesString.append("\(temp.startPage)")
                 previousDaysEndPagesString.append("\(temp.endPage)")
@@ -515,37 +604,37 @@ class goalsViewController: UIViewController {
         defaults.setObject(glblLog.allSessions.count, forKey: "numberOfSessions")
         var sessionIndex = 0
         for session in glblLog.allSessions{
-            defaults.setObject(session.state, forKey: "selectorStateSession\(sessionIndex)")
-            defaults.setObject(session.startDate, forKey: "startDateSession\(sessionIndex)")
-            defaults.setObject(session.endDate, forKey: "endDateSession\(sessionIndex)")
-            defaults.setObject(session.expectedPagesPerDay, forKey: "expectedPagesPerDaySession\(sessionIndex)")
-            
-            var startPagesString = [String]()
-            var endPagesString = [String]()
-            var timeOnDay = [String]()
-            var pagesReadAtIndexDay = [[String]]()
-            var i = 0
-            var j = 0
-            for temp in session.days{
-                startPagesString.append("\(temp.startPage)")
-                endPagesString.append("\(temp.endPage)")
-                timeOnDay.append("\(temp.time)")
-                pagesReadAtIndexDay.append([String]())
-                for tempPage in temp.pages{
-                    
-                    pagesReadAtIndexDay[i].append("\(tempPage.pageNumber)")
-                    j++
-                }
-                defaults.setObject(pagesReadAtIndexDay[i], forKey: "actualPagesPerDay\(i)OnSession\(sessionIndex)")
-                i++
-            }
-            defaults.setObject(timeOnDay, forKey: "timePerDaySession\(sessionIndex)")
-            defaults.setObject(startPagesString, forKey: "startPagesStringArraySession\(sessionIndex)")
-            defaults.setObject(endPagesString, forKey: "endPagesStringArraySession\(sessionIndex)")
-            
-            sessionIndex++
+        defaults.setObject(session.state, forKey: "selectorStateSession\(sessionIndex)")
+        defaults.setObject(session.startDate, forKey: "startDateSession\(sessionIndex)")
+        defaults.setObject(session.endDate, forKey: "endDateSession\(sessionIndex)")
+        defaults.setObject(session.expectedPagesPerDay, forKey: "expectedPagesPerDaySession\(sessionIndex)")
+        
+        var startPagesString = [String]()
+        var endPagesString = [String]()
+        var timeOnDay = [String]()
+        var pagesReadAtIndexDay = [[String]]()
+        var i = 0
+        var j = 0
+        for temp in session.days{
+        startPagesString.append("\(temp.startPage)")
+        endPagesString.append("\(temp.endPage)")
+        timeOnDay.append("\(temp.time)")
+        pagesReadAtIndexDay.append([String]())
+        for tempPage in temp.pages{
+        
+        pagesReadAtIndexDay[i].append("\(tempPage.pageNumber)")
+        j++
+        }
+        defaults.setObject(pagesReadAtIndexDay[i], forKey: "actualPagesPerDay\(i)OnSession\(sessionIndex)")
+        i++
+        }
+        defaults.setObject(timeOnDay, forKey: "timePerDaySession\(sessionIndex)")
+        defaults.setObject(startPagesString, forKey: "startPagesStringArraySession\(sessionIndex)")
+        defaults.setObject(endPagesString, forKey: "endPagesStringArraySession\(sessionIndex)")
+        
+        sessionIndex++
         }
         */
-    //-----------------------------Saving previous sessions-----------------------------------
+        //-----------------------------Saving previous sessions-----------------------------------
     }
 }

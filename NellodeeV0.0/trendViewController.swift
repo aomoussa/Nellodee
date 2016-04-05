@@ -23,8 +23,8 @@ class trendViewController: UIViewController {
     var topNextButton = UIButton()
     var bottomNextButton = UIButton()
     
-    var topI = 1//glblLog.currentSession.numberOfDaysPassed - 9
-    var bottomI = 1//glblLog.maxPageReached-9
+    var topI = 1
+    var bottomI = 1
     
     var daysToDisplay = [day]()
     var indexAtTodaysDate = 0
@@ -35,6 +35,10 @@ class trendViewController: UIViewController {
     let buttonIncrements = 0.01 as CGFloat //(3% to be multiplies by screenHeight)
     let topGraphXaxisHeight = 0.5 as CGFloat//(50% to be multiplies by screenHeight)
     let bottomGraphXaxisHeight = 0.9 as CGFloat//(90% to be multiplies by screenHeight)
+    
+    //colors
+    let NellodeeMaroonColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
+    let NellodeeMidGray = UIColor(red: 153/255, green: 153/255, blue: 153/255, alpha: 1)
     
     
     override func viewDidLoad() {
@@ -49,9 +53,9 @@ class trendViewController: UIViewController {
             bottomI = 1
         }
         else{
-            bottomI = glblLog.maxPageReached - 8
+            bottomI = glblLog.maxPageReached - 5
         }
-        if(daysToDisplay.count <= 9){
+        if(daysToDisplay.count <= 6){
             topI = 1
         }
         else{
@@ -61,6 +65,16 @@ class trendViewController: UIViewController {
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        let screenWidth = view.frame.size.width
+        let screenHeight = self.view.frame.size.height
+        
+        //let navBar: UINavigationBar = UINavigationBar(frame: CGRect(x:0, y:0, width:screenWidth, height:screenHeight/15))
+        //navBar.backItem?.title = "back"
+        //navBar.backItem?.
+        //self.view.addSubview(navBar)
+        //let b = UIBarButtonItem(title: "back", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        //navBar.
+        //self.navigationItem.leftBarButtonItem = b
         
         createBarGraphs()
         createLines()
@@ -78,7 +92,7 @@ class trendViewController: UIViewController {
         }
         if(sender == self.bottomNextButton){
             //print("bottomNextButton CLICKED")
-            if(bottomI<=glblLog.maxPageReached - 9){
+            if(bottomI<=glblLog.maxPageReached - 6){
                 refreshBottomBarGraphs(++bottomI)
             }
         }
@@ -90,7 +104,7 @@ class trendViewController: UIViewController {
         }
         if(sender == self.topNextButton){
             //print("TOPNextButton CLICKED")
-            if(topI<glblLog.currentSession.days.count - 9){
+            if(topI<glblLog.currentSession.days.count - 6){
                 refreshTopBarGraphs(++topI)
             }
         }
@@ -100,17 +114,17 @@ class trendViewController: UIViewController {
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
         
-        let buttonWidth = 30.0 as CGFloat
+        let buttonWidth = screenWidth*0.06
         var buttonHeight = 10.0 as CGFloat
-        let labelButtonWidth = 60.0 as CGFloat
+        let labelButtonWidth = screenWidth*0.12
         let labelButtonHeight = 20.0 as CGFloat
-        let distanceBetweenBars = screenWidth*0.09
+        let distanceBetweenBars = screenWidth*0.14
         var count = 0
         var index = 0.0 as CGFloat
         var indexTime = i
         //for loop populuting array of buttons for bar graph
         //for indexTime in glblLog.timeAtPageIndex{
-        while(indexTime>=0 && indexTime < daysToDisplay.count && count < 9){
+        while(indexTime>=0 && indexTime < daysToDisplay.count && count < 6){
             buttonHeight = buttonIncrements*screenHeight * CGFloat(daysToDisplay[indexTime].time)
             if(buttonHeight > screenHeight*0.4){
                 buttonHeight = screenHeight*0.4
@@ -135,21 +149,25 @@ class trendViewController: UIViewController {
             if(indexTime < daysToDisplay.count){
                 thisDate = daysToDisplay[indexTime].date
             }
-            if(indexTime > indexAtTodaysDate){
-                dayLabelButtons[count].backgroundColor = UIColor.redColor()
+            /*if(indexTime > indexAtTodaysDate){
+                dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
+                barButtons2[count].backgroundColor = NellodeeMaroonColor
             }
-            else{
-                dayLabelButtons[count].backgroundColor = UIColor.greenColor()
-            }
+            else{*/
+                dayLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
+                barButtons2[count].backgroundColor = NellodeeMidGray
+            //}
 
             if(indexAtTodaysDate == 0 && thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count].date){
                 indexAtTodaysDate = indexTime
                 dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
-                dayLabelButtons[count].backgroundColor = UIColor.blueColor()
+                dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
+                barButtons2[count].backgroundColor = NellodeeMaroonColor
             }
             else if (indexTime == indexAtTodaysDate){
                 dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
-                dayLabelButtons[count].backgroundColor = UIColor.blueColor()
+                dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
+                barButtons2[count].backgroundColor = NellodeeMaroonColor
             }
             else{
                 dayLabelButtons[count].setTitle("\(daysToDisplay[indexTime].date)", forState: UIControlState.Normal)
@@ -164,17 +182,17 @@ class trendViewController: UIViewController {
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
         
-        let buttonWidth = 30.0 as CGFloat
+        let buttonWidth = screenWidth*0.055
         var buttonHeight = 10.0 as CGFloat
-        let labelButtonWidth = 60.0 as CGFloat
+        let labelButtonWidth = screenWidth*0.12
         let labelButtonHeight = 20.0 as CGFloat
-        let distanceBetweenBars = screenWidth*0.09
+        let distanceBetweenBars = screenWidth*0.14
         var count = 0
         var index = 0.0 as CGFloat
         var indexTime = i
         //for loop populuting array of buttons for bar graph
         //for indexTime in glblLog.timeAtPageIndex{
-        while(indexTime <= glblLog.maxPageReached && count < 9){
+        while(indexTime <= glblLog.maxPageReached && count < 6){
             
             
             buttonHeight = 0
@@ -191,11 +209,13 @@ class trendViewController: UIViewController {
             pageLabelButtons[count].frame = CGRectMake(100 + (index)*distanceBetweenBars , screenHeight*bottomGraphXaxisHeight, labelButtonWidth, labelButtonHeight)
             pageLabelButtons[count].setTitle("\(indexTime)", forState: UIControlState.Normal)
             
-            if(count == 8 && indexTime == glblLog.maxPageReached){
-                pageLabelButtons[count].backgroundColor = UIColor.blueColor()
+            if(count == 5 && indexTime == glblLog.maxPageReached){
+                pageLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
+                barButtons[count].backgroundColor = NellodeeMaroonColor
             }
-            else if(count == 8){
-                pageLabelButtons[count].backgroundColor = UIColor.greenColor()
+            else if(count == 5){
+                pageLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
+                barButtons[count].backgroundColor = NellodeeMidGray
             }
             
             index++
@@ -207,16 +227,16 @@ class trendViewController: UIViewController {
     func createBarGraphs(){
         var count = 0
         
-        while(count < 9){
+        while(count < 6){
             barButtons.append(UIButton())
-            barButtons[count].backgroundColor = UIColor.blueColor()
+            barButtons[count].backgroundColor = NellodeeMidGray
             self.view.addSubview(barButtons[count])
             
             timeAtPageLabels.append(UILabel())
             self.view.addSubview(timeAtPageLabels[count])
             
             barButtons2.append(UIButton())
-            barButtons2[count].backgroundColor = UIColor.blueColor()
+            barButtons2[count].backgroundColor = NellodeeMidGray
             self.view.addSubview(barButtons2[count])
             
             
@@ -224,11 +244,11 @@ class trendViewController: UIViewController {
             self.view.addSubview(pagesPerDayLabels[count])
             
             pageLabelButtons.append(UIButton())
-            pageLabelButtons[count].backgroundColor = UIColor.greenColor()
+            pageLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
             self.view.addSubview(pageLabelButtons[count])
             
             dayLabelButtons.append(UIButton())
-            dayLabelButtons[count].backgroundColor = UIColor.grayColor()
+            dayLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
             dayLabelButtons[count].titleLabel?.font = UIFont.systemFontOfSize(UIFont.smallSystemFontSize())
             self.view.addSubview(dayLabelButtons[count++])
             
@@ -288,10 +308,15 @@ class trendViewController: UIViewController {
         self.view.addSubview(lineViewX2)
         
         
-        let YlineHeight = screenHeight*0.7
-        let lineViewY = UIView.init(frame: CGRectMake(100, screenHeight - YlineHeight - 100, 2, YlineHeight))
-        lineViewY.backgroundColor = UIColor.blackColor()
-        self.view.addSubview(lineViewY)
+        let YlineHeight = screenHeight*0.3
+        
+        let topLineViewY = UIView.init(frame: CGRectMake(100, screenHeight - YlineHeight - 100, 2, YlineHeight))
+        topLineViewY.backgroundColor = UIColor.blackColor()
+        self.view.addSubview(topLineViewY)
+        
+        let bottomLineViewY = UIView.init(frame: CGRectMake(100, screenHeight - YlineHeight*2.33 - 100, 2, YlineHeight))
+        bottomLineViewY.backgroundColor = UIColor.blackColor()
+        self.view.addSubview(bottomLineViewY)
     }
     func createPrevAndNextButtons(){
         let screenWidth = view.frame.size.width
@@ -307,22 +332,22 @@ class trendViewController: UIViewController {
         print(buttonWidth)
         
         self.topPrevButton = UIButton(frame: CGRectMake(prevButtonX, topYs, buttonWidth, buttonWidth))
-        topPrevButton.setBackgroundImage(UIImage(named: "a.jpg"), forState: UIControlState.Normal)
+        topPrevButton.setBackgroundImage(UIImage(named: "leftArrow.jpg"), forState: UIControlState.Normal)
         topPrevButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(topPrevButton)
         
         self.topNextButton = UIButton(frame: CGRectMake(nextButtonX , topYs, buttonWidth, buttonWidth))
-        topNextButton.setBackgroundImage(UIImage(named: "b.jpg"), forState: UIControlState.Normal)
+        topNextButton.setBackgroundImage(UIImage(named: "rightArrow.jpg"), forState: UIControlState.Normal)
         topNextButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(topNextButton)
         
         self.bottomPrevButton = UIButton(frame: CGRectMake(prevButtonX, bottomYs, buttonWidth, buttonWidth))
-        bottomPrevButton.setBackgroundImage(UIImage(named: "a.jpg"), forState: UIControlState.Normal)
+        bottomPrevButton.setBackgroundImage(UIImage(named: "leftArrow.jpg"), forState: UIControlState.Normal)
         bottomPrevButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(bottomPrevButton)
         
         self.bottomNextButton = UIButton(frame: CGRectMake(nextButtonX , bottomYs, buttonWidth, buttonWidth))
-        bottomNextButton.setBackgroundImage(UIImage(named: "b.jpg"), forState: UIControlState.Normal)
+        bottomNextButton.setBackgroundImage(UIImage(named: "rightArrow.jpg"), forState: UIControlState.Normal)
         bottomNextButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(bottomNextButton)
     }
