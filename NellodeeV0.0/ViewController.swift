@@ -33,6 +33,10 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     var diff = 0 as CGFloat// difference in pixels between the bottom of the webview and the start of the progress (bottomView)
     var filler = UIView() // actual view that covers up the difference between the bottom of the webview and the start of the progress (bottomView)
     
+    //colors
+    let NellodeeMaroonColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
+    let NellodeeBottomBarGray = UIColor(red: 204/255, green: 204/255, blue: 204/255, alpha: 1)
+    
     //from storyboard
     @IBOutlet var webView: UIWebView!
     /*
@@ -60,6 +64,8 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        jsonLogger.writeTest()
+        
         webView.delegate = self
         webView.scrollView.delegate = self
         
@@ -191,9 +197,11 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             glblLog.currentPageNumber--
             glblLog.scrollDestination = glblLog.scrollDestination - pageHeight
             webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination), animated: false)
+            jsonLogger.writeChangedPage(glblLog.currentPageNumber, direction: "Previous")
             updateProgressBar()
         }
         if(sender == self.nextPageButton){
+            
             if(glblLog.maxPageReached == glblLog.currentPageNumber && glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed){
                 glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.append(page(pageNumber: glblLog.currentPageNumber+1, time: 0))
             }
@@ -207,6 +215,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
                 
                 glblLog.scrollDestination = pageHeight + glblLog.scrollDestination
                 webView.scrollView.setContentOffset(CGPointMake(0, glblLog.scrollDestination + 1000), animated: false)
+                jsonLogger.writeChangedPage(glblLog.currentPageNumber, direction: "Next")
                 updateProgressBar()
             }
             
@@ -218,7 +227,9 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
         
-        bottomView.backgroundColor = UIColor.grayColor()
+        bottomView.backgroundColor = NellodeeBottomBarGray
+        //navigationController.
+        //UIColo.lightGrayColor()// rayColor()
         self.view.addSubview(bottomView)
         
         createNextAndPrevButtons()
@@ -332,7 +343,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         let screenHeight = self.view.frame.size.height
         let progressBarWidth = screenWidth - 200 as CGFloat
         var progress = 0.0 as CGFloat
-        if(glblLog.currentSession.days.count > 0 ){
+        if(glblLog.currentSession.days.count > 0 && glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed ){
             progress = CGFloat(glblLog.currentPageNumber - glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].startPage)/CGFloat(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].expectedPages) * progressBarWidth
         }
         if(progress > progressBarWidth){
@@ -363,9 +374,12 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         if(currentPageLabel.text <= startPageLabel.text){
             startPageLabel.text = " "
         }
-        else if(Int(currentPageLabel.text!) >= Int(endPageLabel.text!)){
+            /*
+        else if let x = Int(endPageLabel.text!){
+            if(Int(currentPageLabel.text!) >= x ){
             endPageLabel.text = " "
-        }
+            }
+        }*/
         guyView.frame = CGRectMake(100 + progress - guyWidth/2, screenHeight - 2*guyHeight - buttonHeight, guyWidth, guyHeight)
     }
     override func viewDidDisappear(animated: Bool) {

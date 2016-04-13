@@ -10,6 +10,7 @@
 		8910AC8D1C3BC291001F7044 /* infoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8910AC8C1C3BC291001F7044 /* infoViewController.swift */; };
 		891896AA1C0195B800D9B0C2 /* goalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891896A91C0195B800D9B0C2 /* goalsViewController.swift */; };
 		892B9A591C867B68009136E7 /* cooperPDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 892B9A581C867B68009136E7 /* cooperPDF.pdf */; };
+		894126471CB58F9F00DB2B9B /* json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894126461CB58F9F00DB2B9B /* json.swift */; };
 		8995BBF71BF548F4006E42AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BBF61BF548F4006E42AE /* AppDelegate.swift */; };
 		8995BBF91BF548F4006E42AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995BBF81BF548F4006E42AE /* ViewController.swift */; };
 		8995BBFC1BF548F4006E42AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8995BBFA1BF548F4006E42AE /* Main.storyboard */; };
@@ -51,6 +52,7 @@
 		8910AC8C1C3BC291001F7044 /* infoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = infoViewController.swift; sourceTree = "<group>"; };
 		891896A91C0195B800D9B0C2 /* goalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = goalsViewController.swift; sourceTree = "<group>"; };
 		892B9A581C867B68009136E7 /* cooperPDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = cooperPDF.pdf; sourceTree = "<group>"; };
+		894126461CB58F9F00DB2B9B /* json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = json.swift; sourceTree = "<group>"; };
 		8995BBF31BF548F4006E42AE /* NellodeeV1.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NellodeeV1.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8995BBF61BF548F4006E42AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8995BBF81BF548F4006E42AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				89BF72061C10EC9200F464B6 /* session.swift */,
 				89BF72021C10D8B800F464B6 /* day.swift */,
 				89BF72041C10D9F400F464B6 /* page.swift */,
+				894126461CB58F9F00DB2B9B /* json.swift */,
 			);
 			path = NellodeeV0.0;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				8995BBFF1BF548F4006E42AE /* NellodeeV0_0.xcdatamodeld in Sources */,
 				8910AC8D1C3BC291001F7044 /* infoViewController.swift in Sources */,
 				89B3DB551BF820F90095B94A /* trendViewController.swift in Sources */,
+				894126471CB58F9F00DB2B9B /* json.swift in Sources */,
 				89B3DB521BF818930095B94A /* log.swift in Sources */,
 				89BF72031C10D8B800F464B6 /* day.swift in Sources */,
 				89BF72071C10EC9200F464B6 /* session.swift in Sources */,
@@ -472,7 +476,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = NellodeeV0.0/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.NellodeeV0-0";
 				PRODUCT_NAME = NellodeeV1.0;
@@ -488,7 +492,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = NellodeeV0.0/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.NellodeeV0-0";
 				PRODUCT_NAME = NellodeeV1.0;

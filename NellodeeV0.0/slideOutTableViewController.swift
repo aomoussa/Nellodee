@@ -13,7 +13,7 @@ class slideOutTableViewController: UITableViewController {
     var titles = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        jsonLogger.writeBurgerClicked()
         self.titles = ["Goals", "Trends", "About Nellodee"]
     }
 
@@ -47,12 +47,15 @@ class slideOutTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if(indexPath.row == 1){
+            jsonLogger.writeSegueOutOfReader("Trends")
             performSegueWithIdentifier("toTrends", sender: self)
         }
         else if(indexPath.row == 0){
+            jsonLogger.writeSegueOutOfReader("Goals")
             performSegueWithIdentifier("toGoals", sender: self)
         }
         else{
+            jsonLogger.writeSegueOutOfReader("More Info")
             performSegueWithIdentifier("toMoreInfo", sender: self)
         }
     }

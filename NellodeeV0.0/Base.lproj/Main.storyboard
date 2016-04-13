@@ -137,7 +137,7 @@
                                     <navigationItem title="Trends" id="xAC-jJ-1PX">
                                         <barButtonItem key="leftBarButtonItem" style="plain" id="6tt-Xj-cKg">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="uBw-Oi-1mq">
-                                                <rect key="frame" x="20" y="5" width="30" height="30"/>
+                                                <rect key="frame" x="20" y="-1" width="30" height="42"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                 <state key="normal" title="X">
@@ -248,17 +248,18 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Option A. goal by pages per day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HHY-zr-Hex">
                                 <rect key="frame" x="14" y="194" width="245" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Option B. goal by end date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9AH-kq-Qrl">
                                 <rect key="frame" x="323" y="78" width="203" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <navigationBar contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Vu-WS-G2K">
                                 <rect key="frame" x="0.0" y="-5" width="600" height="42"/>
+                                <color key="barTintColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -266,18 +267,11 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Goals" id="9Gv-x3-AqL">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" id="YJo-W0-IN1">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="nW8-sR-3mN">
-                                                <rect key="frame" x="20" y="5" width="136" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                                <state key="normal" title="X">
-                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <segue destination="1eS-Q7-YMi" kind="presentation" id="lmQ-dC-NcI"/>
-                                                </connections>
-                                            </button>
+                                        <barButtonItem key="leftBarButtonItem" title="X" id="yJx-jI-WaM">
+                                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <segue destination="1eS-Q7-YMi" kind="presentation" id="Uki-ev-CVv"/>
+                                            </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="logo" id="tWv-Km-pfp">
                                             <color key="tintColor" red="0.40000000000000002" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -320,7 +314,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uBk-Rd-BTJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2355" y="339"/>
+            <point key="canvasLocation" x="2334" y="387"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gee-vl-1Kt">
@@ -329,6 +323,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vmw-bE-nlc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="1OE-c9-5E8" kind="relationship" relationship="rootViewController" id="NP9-kU-3If"/>
@@ -378,7 +373,9 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="7Ta-XK-Dcl">
-                        <barButtonItem key="leftBarButtonItem" title="burger" id="vGh-je-z85"/>
+                        <barButtonItem key="leftBarButtonItem" image="burger" id="vGh-je-z85">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="logo" id="1W1-AU-MjS">
                             <color key="tintColor" red="0.40000000000000002" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>
@@ -396,9 +393,10 @@
     </scenes>
     <resources>
         <image name="a" width="875" height="625"/>
+        <image name="burger" width="33" height="33"/>
         <image name="logo" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lmQ-dC-NcI"/>
+        <segue reference="Axg-Zk-Bd7"/>
     </inferredMetricsTieBreakers>
 </document>
