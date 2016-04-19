@@ -160,6 +160,22 @@ class json{
         let dictToWrite: [String: [String]] = ["at time:": [dateFormatter.stringFromDate(NSDate())], "Action: ": [status]]
         writeToFile(dictToWrite)
     }
+    /*
+    func writeCurrentSession(session1: session){
+        let dictToWrite: [String: AnyObject]
+        let daysJSON: [String: AnyObject]
+        for tempDay in session1.days{
+            var pages: [Int]
+            var pagesJSON: [Int: Int]
+            for tempPages in tempDay.pages{
+                
+            }
+            daysJSON.append([tempDay.date : pagesJSON] )
+        }
+        dictToWrite.append("days":)
+        
+        
+    }*/
 
 }
 var jsonLogger = json()
