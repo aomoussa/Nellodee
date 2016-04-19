@@ -64,7 +64,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        jsonLogger.writeTest()
+        jsonLogger.writeSegueOutOfReader("On Reader")
         
         webView.delegate = self
         webView.scrollView.delegate = self
@@ -388,6 +388,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     }
     func retrieveSavedData(){
         if(glblLog.allSessions.count < 1){
+            jsonLogger.writeApplicationStatus("Nellodee Opened")
             //retrieveAllSessions()
             var startDate = ""
             var endDate = ""

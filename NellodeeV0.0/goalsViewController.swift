@@ -44,8 +44,19 @@ class goalsViewController: UIViewController {
     
     //var segmentedControl = UISegmentedControl(items: ["Pages per Day", "Completion Date"])
     
+    func sessionDataToString(session1: session)->String {
+        if(session1.state == "pagesPerDayState"){
+            return "expected pages per day: \(session1.expectedPagesPerDay)"
+        }
+        else{
+            return "start date: \(session1.startDate) and end date: \(session1.endDate)"
+        }
+    }
     
     @IBAction func setChanges(sender: UIButton) {
+        
+        jsonLogger.writeGoalChangesSet(sessionDataToString(glblLog.allSessions[sessionIndex]), fromType: glblLog.allSessions[sessionIndex].state, to: sessionDataToString(goalSession), toType: goalSession.state)
+        
         glblLog.maxPageReached = glblLog.currentPageNumber
         glblLog.addSession(goalSession)
         displaySession = glblLog.allSessions[++sessionIndex]
