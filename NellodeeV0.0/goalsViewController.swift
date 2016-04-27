@@ -14,7 +14,6 @@ class goalsViewController: UIViewController {
     let dateFormatter = NSDateFormatter()
     var goalSession = session()
     var barGraphStartIndex = 0
-    var sessionIndex = glblLog.allSessions.count - 1
     var displaySession = session()
     var daysToDisplay = [day]()
     var indexAtTodaysDate = 0
@@ -55,11 +54,11 @@ class goalsViewController: UIViewController {
     
     @IBAction func setChanges(sender: UIButton) {
         
-        jsonLogger.writeGoalChangesSet(sessionDataToString(glblLog.allSessions[sessionIndex]), fromType: glblLog.allSessions[sessionIndex].state, to: sessionDataToString(goalSession), toType: goalSession.state)
+        jsonLogger.writeGoalChangesSet(sessionDataToString(glblLog.currentSession), fromType: glblLog.currentSession.state, to: sessionDataToString(goalSession), toType: goalSession.state)
         
         glblLog.maxPageReached = glblLog.currentPageNumber
         glblLog.addSession(goalSession)
-        displaySession = glblLog.allSessions[++sessionIndex]
+        displaySession = glblLog.currentSession
         if(displaySession.previousDays.count > 5){
             barGraphStartIndex = displaySession.previousDays.count - 5
         }
@@ -123,7 +122,7 @@ class goalsViewController: UIViewController {
         
         
         //----------------------------multiple session display array creation--------------------begin
-        displaySession = glblLog.allSessions[sessionIndex]
+        displaySession = glblLog.currentSession
         daysToDisplay = displaySession.previousDays
         for temp in displaySession.days{
             daysToDisplay.append(temp)
@@ -518,7 +517,7 @@ class goalsViewController: UIViewController {
             pagesPerDayLabels[count].textAlignment = .Center
             self.view.addSubview(pagesPerDayLabels[count])
             
-            count++
+            count += 1
         }
         refreshBarGraphs(barGraphStartIndex)
     }
@@ -537,115 +536,8 @@ class goalsViewController: UIViewController {
             //dayLabelButtons[count].settit .textAlignment = .Center
             dayLabelButtons[count].titleLabel?.font = UIFont.systemFontOfSize(18.0)
             self.view.addSubview(dayLabelButtons[count])
-            count++
+            count += 1
         }
         
-    }
-    override func viewDidDisappear(animated: Bool) {
-        
-        self.saveData()
-    }
-    func saveData(){
-        defaults.setObject(glblLog.currentPageNumber, forKey: "currentPageNumber")
-        let stringArray2 = glblLog.timeAtPageIndex.map({
-            (number: Int) -> String in
-            return String(number)
-        })
-        defaults.setObject(stringArray2, forKey: "timeAtPageIndex")
-        
-        
-        defaults.setObject(glblLog.currentSession.numberOfDaysPassed, forKey: "currentSessionNumberOfDaysPassed")
-        defaults.setObject(glblLog.currentSession.state, forKey: "currentSessionSelectorState")
-        defaults.setObject(glblLog.currentSession.startDate, forKey: "currentSessionStartDate")
-        defaults.setObject(glblLog.currentSession.endDate, forKey: "currentSessionEndDate")
-        defaults.setObject(glblLog.currentSession.expectedPagesPerDay, forKey: "currentSessionExpectedPagesPerDay")
-        
-        var startPagesString = [String]()
-        var endPagesString = [String]()
-        var timeOnDay = [String]()
-        var pagesReadAtIndexDay = [[String]]()
-        var i = 0
-        var j = 0
-        for temp in glblLog.currentSession.days{
-            startPagesString.append("\(temp.startPage)")
-            endPagesString.append("\(temp.endPage)")
-            timeOnDay.append("\(temp.time)")
-            pagesReadAtIndexDay.append([String]())
-            for tempPage in temp.pages{
-                
-                pagesReadAtIndexDay[i].append("\(tempPage.pageNumber)")
-                j++
-            }
-            defaults.setObject(pagesReadAtIndexDay[i], forKey: "actualPagesPerDay\(i)")
-            i++
-        }
-        defaults.setObject(timeOnDay, forKey: "timePerDay")
-        defaults.setObject(startPagesString, forKey: "startPagesStringArray")
-        defaults.setObject(endPagesString, forKey: "endPagesStringArray")
-        //-----------------------------Saving previous days--------------------------------/
-        defaults.setObject(glblLog.currentSession.previousDays.count, forKey: "previousDaysCount")
-        if(glblLog.currentSession.previousDays.count > 0){
-            var previousDaysStartPagesString = [String]()
-            var previousDaysEndPagesString = [String]()
-            var previousDaysTimeOnDay = [String]()
-            var previousDaysPagesReadAtIndexDay = [[String]]()
-            var i = 0
-            var j = 0
-            
-            for temp in glblLog.currentSession.previousDays{
-                previousDaysStartPagesString.append("\(temp.startPage)")
-                previousDaysEndPagesString.append("\(temp.endPage)")
-                previousDaysTimeOnDay.append("\(temp.time)")
-                previousDaysPagesReadAtIndexDay.append([String]())
-                for tempPage in temp.pages{
-                    
-                    previousDaysPagesReadAtIndexDay[i].append("\(tempPage.pageNumber)")
-                    j++
-                }
-                defaults.setObject(previousDaysPagesReadAtIndexDay[i], forKey: "PreviousDaysActualPagesPerDay\(i)")
-                i++
-            }
-            defaults.setObject(previousDaysTimeOnDay, forKey: "previousDaysTimeOnDay")
-            defaults.setObject(previousDaysStartPagesString, forKey: "previousDaysStartPagesString")
-            defaults.setObject(previousDaysEndPagesString, forKey: "previousDaysEndPagesString")
-        }
-        //-----------------------------Saving previous days--------------------------------/
-        /*
-        //-----------------------------Saving previous sessions--------------------------------/
-        defaults.setObject(glblLog.allSessions.count, forKey: "numberOfSessions")
-        var sessionIndex = 0
-        for session in glblLog.allSessions{
-        defaults.setObject(session.state, forKey: "selectorStateSession\(sessionIndex)")
-        defaults.setObject(session.startDate, forKey: "startDateSession\(sessionIndex)")
-        defaults.setObject(session.endDate, forKey: "endDateSession\(sessionIndex)")
-        defaults.setObject(session.expectedPagesPerDay, forKey: "expectedPagesPerDaySession\(sessionIndex)")
-        
-        var startPagesString = [String]()
-        var endPagesString = [String]()
-        var timeOnDay = [String]()
-        var pagesReadAtIndexDay = [[String]]()
-        var i = 0
-        var j = 0
-        for temp in session.days{
-        startPagesString.append("\(temp.startPage)")
-        endPagesString.append("\(temp.endPage)")
-        timeOnDay.append("\(temp.time)")
-        pagesReadAtIndexDay.append([String]())
-        for tempPage in temp.pages{
-        
-        pagesReadAtIndexDay[i].append("\(tempPage.pageNumber)")
-        j++
-        }
-        defaults.setObject(pagesReadAtIndexDay[i], forKey: "actualPagesPerDay\(i)OnSession\(sessionIndex)")
-        i++
-        }
-        defaults.setObject(timeOnDay, forKey: "timePerDaySession\(sessionIndex)")
-        defaults.setObject(startPagesString, forKey: "startPagesStringArraySession\(sessionIndex)")
-        defaults.setObject(endPagesString, forKey: "endPagesStringArraySession\(sessionIndex)")
-        
-        sessionIndex++
-        }
-        */
-        //-----------------------------Saving previous sessions-----------------------------------
     }
 }

@@ -46,7 +46,9 @@ class session{
         var i = 0
         var startPage = 0
         if(glblLog.currentPageNumber >= 0){
-            startPage = glblLog.currentPageNumber
+            if(glblLog.currentSession.days.count > 0){
+            startPage = glblLog.currentPageNumber - glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.count
+            }
         }
         var endPage = startPage + expectedPagesPerDay
         while(i <= expectedNumOfDays)

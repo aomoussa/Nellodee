@@ -43,19 +43,22 @@ class slideOutTableViewController: UITableViewController {
 
         return cell
     }
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return self.view.frame.height*0.1
+    }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if(indexPath.row == 1){
-            jsonLogger.writeSegueOutOfReader("Trends")
+            jsonLogger.writeSegue("Trends")
             performSegueWithIdentifier("toTrends", sender: self)
         }
         else if(indexPath.row == 0){
-            jsonLogger.writeSegueOutOfReader("Goals")
+            jsonLogger.writeSegue("Goals")
             performSegueWithIdentifier("toGoals", sender: self)
         }
         else{
-            jsonLogger.writeSegueOutOfReader("More Info")
+            jsonLogger.writeSegue("More Info")
             performSegueWithIdentifier("toMoreInfo", sender: self)
         }
     }

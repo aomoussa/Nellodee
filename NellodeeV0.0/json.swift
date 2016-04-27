@@ -86,12 +86,12 @@ class json{
             file.seekToEndOfFile()
             //let endl = "\n".dataUsingEncoding(NSStringEncoding)
             file.writeData(jsonData)
-            print("JSON data was written to teh file successfully!")
+            //print("JSON data was written to teh file successfully!")
         } catch let error as NSError {
             print("Couldn't write to file: \(error.localizedDescription)")
         }
     }
-    func writeToDataFile(what: [String: [String]]){
+    func writeToDataFile(what: [String: AnyObject]){
         //let contents: [String: AnyObject] = [String(NSDate()): [readFile(), what]]
         // creating JSON out of the above array
         var jsonData: NSData!
@@ -103,74 +103,14 @@ class json{
             print("Array to JSON conversion failed: \(error.localizedDescription)")
         }
         do {
-            let file = try NSFileHandle(forWritingToURL: interactionJsonFilePath)
-            file.seekToEndOfFile()
-            //let endl = "\n".dataUsingEncoding(NSStringEncoding)
+            let file = try NSFileHandle(forWritingToURL: dataJsonFilePath)
+            let text = ""
+            file.truncateFileAtOffset(0)
             file.writeData(jsonData)
-            print("JSON data was written to teh file successfully!")
+            //print("JSON data was written to teh file successfully!")
         } catch let error as NSError {
             print("Couldn't write to file: \(error.localizedDescription)")
         }
-    }
-    func readFile() -> [String: [String]]{
-        var jsonData = NSData()
-        let dirs : [String] = NSSearchPathForDirectoriesInDomains(
-            .DocumentDirectory,
-            .UserDomainMask,
-            true) as [String]
-        
-        if (dirs != [""]) {
-            let directories: [String] = dirs
-            let dir = directories[0]
-            let path = dir.stringByAppendingString(interactionFileName)
-            do{
-                try jsonData = NSData(contentsOfFile:path, options: NSDataReadingOptions.DataReadingMappedAlways)
-                print("jsonData \(jsonData)") // This prints what looks to be JSON encoded data
-            }
-            catch{
-                print("srsly tho idek know")
-            }
-        }
-        
-        
-
-       // var json: Array!
-        
-        do{
-            print("file exists: \(fileManager.fileExistsAtPath(interactionJsonFilePath.absoluteString, isDirectory: &isDirectory))")
-            jsonData = try NSData(contentsOfFile: interactionJsonFilePath.absoluteString, options: NSDataReadingOptions.DataReadingMappedIfSafe)
-            do {
-                let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions()) as! [String : AnyObject]
-                if let interactionData = json[String(NSDate())] as? [String : AnyObject]{
-                    if let pn = interactionData["New Page Number"] as? [String]! {
-                        print("new page was \(pn[0])")
-                    }
-                }
-                
-                
-            } catch {
-                print(error)
-            }
-        }
-        catch _ {
-            print("idek know anymore")
-        }
-        return ["":[""]]
-    }
-    func writeTest(){
-        
-        // creating an array of test data
-        
-        var numbers = [String]()
-        var numbers2 = [String]()
-        for var i = 0; i < 3; i++ {
-            numbers2.append("\(i*10)")
-            numbers.append("\(i)")
-        }
-        var what: [String: [String]] = ["someList": numbers, "otherList": numbers2]
-        
-        writeToInteractionFile(what)
-        
     }
     func writeChangedPage(newPageNumber: Int, direction: String){
         var numbers = [String]()
@@ -179,8 +119,8 @@ class json{
         writeToInteractionFile(dictToWrite)
         
     }
-    func writeSegueOutOfReader(desitination: String){
-        let dictToWrite: [String: [String]] = ["Action: ": ["Segued Out Of Reader To \(desitination)"], "at time:": [dateFormatter.stringFromDate(NSDate())]]
+    func writeSegue(desitination: String){
+        let dictToWrite: [String: [String]] = ["Action: ": ["Segued To \(desitination)"], "at time:": [dateFormatter.stringFromDate(NSDate())]]
         writeToInteractionFile(dictToWrite)
         
     }
@@ -197,21 +137,95 @@ class json{
         writeToInteractionFile(dictToWrite)
     }
     
-    /*func writeCurrentSession(session1: session){
-        let dictToWrite: [String: AnyObject]
-        let daysJSON: [String: AnyObject]
-        for tempDay in session1.days{
-            var pages: [Int]
-            var pagesJSON: [Int: Int]
-            for tempPages in tempDay.pages{
-                
+    func writeSession(session1: session){
+        var dictToWrite = [String: AnyObject]()
+        var daysJSON = [String: AnyObject]()
+        var prevDaysJSON = [String: AnyObject]()
+        var currentSessionInfoJSON = [String: AnyObject]()
+        currentSessionInfoJSON["type"] = session1.state
+        currentSessionInfoJSON["expected finish date"] = session1.endDate
+        //-------------- previous days
+        for tempPrevDay in session1.previousDays{
+            var prevPagesJSON = [String: AnyObject]()
+            var actualPagesReadJSON = [String: AnyObject]()
+            for tempPages in tempPrevDay.pages{
+                actualPagesReadJSON["\(tempPages.pageNumber)"] = ["time": "\(glblLog.timeAtPageIndex[tempPages.pageNumber])"]
             }
-            daysJSON.append([tempDay.date : pagesJSON] )
+            prevPagesJSON["actual"] = actualPagesReadJSON
+            prevPagesJSON["expected"] = ["start": tempPrevDay.startPage, "end": tempPrevDay.endPage]
+            prevDaysJSON[tempPrevDay.date] = prevDaysJSON
         }
-        dictToWrite.append("days":)
+        //----------------------- current session days
+        for tempDay in session1.days{
+            var pagesJSON = [String: AnyObject]()
+            var actualPagesReadJSON = [String: AnyObject]()
+            for tempPages in tempDay.pages{
+                actualPagesReadJSON["\(tempPages.pageNumber)"] = ["time": "\(glblLog.timeAtPageIndex[tempPages.pageNumber])"]
+            }
+            pagesJSON["actual"] = actualPagesReadJSON
+            pagesJSON["expected"] = ["start": tempDay.startPage, "end": tempDay.endPage]
+            daysJSON[tempDay.date] = pagesJSON
+        }
+        dictToWrite["prev days"] = prevDaysJSON
+        dictToWrite["days"] = daysJSON
+        dictToWrite["session info"] = currentSessionInfoJSON
+        writeToDataFile(dictToWrite)
+    }
+    func readDataFile() {
+        // finding file
+        if fileManager.fileExistsAtPath(dataJsonFilePath.absoluteString, isDirectory: &isDirectory) {
+            print("Data File already exists")
+            
+            if let jsonData = NSData(contentsOfMappedFile: dataJsonFilePath.absoluteString) {
+                //print("jsonData \(jsonData)")
+                processDataFile(jsonData)
+            }
+            else{
+                print("some error")
+            }
+            //NSData(contentsOfFile:dataJsonFilePath.absoluteString, options: nil, error: nil)
+            
+        } else {
+            print("Data File doesn't exist")
+        }
+    }
+    func processDataFile(jsonData: NSData){
+        let session1 = session()
+        do {
+            let jsonResult: NSDictionary = try NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+            if let days = jsonResult["days"] as? [String: AnyObject] {
+                //print("days \(days)")
+                for(date, stuff) in days{
+                    print("dates: \(date)")
+                    if let expected = stuff["expected"]{
+                        //print("expected: \(expected!)")
+                        var start = 0
+                        var end = 0
+                        if let startPage = expected!["start"] as? Int {
+                            start = startPage
+                            print("start: \(start)")
+                        }
+                        if let endPage = expected!["end"] as? Int {
+                            end = endPage
+                            print("end: \(end)")
+                        }
+                    }
+                    if let actual = stuff["actual"] as? [String: AnyObject]{
+                        for(page, time) in actual{
+                            print("page: \(page)")
+                            if let time = time["time"]{
+                                print("time: \(time)")
+                            }
+                        }
+                    }
+                    //print("stuff: \(stuff)")
+                }
+            }
+        } catch {
+            print("error in processDataFile")
+        }
         
-        
-    }*/
-
+    }
+    
 }
 var jsonLogger = json()
