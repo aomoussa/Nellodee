@@ -10,6 +10,8 @@ import UIKit
 
 class trendViewController: UIViewController {
     
+    let dateFormatter = NSDateFormatter()
+    
     var barButtons = [UIButton]()
     var barButtons2 = [UIButton]()
     var pageLabelButtons = [UIButton]()
@@ -32,7 +34,8 @@ class trendViewController: UIViewController {
     let timeSpentPerDay = [Int]()
     
     //scale variables
-    let buttonIncrements = 0.01 as CGFloat //(3% to be multiplies by screenHeight)
+    let topButtonIncrements = 0.0001167 as CGFloat
+    let bottomButtonIncrements = 0.00035 as CGFloat //(0.5% to be multiplies by screenHeight)
     let topGraphXaxisHeight = 0.5 as CGFloat//(50% to be multiplies by screenHeight)
     let bottomGraphXaxisHeight = 0.9 as CGFloat//(90% to be multiplies by screenHeight)
     
@@ -43,6 +46,8 @@ class trendViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         
         daysToDisplay = glblLog.currentSession.previousDays
         for temp in glblLog.currentSession.days{
@@ -125,17 +130,23 @@ class trendViewController: UIViewController {
         //for loop populuting array of buttons for bar graph
         //for indexTime in glblLog.timeAtPageIndex{
         while(indexTime>=0 && indexTime < daysToDisplay.count && count < 6){
-            buttonHeight = buttonIncrements*screenHeight * CGFloat(daysToDisplay[indexTime].time)
-            if(buttonHeight > screenHeight*0.4){
-                buttonHeight = screenHeight*0.4
+            buttonHeight = topButtonIncrements*screenHeight * CGFloat(daysToDisplay[indexTime].time)
+            if(buttonHeight > screenHeight*0.3){
+                buttonHeight = screenHeight*0.3
             }
             barButtons2[count].frame = CGRectMake(115 + (index)*distanceBetweenBars , screenHeight/2 - buttonHeight, buttonWidth, buttonHeight)
             
-            dayLabelButtons[count].frame = CGRectMake(100 + (index)*distanceBetweenBars , screenHeight/2, labelButtonWidth, labelButtonHeight)
+            dayLabelButtons[count].frame = CGRectMake(115 + (index)*distanceBetweenBars - labelButtonWidth/4, screenHeight/2 + labelButtonHeight/2, labelButtonWidth, labelButtonHeight)
             
             
-            pagesPerDayLabels[count].frame = CGRectMake(120 + (index)*distanceBetweenBars , screenHeight/2 - buttonHeight - 20, buttonWidth, 20)
-            pagesPerDayLabels[count].text = "\(daysToDisplay[indexTime].time)"
+            pagesPerDayLabels[count].frame = CGRectMake(115 + (index)*distanceBetweenBars , screenHeight/2 - buttonHeight, buttonWidth, 20)
+            if(daysToDisplay[indexTime].time/60>0){
+                pagesPerDayLabels[count].text = "\(daysToDisplay[indexTime].time/60 ).\((daysToDisplay[indexTime].time%60)*10/60)"
+            }
+            else{
+                pagesPerDayLabels[count].text = "\(daysToDisplay[indexTime].time)s"
+            }
+            
             
             index++
             count++
@@ -150,14 +161,14 @@ class trendViewController: UIViewController {
                 thisDate = daysToDisplay[indexTime].date
             }
             /*if(indexTime > indexAtTodaysDate){
-                dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
-                barButtons2[count].backgroundColor = NellodeeMaroonColor
-            }
-            else{*/
-                dayLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
-                barButtons2[count].backgroundColor = NellodeeMidGray
+             dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
+             barButtons2[count].backgroundColor = NellodeeMaroonColor
+             }
+             else{*/
+            dayLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
+            barButtons2[count].backgroundColor = NellodeeMidGray
             //}
-
+            
             if(indexAtTodaysDate == 0 && thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count].date){
                 indexAtTodaysDate = indexTime
                 dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
@@ -170,22 +181,30 @@ class trendViewController: UIViewController {
                 barButtons2[count].backgroundColor = NellodeeMaroonColor
             }
             else{
-                dayLabelButtons[count].setTitle("\(daysToDisplay[indexTime].date)", forState: UIControlState.Normal)
+                let calendar = NSCalendar.currentCalendar()
+                let components = calendar.components([.Day , .Month , .Year], fromDate: dateFormatter.dateFromString(daysToDisplay[indexTime].date)!)
+                let month = components.month
+                let day = components.day
+                let attrs = [NSFontAttributeName : UIFont.systemFontOfSize(20)]
+                let title = NSAttributedString(string: "\(month)/\(day)", attributes: attrs)
+                //dayLabelButtons[count].frame = CGRectMake(115 + (index)*distanceBetweenBars - labelButtonWidth/2, screenHeight/2 + labelButtonHeight/2, labelButtonWidth*2, labelButtonHeight)
+                dayLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
+                //dayLabelButtons[count].setTitle("\(daysToDisplay[indexTime].date)", forState: UIControlState.Normal)
             }
             //------------------------------ TODAY Label ----------------------------------------------
             count--
             indexTime--
         }
     }
-
+    
     func refreshBottomBarGraphs(i: Int){
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
         
         let buttonWidth = screenWidth*0.055
         var buttonHeight = 10.0 as CGFloat
-        let labelButtonWidth = screenWidth*0.12
-        let labelButtonHeight = 20.0 as CGFloat
+        let labelButtonWidth = screenWidth*0.055
+        let labelButtonHeight = 30.0 as CGFloat
         let distanceBetweenBars = screenWidth*0.14
         var count = 0
         var index = 0.0 as CGFloat
@@ -197,24 +216,35 @@ class trendViewController: UIViewController {
             
             buttonHeight = 0
             
-            buttonHeight = buttonIncrements*screenHeight * CGFloat(glblLog.timeAtPageIndex[indexTime])
-            if(buttonHeight > screenHeight*0.3){
-                buttonHeight = screenHeight*0.3
+            buttonHeight = bottomButtonIncrements*screenHeight * CGFloat(glblLog.timeAtPageIndex[indexTime])
+            if(buttonHeight > screenHeight*0.25){
+                buttonHeight = screenHeight*0.25
             }
             barButtons[count].frame = CGRectMake(110 + (index)*distanceBetweenBars , screenHeight*bottomGraphXaxisHeight - buttonHeight, buttonWidth, buttonHeight)
             
-            timeAtPageLabels[count].frame = CGRectMake(110 + (index)*distanceBetweenBars , screenHeight-buttonHeight - 125, buttonWidth, 20)
-            timeAtPageLabels[count].text = "\(glblLog.timeAtPageIndex[indexTime])"
-            
-            pageLabelButtons[count].frame = CGRectMake(100 + (index)*distanceBetweenBars , screenHeight*bottomGraphXaxisHeight, labelButtonWidth, labelButtonHeight)
+            timeAtPageLabels[count].frame = CGRectMake(110 + (index)*distanceBetweenBars , screenHeight*bottomGraphXaxisHeight - buttonHeight, buttonWidth, labelButtonHeight)
+            if(glblLog.timeAtPageIndex[indexTime]/60>0){
+                timeAtPageLabels[count].text = "\(glblLog.timeAtPageIndex[indexTime]/60).\((glblLog.timeAtPageIndex[indexTime]%60)*10/60)"
+            }
+            else{
+                timeAtPageLabels[count].text = "\(glblLog.timeAtPageIndex[indexTime])s"
+            }
+            pageLabelButtons[count].frame = CGRectMake(110 + (index)*distanceBetweenBars , screenHeight*bottomGraphXaxisHeight, labelButtonWidth, labelButtonHeight)
             pageLabelButtons[count].setTitle("\(indexTime)", forState: UIControlState.Normal)
             
             if(count == 5 && indexTime == glblLog.maxPageReached){
-                pageLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
+                //pageLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
+                let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(21), NSForegroundColorAttributeName : NellodeeMaroonColor]
+                let title = NSAttributedString(string: "\(indexTime)", attributes: attrs)
+                pageLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
+                
                 barButtons[count].backgroundColor = NellodeeMaroonColor
             }
             else if(count == 5){
-                pageLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
+                //pageLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
+                let attrs = [NSFontAttributeName : UIFont.systemFontOfSize(20), NSForegroundColorAttributeName : UIColor.blackColor()]
+                let title = NSAttributedString(string: "\(indexTime)", attributes: attrs)
+                pageLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
                 barButtons[count].backgroundColor = NellodeeMidGray
             }
             
@@ -233,6 +263,8 @@ class trendViewController: UIViewController {
             self.view.addSubview(barButtons[count])
             
             timeAtPageLabels.append(UILabel())
+            timeAtPageLabels[count].textColor = UIColor.whiteColor()
+            timeAtPageLabels[count].textAlignment = .Center
             self.view.addSubview(timeAtPageLabels[count])
             
             barButtons2.append(UIButton())
@@ -241,15 +273,17 @@ class trendViewController: UIViewController {
             
             
             pagesPerDayLabels.append(UILabel())
+            pagesPerDayLabels[count].textColor = UIColor.whiteColor()
+            pagesPerDayLabels[count].textAlignment = .Center
             self.view.addSubview(pagesPerDayLabels[count])
             
             pageLabelButtons.append(UIButton())
-            pageLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
+            pageLabelButtons[count].setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
             self.view.addSubview(pageLabelButtons[count])
             
             dayLabelButtons.append(UIButton())
-            dayLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
-            dayLabelButtons[count].titleLabel?.font = UIFont.systemFontOfSize(UIFont.smallSystemFontSize())
+            dayLabelButtons[count].setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            dayLabelButtons[count].titleLabel?.font = UIFont.systemFontOfSize(20)
             self.view.addSubview(dayLabelButtons[count++])
             
         }
@@ -283,20 +317,20 @@ class trendViewController: UIViewController {
         scaleLine4.backgroundColor = UIColor.grayColor()
         self.view.addSubview(scaleLine4)
         
-        let scaleLabel1 = UILabel(frame: CGRectMake(70, scaleLineHeight1 - 15, 30, 30))
-        scaleLabel1.text = "20"
+        let scaleLabel1 = UILabel(frame: CGRectMake(20, scaleLineHeight1 - 15, 60, 30))
+        scaleLabel1.text = "10 min"
         self.view.addSubview(scaleLabel1)
         
-        let scaleLabel2 = UILabel(frame: CGRectMake(70, scaleLineHeight2 - 15, 30, 30))
-        scaleLabel2.text = "10"
+        let scaleLabel2 = UILabel(frame: CGRectMake(20, scaleLineHeight2 - 15, 60, 30))
+        scaleLabel2.text = "5 min"
         self.view.addSubview(scaleLabel2)
         
-        let scaleLabel3 = UILabel(frame: CGRectMake(70, scaleLineHeight3 - 15, 30, 30))
-        scaleLabel3.text = "10"
+        let scaleLabel3 = UILabel(frame: CGRectMake(20, scaleLineHeight3 - 15, 60, 30))
+        scaleLabel3.text = "15 min"
         self.view.addSubview(scaleLabel3)
         
-        let scaleLabel4 = UILabel(frame: CGRectMake(70, scaleLineHeight4 - 15, 30, 30))
-        scaleLabel4.text = "20"
+        let scaleLabel4 = UILabel(frame: CGRectMake(20, scaleLineHeight4 - 15, 60, 30))
+        scaleLabel4.text = "30 min"
         self.view.addSubview(scaleLabel4)
         
         let lineViewX = UIView.init(frame: CGRectMake(100, screenHeight*bottomGraphXaxisHeight , screenWidth, 2))

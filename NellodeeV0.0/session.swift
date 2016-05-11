@@ -10,6 +10,7 @@ import Foundation
 class session{
     var previousDays = [day]()
     var days = [day]()
+    var daysDict = [String: [String: String]]()
     var startDate: String
     var endDate: String
     var numberOfDaysPassed = 0
@@ -24,6 +25,49 @@ class session{
         self.expectedPagesPerDay = 0
         self.expectedNumOfDays = 0
         
+    }
+    init(startDate: String, endDate: String, expectedPagesPerDay: Int, state: String, numberOfDaysPassed: Int){// numOfPagesRem: Int){
+        self.startDate = startDate
+        self.endDate = endDate
+        self.expectedPagesPerDay = expectedPagesPerDay
+        self.state = state
+        self.expectedNumOfDays = 0
+        
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        let unit:NSCalendarUnit = NSCalendarUnit.Day
+        var finishDate = dateFormatter.dateFromString("1/1/2015")! as NSDate
+        var beginDate = dateFormatter.dateFromString("1/1/2015")! as NSDate
+        if(startDate != "" && endDate != ""){
+            if(dateFormatter.dateFromString(endDate) != nil && dateFormatter.dateFromString(startDate) != nil){
+                finishDate = dateFormatter.dateFromString(endDate)! as NSDate
+                beginDate = dateFormatter.dateFromString(startDate)! as NSDate
+            }
+            let comps = NSCalendar.currentCalendar().components(unit, fromDate: beginDate, toDate: finishDate, options: [])
+            self.expectedNumOfDays = comps.day
+        }
+        var i = 0
+        var startPage = 0
+        if(glblLog.currentPageNumber >= 0){
+            if(glblLog.currentSession.days.count > 0){
+                startPage = glblLog.currentPageNumber - glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.count
+            }
+        }
+        var endPage = startPage + expectedPagesPerDay
+        while(i <= expectedNumOfDays)
+        {
+            days.append(day(expectedNumOfPages: expectedPagesPerDay, startPage: startPage, endPage: endPage))
+            startPage+=expectedPagesPerDay
+            endPage+=expectedPagesPerDay
+            if (endPage >= glblLog.numberOfPages){
+                endPage = glblLog.numberOfPages
+            }
+            if #available(iOS 8.0, *) {
+                days[i].date = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: i, toDate: beginDate, options: [])!)
+            } else {
+                print("device too old... session class mess up")
+            }
+            i++
+        }
     }
     init(startDate: String, endDate: String, expectedPagesPerDay: Int, state: String){// numOfPagesRem: Int){
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
@@ -46,7 +90,7 @@ class session{
         var i = 0
         var startPage = 0
         if(glblLog.currentPageNumber >= 0){
-            if(glblLog.currentSession.days.count > 0){
+            if(glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed){
             startPage = glblLog.currentPageNumber - glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.count
             }
         }
@@ -67,9 +111,9 @@ class session{
             i++
         }
     }
-    func setNextDayStartPage(){
+    func setNextDayStartPage(latestPageNumber: Int){
         if(numberOfDaysPassed+1 < self.days.count){
-        self.days[numberOfDaysPassed+1].setStartPage(glblLog.currentPageNumber)
+        self.days[numberOfDaysPassed+1].setStartPage(latestPageNumber)
         }
     }
     func toString() -> String{

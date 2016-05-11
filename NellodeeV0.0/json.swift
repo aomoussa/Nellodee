@@ -144,6 +144,9 @@ class json{
         var currentSessionInfoJSON = [String: AnyObject]()
         currentSessionInfoJSON["type"] = session1.state
         currentSessionInfoJSON["expected finish date"] = session1.endDate
+        currentSessionInfoJSON["start date"] = session1.startDate
+        currentSessionInfoJSON["expected pages per day"] = session1.expectedPagesPerDay
+        
         //-------------- previous days
         for tempPrevDay in session1.previousDays{
             var prevPagesJSON = [String: AnyObject]()
@@ -190,37 +193,86 @@ class json{
         }
     }
     func processDataFile(jsonData: NSData){
-        let session1 = session()
+        let dateFormatter1 = NSDateFormatter()
+        dateFormatter1.dateStyle = NSDateFormatterStyle.ShortStyle
+        //dateFormatter1.dateStyle = NSDateFormatterStyle.MediumStyle
+        var session1 = session()
+        var latestMaxDay = 0
         do {
             let jsonResult: NSDictionary = try NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+            print(jsonResult)
+            
+            if let seshInfo = jsonResult["session info"] as? [String: AnyObject] {
+                var state = "pagesPerDayState"
+                var finishDate = "1/1/17"
+                var startDate = "1/1/16"
+                var pagesPerDay = 10
+                if let type = seshInfo["type"] as? String{
+                    state = type
+                }
+                if let ppd = seshInfo["expected pages per day"] as? Int{
+                    pagesPerDay = ppd
+                }
+                if let start = seshInfo["start date"] as? String{
+                    startDate = start
+                }
+                if let finish = seshInfo["expected finish date"] as? String{
+                    finishDate = finish
+                }
+                session1 = session(startDate: startDate, endDate: finishDate, expectedPagesPerDay: pagesPerDay, state: state, numberOfDaysPassed: 0)
+            }
             if let days = jsonResult["days"] as? [String: AnyObject] {
                 //print("days \(days)")
-                for(date, stuff) in days{
-                    print("dates: \(date)")
-                    if let expected = stuff["expected"]{
-                        //print("expected: \(expected!)")
-                        var start = 0
-                        var end = 0
-                        if let startPage = expected!["start"] as? Int {
-                            start = startPage
-                            print("start: \(start)")
-                        }
-                        if let endPage = expected!["end"] as? Int {
-                            end = endPage
-                            print("end: \(end)")
-                        }
-                    }
-                    if let actual = stuff["actual"] as? [String: AnyObject]{
-                        for(page, time) in actual{
-                            print("page: \(page)")
-                            if let time = time["time"]{
-                                print("time: \(time)")
+                for dayElement in session1.days{
+                    for(date, stuff) in days{
+                        if(dayElement.date == date){
+                            print("dates: \(date)")
+                            if let expected = stuff["expected"]{
+                                //print("expected: \(expected!)")
+                                var start = 0
+                                var end = 0
+                                if let startPage = expected!["start"] as? Int {
+                                    start = startPage
+                                    print("start: \(start)")
+                                }
+                                if let endPage = expected!["end"] as? Int {
+                                    end = endPage
+                                    print("end: \(end)")
+                                }
+                            }
+                            
+                            if let actual = stuff["actual"] as? [String: AnyObject]{
+                                for(page1, time) in actual{
+                                    print("page: \(page1)")
+                                    if let time = time["time"]{
+                                        print("time: \(time)")
+                                        
+                                        if let pageNumber = Int(page1)! as? Int{
+                                            dayElement.pages.append(page(pageNumber: pageNumber, time: 0))
+                                            if(latestMaxDay < pageNumber){
+                                                latestMaxDay = pageNumber
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            print("todays date: \(dateFormatter1.stringFromDate(NSDate())) and this date is \(date)")
+                            if(dateFormatter1.dateFromString(date) != nil){
+                                
+                                let dateComparison = dateFormatter1.dateFromString(date)!.compare(NSDate()).rawValue
+                                if(dateComparison<1){
+                                    session1.setNextDayStartPage(latestMaxDay)
+                                    session1.numberOfDaysPassed += 1
+                                }
                             }
                         }
+                        
                     }
-                    //print("stuff: \(stuff)")
                 }
+                
             }
+            
+            print(session1.toString())
         } catch {
             print("error in processDataFile")
         }

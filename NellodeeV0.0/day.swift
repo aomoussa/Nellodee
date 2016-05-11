@@ -57,7 +57,7 @@ class day{
                 }
                 i++
             }
-            print(glblLog.currentSession.toString())
+            //print(glblLog.currentSession.toString())
         }
     }
     func addPage(pg: page) -> Bool{

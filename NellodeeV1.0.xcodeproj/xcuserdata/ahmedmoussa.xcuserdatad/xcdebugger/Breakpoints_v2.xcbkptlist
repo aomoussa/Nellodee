@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NellodeeV0.0/trendViewController.swift"
-            timestampString = "481503257.878195"
+            timestampString = "484528214.403091"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "refreshTopBarGraphs(_:)"
             landmarkType = "5">
          </BreakpointContent>

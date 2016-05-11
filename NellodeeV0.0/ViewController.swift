@@ -34,6 +34,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     
     //colors
     let NellodeeMaroonColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
+    let NellodeeMidGray = UIColor(red: 102/255, green: 102/255, blue: 102/255, alpha: 1)
     let NellodeeBottomBarGray = UIColor(red: 204/255, green: 204/255, blue: 204/255, alpha: 1)
     
     //from storyboard
@@ -56,20 +57,19 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         self.webView.scrollView.scrollEnabled = false
         self.webView.scalesPageToFit = true
         self.webView.contentMode = UIViewContentMode.ScaleAspectFit
-        //self..webView.
         
         let pdf = CGPDFDocumentCreateWithURL(url)
         pdfPageCount = CGPDFDocumentGetNumberOfPages(pdf)
         
         
-        if(glblLog.numberOfPages != pdfPageCount){
+        //if(glblLog.numberOfPages != pdfPageCount){
             if(glblLog.timeAtPageIndex.count <= 1){
                 glblLog.setBookNumOfPages(pdfPageCount)
             }
             else{
                 glblLog.numberOfPages = pdfPageCount
             }
-        }
+        //}
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.runTimedCode), userInfo: nil, repeats: true)
         
         burger.target = self.revealViewController()
@@ -88,7 +88,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         let dateComparison = dateFormatter.dateFromString(currentSessionLastDateReached)!.compare(NSDate()).rawValue
         
         if(currentSessionLastDateReached != todaysDate && dateComparison < 1){
-            glblLog.currentSession.setNextDayStartPage()
+            glblLog.currentSession.setNextDayStartPage(glblLog.currentPageNumber)
             glblLog.currentSession.numberOfDaysPassed += 1
             print("new day: todays date: \(todaysDate) and session.days[numberOfDaysPassed - 1] = \(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed - 1].date)")
             updateProgressBar()
@@ -159,6 +159,8 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             
             if(glblLog.maxPageReached == glblLog.currentPageNumber && glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed){
                 glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.append(page(pageNumber: glblLog.currentPageNumber+1, time: 0))
+                
+                print(glblLog.currentSession.toString())
             }
             
             
@@ -181,6 +183,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         super.viewDidAppear(animated)
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
+        let distanceFromSides = screenWidth*0.15
         
         bottomView.backgroundColor = NellodeeBottomBarGray
         navigationItem.title = "Nellodee"
@@ -200,10 +203,10 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         let labelWidth = screenWidth/15
         let labelHeight = screenHeight/30
         
-        startPageLabel.frame = CGRectMake(100, screenHeight - 1.5*labelHeight, labelWidth, labelHeight )
+        startPageLabel.frame = CGRectMake(distanceFromSides, screenHeight - labelHeight, labelWidth, labelHeight )
         self.view.addSubview(startPageLabel)
         
-        endPageLabel.frame = CGRectMake(screenWidth - labelWidth/2 - 100, screenHeight - 1.5*labelHeight, labelWidth, labelHeight)
+        endPageLabel.frame = CGRectMake(screenWidth - labelWidth*0.2 - distanceFromSides, screenHeight - labelHeight, labelWidth, labelHeight)
         self.view.addSubview(endPageLabel)
         
         currentPageLabel.text = "\(glblLog.currentPageNumber)"
@@ -214,16 +217,16 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         endPageLabel.textColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
         currentPageLabel.textColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
         button1.backgroundColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
-        button2.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+        button2.backgroundColor = NellodeeMidGray
         webView.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
     }
     func createNextAndPrevButtons(){
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
         
-        let buttonsWidth = screenWidth*0.07
-        let distanceFromSides = screenWidth*0.03
-        let distanceFromBottom = buttonsWidth + screenWidth*0.03
+        let buttonsWidth = screenWidth*0.09
+        let distanceFromSides = screenWidth*0.02
+        let distanceFromBottom = buttonsWidth + screenWidth*0.02
         
         self.prevPageButton.frame = CGRectMake(distanceFromSides, screenHeight - distanceFromBottom, buttonsWidth, buttonsWidth)
         //prevPageButton.setTitle("prev", forState: UIControlState.Normal)
@@ -270,11 +273,13 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             }
             
         }
-        if(glblLog.currentSession.days.count > 0){
+        if(glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed){
             glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].time += 1
         }
-        
-        timeOnCurrentPage = glblLog.timeAtPageIndex[glblLog.currentPageNumber]
+        if(glblLog.timeAtPageIndex.count>glblLog.currentPageNumber){
+            timeOnCurrentPage = glblLog.timeAtPageIndex[glblLog.currentPageNumber]
+            glblLog.timeAtPageIndex[glblLog.currentPageNumber] += 1
+        }
         
         if(timeOnCurrentPage == 0){
             guyView.setBackgroundImage(UIImage(named: "RunningMan_A.jpg"), forState: UIControlState.Normal)
@@ -286,15 +291,16 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             guyView.setBackgroundImage(UIImage(named: "RunningMan_C.jpg"), forState: UIControlState.Normal)
         }
         
-        glblLog.timeAtPageIndex[glblLog.currentPageNumber] += 1
     }
     
     
     
     func updateProgressBar(){
+        
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
-        let progressBarWidth = screenWidth - 200 as CGFloat
+        let distanceFromSides = screenWidth*0.15
+        let progressBarWidth = screenWidth - distanceFromSides*2 as CGFloat
         var progress = 0.0 as CGFloat
         if(glblLog.currentSession.days.count > 0 && glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed ){
             progress = CGFloat(glblLog.currentPageNumber - glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].startPage)/CGFloat(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].expectedPages) * progressBarWidth
@@ -308,21 +314,31 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         
         let button1Width = progress
         let button2Width = progressBarWidth - progress
-        let buttonHeight = screenHeight*0.01 as CGFloat
-        let guyHeight = screenHeight*0.04 as CGFloat
-        let guyWidth = screenWidth/22
+        let buttonHeight = screenHeight*0.005 as CGFloat
+        let guyHeight = screenHeight*0.07 as CGFloat
+        let guyWidth = screenWidth*0.07
         let labelWidth = screenWidth/15
         let labelHeight = screenHeight/30
         
-        button1.frame = CGRectMake(100, screenHeight - 2*buttonHeight - labelHeight, button1Width, buttonHeight)
+        button1.frame = CGRectMake(distanceFromSides, screenHeight - labelHeight, button1Width, buttonHeight)
         
-        button2.frame = CGRectMake(100 + progress , screenHeight - 2*buttonHeight - labelHeight, button2Width, buttonHeight )
+        button2.frame = CGRectMake(distanceFromSides + progress , screenHeight - labelHeight, button2Width, buttonHeight )
         
-        if(glblLog.currentSession.days.count > 0){
-            startPageLabel.text = "\(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].startPage)"
-            endPageLabel.text = "\(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].endPage)"//"\(glblLog.startPage + glblLog.expectedPagesPerDay)"
+        if(glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed){
+            if(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].startPage < glblLog.currentPageNumber){
+                startPageLabel.text = "\(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].startPage)"
+            }
+            else{
+                startPageLabel.text = ""
+            }
+            if(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].endPage > glblLog.currentPageNumber){
+                endPageLabel.text = "\(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].endPage)"
+            }
+            else{
+                endPageLabel.text = ""
+            }
         }
-        currentPageLabel.frame = CGRectMake(100 + progress - 5, screenHeight - 2*buttonHeight - labelHeight, labelWidth, labelHeight )
+        currentPageLabel.frame = CGRectMake(distanceFromSides + progress - 5, screenHeight - labelHeight, labelWidth, labelHeight )
         currentPageLabel.text = "\(glblLog.currentPageNumber)"
         if(currentPageLabel.text <= startPageLabel.text){
             startPageLabel.text = " "
@@ -333,7 +349,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
          endPageLabel.text = " "
          }
          }*/
-        guyView.frame = CGRectMake(100 + progress - guyWidth/2, screenHeight - 2*guyHeight - buttonHeight, guyWidth, guyHeight)
+        guyView.frame = CGRectMake(distanceFromSides + progress - guyWidth/2, screenHeight - guyHeight - labelHeight, guyWidth, guyHeight)
     }
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)

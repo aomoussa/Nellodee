@@ -19,6 +19,8 @@ class goalsViewController: UIViewController {
     var indexAtTodaysDate = 0
     let NellodeeMaroonColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
     let NellodeeMidGray = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+    let NellodeeLightGray = UIColor(red: 221/255, green: 221/255, blue: 221/255, alpha: 1)
+    
     
     //UI stuff
     var bottomPrevButton = UIButton()
@@ -111,14 +113,7 @@ class goalsViewController: UIViewController {
         pagesSelector.maximumValue = 100
         
         
-        if(glblLog.currentSession.state == "pagesPerDayState"){
-            //segmentedControl.selectedSegmentIndex = 0
-            setBoxesForState("pagesPerDay")
-        }
-        else{
-            //segmentedControl.selectedSegmentIndex = 1
-            setBoxesForState("endDate")
-        }
+        
         
         
         //----------------------------multiple session display array creation--------------------begin
@@ -161,7 +156,14 @@ class goalsViewController: UIViewController {
         createPrevAndNextButtons()
         createLabels()
         createBarGraphs()
-        
+        if(glblLog.currentSession.state == "pagesPerDayState"){
+            //segmentedControl.selectedSegmentIndex = 0
+            setBoxesForState("pagesPerDay")
+        }
+        else{
+            //segmentedControl.selectedSegmentIndex = 1
+            setBoxesForState("endDate")
+        }
     }
     func buttonAction(sender: UIButton){
         
@@ -183,34 +185,35 @@ class goalsViewController: UIViewController {
         
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
-        let topY = screenHeight*0.1
-        let bottomY = screenHeight*0.37
+        let lineWidth = screenWidth*0.008
+        let topY = screenHeight*0.14
+        let bottomY = screenHeight*0.4
         let leftXBox1 = screenWidth*0.05
-        let rightXBox1 = screenWidth*0.5 - 2
-        let leftXBox2 = screenWidth*0.5 + 2
+        let rightXBox1 = screenWidth*0.5 - lineWidth/2
+        let leftXBox2 = screenWidth*0.5 + lineWidth/2
         let rightXBox2 = screenWidth*0.95
         
         //segmentedControl.frame =  CGRectMake(screenWidth/2 - 100 , screenHeight/2 - 250, screenWidth/3, screenHeight/40)
         //self.view.addSubview(segmentedControl)
-        leftLineOfBox1.frame = CGRectMake(leftXBox1, topY, 4, bottomY - topY)
-        rightLineOfBox1.frame = CGRectMake(rightXBox1, topY, 4, bottomY - topY)
-        topLineOfBox1.frame = CGRectMake(leftXBox1, topY, rightXBox1 - leftXBox1, 4)
-        bottomLineOfBox1.frame = CGRectMake(leftXBox1, bottomY, rightXBox1 - leftXBox1, 4)
+        leftLineOfBox1.frame = CGRectMake(leftXBox1, topY, lineWidth, bottomY - topY)
+        rightLineOfBox1.frame = CGRectMake(rightXBox1, topY, lineWidth, bottomY - topY)
+        topLineOfBox1.frame = CGRectMake(leftXBox1, topY, rightXBox1 - leftXBox1, lineWidth)
+        bottomLineOfBox1.frame = CGRectMake(leftXBox1, bottomY, rightXBox1 - leftXBox1 + lineWidth, lineWidth)
         
-        leftLineOfBox2.frame = CGRectMake(leftXBox2, topY, 4, bottomY - topY)
-        rightLineOfBox2.frame = CGRectMake(rightXBox2, topY, 4, bottomY - topY)
-        topLineOfBox2.frame = CGRectMake(leftXBox2, topY, rightXBox2 - leftXBox2, 4)
-        bottomLineOfBox2.frame = CGRectMake(leftXBox2, bottomY, rightXBox2 - leftXBox2, 4)
+        leftLineOfBox2.frame = CGRectMake(leftXBox2, topY, lineWidth, bottomY - topY)
+        rightLineOfBox2.frame = CGRectMake(rightXBox2, topY, lineWidth, bottomY - topY)
+        topLineOfBox2.frame = CGRectMake(leftXBox2, topY, rightXBox2 - leftXBox2 , lineWidth)
+        bottomLineOfBox2.frame = CGRectMake(leftXBox2, bottomY, rightXBox2 - leftXBox2 + lineWidth, lineWidth)
         
-        leftLineOfBox1.backgroundColor = UIColor.grayColor()
-        rightLineOfBox1.backgroundColor = UIColor.grayColor()
-        topLineOfBox1.backgroundColor = UIColor.grayColor()
-        bottomLineOfBox1.backgroundColor = UIColor.grayColor()
+        leftLineOfBox1.backgroundColor = NellodeeLightGray
+        rightLineOfBox1.backgroundColor = NellodeeLightGray
+        topLineOfBox1.backgroundColor = NellodeeLightGray
+        bottomLineOfBox1.backgroundColor = NellodeeLightGray
         
-        leftLineOfBox2.backgroundColor = UIColor.grayColor()
-        rightLineOfBox2.backgroundColor = UIColor.grayColor()
-        topLineOfBox2.backgroundColor = UIColor.grayColor()
-        bottomLineOfBox2.backgroundColor = UIColor.grayColor()
+        leftLineOfBox2.backgroundColor = NellodeeLightGray
+        rightLineOfBox2.backgroundColor = NellodeeLightGray
+        topLineOfBox2.backgroundColor = NellodeeLightGray
+        bottomLineOfBox2.backgroundColor = NellodeeLightGray
         
         self.view.addSubview(leftLineOfBox1)
         self.view.addSubview(rightLineOfBox1)
@@ -223,8 +226,8 @@ class goalsViewController: UIViewController {
         self.view.addSubview(bottomLineOfBox2)
     }
     func setBoxesForState(goalState: String){
-        var leftBoxColor = UIColor.grayColor()
-        var rightBoxColor = UIColor.grayColor()
+        var leftBoxColor = NellodeeLightGray
+        var rightBoxColor = NellodeeLightGray
         switch(goalState){
         case "pagesPerDay":
             leftBoxColor = NellodeeMaroonColor
@@ -233,6 +236,7 @@ class goalsViewController: UIViewController {
             rightBoxColor = NellodeeMaroonColor
             break
         default:
+            leftBoxColor = NellodeeMaroonColor
             break
             
         }
@@ -261,23 +265,23 @@ class goalsViewController: UIViewController {
         //self.view.addSubview(segmentedControl)
         
         let lineViewX = UIView.init(frame: CGRectMake(linesOffset, screenHeight - bottomOffset, screenWidth, 2))
-        lineViewX.backgroundColor = UIColor.grayColor()
+        lineViewX.backgroundColor = UIColor.blackColor()
         self.view.addSubview(lineViewX)
         
         let lineViewY = UIView.init(frame: CGRectMake(linesOffset, screenHeight - YlineHeight - 150, 2, YlineHeight + 50))
-        lineViewY.backgroundColor = UIColor.grayColor()
+        lineViewY.backgroundColor = UIColor.blackColor()
         self.view.addSubview(lineViewY)
         
         let scaleLine1 = UIView(frame: CGRectMake(linesOffset, screenHeight - bottomOffset - 15*buttonIncrements, screenWidth, 2))
-        scaleLine1.backgroundColor = UIColor.grayColor()
+        scaleLine1.backgroundColor = UIColor.blackColor()
         self.view.addSubview(scaleLine1)
         
         let scaleLine2 = UIView(frame: CGRectMake(linesOffset,  screenHeight - bottomOffset - 30*buttonIncrements, screenWidth, 2))
-        scaleLine2.backgroundColor = UIColor.grayColor()
+        scaleLine2.backgroundColor = UIColor.blackColor()
         self.view.addSubview(scaleLine2)
         
         let scaleLine3 = UIView(frame: CGRectMake(linesOffset,  screenHeight - bottomOffset - 50*buttonIncrements, screenWidth, 2))
-        scaleLine3.backgroundColor = UIColor.grayColor()
+        scaleLine3.backgroundColor = UIColor.blackColor()
         self.view.addSubview(scaleLine3)
         
         let scaleLabel1 = UILabel(frame: CGRectMake(10,  screenHeight - bottomOffset - 15*buttonIncrements - 10, labelWidth, 20))
@@ -316,69 +320,6 @@ class goalsViewController: UIViewController {
         
         
     }
-    
-    /*func refreshBarGraphs(i: Int){
-    
-    let screenWidth = view.frame.size.width
-    let screenHeight = self.view.frame.size.height
-    let distanceBetweenBars = screenWidth*0.09
-    let buttonIncrements = screenHeight*0.01
-    var count = 0
-    var index = 0.0 as CGFloat
-    //for loop populsting array of buttons for bar graph
-    var indexPage = i
-    while(count < 10){
-    if(indexPage < glblLog.currentSession.days.count){
-    
-    let buttonWidth = 20.0 as CGFloat
-    var buttonHeight = 10.0 as CGFloat
-    //var buttonHeight2 = 10.0 as CGFloat
-    let dayLabelbuttonHeight = 20.0 as CGFloat
-    let dayLabelbuttonWidth = buttonWidth*3
-    
-    
-    buttonHeight = CGFloat(glblLog.currentSession.days[indexPage].expectedPages) * buttonIncrements
-    if(buttonHeight > screenHeight*0.5){
-    buttonHeight = screenHeight*0.5
-    }
-    bars[count].frame = CGRectMake(70 + (index)*distanceBetweenBars , screenHeight-buttonHeight - 100, buttonWidth, buttonHeight)
-    
-    expectedPagesPerDayLabels[count].frame = CGRectMake(70 + (index)*distanceBetweenBars , screenHeight-buttonHeight - 120, buttonWidth*2, 20)
-    if(count <= glblLog.currentSession.expectedNumOfDays){
-    expectedPagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexPage].expectedPages)"
-    }
-    else{
-    expectedPagesPerDayLabels[count].text = "0"
-    }
-    
-    
-    var buttonHeight2 = 0.0 as CGFloat
-    buttonHeight2 = CGFloat(glblLog.currentSession.days[indexPage].pages.count) * buttonIncrements
-    
-    if(buttonHeight2 > screenHeight*0.5){
-    buttonHeight2 = screenHeight*0.5
-    }
-    expectedBars[count].frame = CGRectMake(45 + (index)*distanceBetweenBars , screenHeight-buttonHeight2 - 100, buttonWidth, buttonHeight2)
-    
-    pagesPerDayLabels[count].frame = CGRectMake(45 + (index)*distanceBetweenBars , screenHeight-buttonHeight2 - 120, buttonWidth*2, 20)
-    pagesPerDayLabels[count].text = "\(glblLog.currentSession.days[indexPage].pages.count)"
-    
-    let thisDate = glblLog.currentSession.days[indexPage].date
-    if(thisDate == glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date){
-    dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
-    }else{
-    dayLabelButtons[count].setTitle(thisDate.substringToIndex(thisDate.startIndex.advancedBy(5)), forState: UIControlState.Normal)
-    }
-    index++
-    
-    }
-    indexPage++
-    count++
-    }
-    
-    
-    }
-    */
     func refreshBarGraphs(i: Int){
         
         let screenWidth = view.frame.size.width
@@ -403,13 +344,13 @@ class goalsViewController: UIViewController {
                 if(daysToDisplay[indexPage].expectedPages>=0){
                     buttonHeight = CGFloat(daysToDisplay[indexPage].expectedPages) * buttonIncrements
                 }
-                if(buttonHeight > screenHeight*0.4){
-                    buttonHeight = screenHeight*0.4
+                if(buttonHeight > screenHeight*0.375){
+                    buttonHeight = screenHeight*0.375
                 }
                 bars[count].frame = CGRectMake(offset + (index)*distanceBetweenBars , screenHeight-buttonHeight - bottomOffset, buttonWidth, buttonHeight)
                 
                 expectedPagesPerDayLabels[count].frame = CGRectMake(offset + (index)*distanceBetweenBars , screenHeight-buttonHeight - bottomOffset, buttonWidth, 20)
-                if(count <= daysToDisplay.count && daysToDisplay[indexPage].pages.count <= 0){
+                if(count <= daysToDisplay.count && daysToDisplay[indexPage].pages.count <= 0 && daysToDisplay[indexPage].expectedPages > 1){
                     expectedPagesPerDayLabels[count].text = "\(daysToDisplay[indexPage].expectedPages)"
                 }
                 else{
@@ -426,16 +367,33 @@ class goalsViewController: UIViewController {
                 }
                 let expectedBarsXs = offset + (index)*distanceBetweenBars + buttonWidth*0.75
                 expectedBars[count].frame = CGRectMake(expectedBarsXs , screenHeight-buttonHeight2 - bottomOffset, buttonWidth, buttonHeight2)
-                
                 pagesPerDayLabels[count].frame = CGRectMake(expectedBarsXs , screenHeight-buttonHeight2 - bottomOffset, buttonWidth, 20)
-                pagesPerDayLabels[count].text = "\(daysToDisplay[indexPage].pages.count)"
+                if(daysToDisplay[indexPage].pages.count>1){
+                    pagesPerDayLabels[count].text = "\(daysToDisplay[indexPage].pages.count)"
+                }
+                else{
+                    pagesPerDayLabels[count].text = ""
+                }
                 
                 //------------------------------ TODAY Label ----------------------------------------------
-                let thisDate = daysToDisplay[indexPage].date
-                if(daysToDisplay.count > displaySession.numberOfDaysPassed + displaySession.previousDays.count && thisDate == daysToDisplay[displaySession.numberOfDaysPassed + displaySession.previousDays.count].date){
-                    dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
+                //let thisDate = daysToDisplay[indexPage].date
+                let thisDate = dateFormatter.stringFromDate(NSDate())
+                
+                if(daysToDisplay[indexPage].date == thisDate){
+//daysToDisplay.count > displaySession.numberOfDaysPassed + displaySession.previousDays.count && thisDate == daysToDisplay[displaySession.numberOfDaysPassed + displaySession.previousDays.count].date){
+                    let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(21), NSForegroundColorAttributeName : NellodeeMaroonColor]
+                    let title = NSAttributedString(string: "today", attributes: attrs)
+                    //title.add
+                    dayLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
+                    //dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
                 }else{
-                    dayLabelButtons[count].setTitle(thisDate.substringToIndex(thisDate.startIndex.advancedBy(5)), forState: UIControlState.Normal)
+                    let calendar = NSCalendar.currentCalendar()
+                    let components = calendar.components([.Day , .Month , .Year], fromDate: dateFormatter.dateFromString(daysToDisplay[indexPage].date)!)
+                    let month = components.month
+                    let day = components.day
+                    let attrs = [NSFontAttributeName : UIFont.systemFontOfSize(20)]
+                    let title = NSAttributedString(string: "\(month)/\(day)", attributes: attrs)
+                    dayLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
                 }
                 
                 index++
@@ -456,7 +414,7 @@ class goalsViewController: UIViewController {
             indexPage++
             count++
         }
-        
+        /*
         //------------------------------ TODAY, prev and future Label clrs ----------------------------------------------
         indexPage--
         count--
@@ -475,11 +433,16 @@ class goalsViewController: UIViewController {
             
             if(indexAtTodaysDate == 0 && glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count < daysToDisplay.count && thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count].date){
                 indexAtTodaysDate = indexPage
-                dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
+                let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(21)]
+                let title = NSAttributedString(string: "today", attributes: attrs)
+                dayLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
                 dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
             }
             else if (indexPage == indexAtTodaysDate){
-                dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
+                let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(19)]
+                
+                let title = NSAttributedString(string: "today", attributes: attrs)
+                dayLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
                 dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
             }
             else if(indexPage < daysToDisplay.count)
@@ -491,7 +454,7 @@ class goalsViewController: UIViewController {
             indexPage--
         }
         //------------------------------ TODAY, prev and future Label clrs ----------------------------------------------
-        
+        */
         
     }
     

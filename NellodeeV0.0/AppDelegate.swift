@@ -18,6 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        //-------------------- ----------------- set number of pages of book
+        let path = NSBundle.mainBundle().pathForResource("Frankenstein", ofType: "pdf")! //pdfBook2//Frankenstein//circuitsBook//cooperPDF
+        let url = NSURL.fileURLWithPath(path)
+        let pdf = CGPDFDocumentCreateWithURL(url)
+        glblLog.numberOfPages = CGPDFDocumentGetNumberOfPages(pdf)
+        //-------------------- -------------- ends
+        
+        
         retrieveSavedData()
         jsonLogger.readDataFile()
         jsonLogger.writeApplicationStatus("Nellodee Finished Launching")
@@ -33,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print(glblLog.currentSession.toString())
         self.saveData()
         jsonLogger.writeApplicationStatus("Nellodee Entered Background")
         jsonLogger.writeSession(glblLog.currentSession)
@@ -173,7 +182,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //------------------------------------------------------------------> currentSession initiation
-        glblLog.addSession(session(startDate: startDate, endDate: endDate, expectedPagesPerDay: currentSessionExpectedPagesPerDay, state: currentSessionSelectorState))
+        glblLog.addSession(session(startDate: startDate, endDate: endDate, expectedPagesPerDay: currentSessionExpectedPagesPerDay, state: currentSessionSelectorState, numberOfDaysPassed: 0))
         //------------------------------------------------------------------> currentSessionNumberOfDaysPassed retrieval
         if let ND: Optional = self.defaults.integerForKey("currentSessionNumberOfDaysPassed")
         {
@@ -351,6 +360,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             i--
         }
+        /*
         //------------------------------ --------------- New day when opening app ---------------- -------------- -----------
         //let dateFormatter = NSDateFormatter()
         let todaysDate = dateFormatter.stringFromDate(NSDate())
@@ -361,7 +371,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         let dateComparison = dateFormatter.dateFromString(currentSessionLastDateReached)!.compare(NSDate()).rawValue
         if(currentSessionLastDateReached != todaysDate && dateComparison < 1){
-            glblLog.currentSession.setNextDayStartPage()
+            glblLog.currentSession.setNextDayStartPage(glblLog.currentPageNumber)
             glblLog.currentSession.numberOfDaysPassed++
             print("numberOfDaysPassed added todays date: \(todaysDate) and session.days[numberOfDaysPassed - 1] = \(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed - 1].date)")
         }
@@ -369,7 +379,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("numberOfDaysPassed \n added todays date: \(todaysDate) ")
         }
         //------------------------------ --------------- New day when opening app ---------------- -------------- -----------
-        
+        */
         //days[i].date = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: i, toDate: NSDate(), options: [])!)
     }
     func saveData(){
