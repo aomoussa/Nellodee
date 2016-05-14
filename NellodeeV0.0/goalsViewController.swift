@@ -10,6 +10,7 @@ import UIKit
 
 class goalsViewController: UIViewController {
     //local variables
+    var sessionSet = false
     let defaults = NSUserDefaults.standardUserDefaults()
     let dateFormatter = NSDateFormatter()
     var goalSession = session()
@@ -55,7 +56,7 @@ class goalsViewController: UIViewController {
     }
     
     @IBAction func setChanges(sender: UIButton) {
-        
+        if(sessionSet){
         jsonLogger.writeGoalChangesSet(sessionDataToString(glblLog.currentSession), fromType: glblLog.currentSession.state, to: sessionDataToString(goalSession), toType: goalSession.state)
         
         glblLog.maxPageReached = glblLog.currentPageNumber
@@ -70,6 +71,7 @@ class goalsViewController: UIViewController {
         }
         refreshBarGraphs(barGraphStartIndex)
         //performSegueWithIdentifier("reloadGoals", sender: self)
+        }
     }
     
     
@@ -97,6 +99,7 @@ class goalsViewController: UIViewController {
             print("device too old... datePicker mess up")
         }
         goalSession = session(startDate: startDate, endDate: finishDate, expectedPagesPerDay: expectedPagesPerDay, state: "pagesPerDayState")
+        sessionSet = true
     }
     @IBOutlet var pagesSelector: UIStepper!
     @IBOutlet var currentStateLabel: UILabel!
@@ -144,6 +147,7 @@ class goalsViewController: UIViewController {
         
         if(comps.day > 0 && glblLog.numberOfPages > 0){
             goalSession = session(startDate: dateFormatter.stringFromDate(NSDate()), endDate: strDate, expectedPagesPerDay: (glblLog.numberOfPages-glblLog.currentPageNumber) / comps.day, state: "completionDateState")
+            sessionSet = true
         }
         else{
             print("date edit failed ")
