@@ -146,7 +146,7 @@ class goalsViewController: UIViewController {
         let comps = NSCalendar.currentCalendar().components(unit, fromDate: NSDate(), toDate: datePicker.date, options: [])
         
         if(comps.day > 0 && glblLog.numberOfPages > 0){
-            goalSession = session(startDate: dateFormatter.stringFromDate(NSDate()), endDate: strDate, expectedPagesPerDay: (glblLog.numberOfPages-glblLog.currentPageNumber) / comps.day, state: "completionDateState")
+            goalSession = session(startDate: dateFormatter.stringFromDate(NSDate()), endDate: strDate, expectedPagesPerDay: (glblLog.numberOfPages-glblLog.maxPageReached) / comps.day, state: "completionDateState")
             sessionSet = true
         }
         else{
