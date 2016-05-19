@@ -90,7 +90,7 @@ class trendViewController: UIViewController {
         
         if(sender == self.bottomPrevButton){
             //print("bottomPrevButton CLICKED")
-            if(bottomI>1){
+            if(bottomI>0){
                 refreshBottomBarGraphs(--bottomI)
             }
             
@@ -103,7 +103,7 @@ class trendViewController: UIViewController {
         }
         if(sender == self.topPrevButton){
             //print("TOPPrevButton CLICKED")
-            if(topI>1){
+            if(topI>0){
                 refreshTopBarGraphs(--topI)
             }
         }
@@ -137,7 +137,16 @@ class trendViewController: UIViewController {
             barButtons2[count].frame = CGRectMake(115 + (index)*distanceBetweenBars , screenHeight/2 - buttonHeight, buttonWidth, buttonHeight)
             
             dayLabelButtons[count].frame = CGRectMake(115 + (index)*distanceBetweenBars - labelButtonWidth/4, screenHeight/2 + labelButtonHeight/2, labelButtonWidth, labelButtonHeight)
+            dayLabelButtons[count].setAttributedTitle(getDateAttributedString(daysToDisplay[indexTime].date), forState: UIControlState.Normal)
             
+            dayLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
+            barButtons2[count].backgroundColor = NellodeeMidGray
+            
+            if (daysToDisplay[indexTime].date == dateFormatter.stringFromDate(NSDate())){
+                //dayLabelButtons[count].setTitle("today", forState: UIControlState.Normal)
+                //dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
+                barButtons2[count].backgroundColor = NellodeeMaroonColor
+            }
             
             pagesPerDayLabels[count].frame = CGRectMake(115 + (index)*distanceBetweenBars , screenHeight/2 - buttonHeight, buttonWidth, 20)
             if(daysToDisplay[indexTime].time/60>0){
@@ -147,11 +156,11 @@ class trendViewController: UIViewController {
                 pagesPerDayLabels[count].text = "\(daysToDisplay[indexTime].time)s"
             }
             
-            
             index++
             count++
             indexTime++
         }
+        /*
         indexTime--
         count--
         while(indexTime>=0 && indexTime<daysToDisplay.count && count >= 0){
@@ -187,16 +196,26 @@ class trendViewController: UIViewController {
                 let day = components.day
                 let attrs = [NSFontAttributeName : UIFont.systemFontOfSize(20)]
                 let title = NSAttributedString(string: "\(month)/\(day)", attributes: attrs)
-                //dayLabelButtons[count].frame = CGRectMake(115 + (index)*distanceBetweenBars - labelButtonWidth/2, screenHeight/2 + labelButtonHeight/2, labelButtonWidth*2, labelButtonHeight)
                 dayLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
-                //dayLabelButtons[count].setTitle("\(daysToDisplay[indexTime].date)", forState: UIControlState.Normal)
             }
             //------------------------------ TODAY Label ----------------------------------------------
             count--
             indexTime--
-        }
+        }*/
     }
-    
+    func getDateAttributedString(date: String) -> NSAttributedString{
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Day , .Month , .Year], fromDate: dateFormatter.dateFromString(date)!)
+        let month = components.month
+        let day = components.day
+        let attrs = [NSFontAttributeName : UIFont.systemFontOfSize(20)]
+        var title = NSAttributedString(string: "\(month)/\(day)", attributes: attrs)
+        if(date == dateFormatter.stringFromDate(NSDate())){
+            let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(21), NSForegroundColorAttributeName : NellodeeMaroonColor]
+            title = NSAttributedString(string: "today", attributes: attrs)
+        }
+        return title
+    }
     func refreshBottomBarGraphs(i: Int){
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height

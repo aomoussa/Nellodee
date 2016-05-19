@@ -98,7 +98,7 @@ class goalsViewController: UIViewController {
         } else {
             print("device too old... datePicker mess up")
         }
-        goalSession = session(startDate: startDate, endDate: finishDate, expectedPagesPerDay: expectedPagesPerDay, state: "pagesPerDayState")
+        goalSession = session(endDate: finishDate, expectedPagesPerDay: expectedPagesPerDay, state: "pagesPerDayState")
         sessionSet = true
     }
     @IBOutlet var pagesSelector: UIStepper!
@@ -127,14 +127,17 @@ class goalsViewController: UIViewController {
         }
         
         //----------------------------multiple session display array creation--------------------end
-        //print("displaySession.previousDays.count \(displaySession.previousDays.count)")
+        print("displaySession.previousDays.count \(displaySession.previousDays.count)")
+        print("------------ IN GOALS VIEW! CURRENT SESSION: \n \(glblLog.currentSession.toString())")
+        barGraphStartIndex = 0
+        /*
         if(displaySession.previousDays.count + displaySession.numberOfDaysPassed > 5){
             barGraphStartIndex = displaySession.previousDays.count + displaySession.numberOfDaysPassed - 5
             if(barGraphStartIndex > daysToDisplay.count - 10){
                 barGraphStartIndex = daysToDisplay.count - 10
             }
             
-        }
+        }*/
     }
     
     func datePickerChanged(){
@@ -146,7 +149,7 @@ class goalsViewController: UIViewController {
         let comps = NSCalendar.currentCalendar().components(unit, fromDate: NSDate(), toDate: datePicker.date, options: [])
         
         if(comps.day > 0 && glblLog.numberOfPages > 0){
-            goalSession = session(startDate: dateFormatter.stringFromDate(NSDate()), endDate: strDate, expectedPagesPerDay: (glblLog.numberOfPages-glblLog.maxPageReached) / comps.day, state: "completionDateState")
+            goalSession = session(endDate: strDate, expectedPagesPerDay: (glblLog.numberOfPages-glblLog.maxPageReached) / comps.day, state: "completionDateState")
             sessionSet = true
         }
         else{
@@ -178,7 +181,7 @@ class goalsViewController: UIViewController {
             }
         }
         if(sender == self.bottomNextButton){
-            if(barGraphStartIndex < daysToDisplay.count - 10){
+            if(barGraphStartIndex < daysToDisplay.count - 6){
                 barGraphStartIndex++
                 refreshBarGraphs(barGraphStartIndex)
             }
@@ -418,48 +421,6 @@ class goalsViewController: UIViewController {
             indexPage++
             count++
         }
-        /*
-        //------------------------------ TODAY, prev and future Label clrs ----------------------------------------------
-        indexPage--
-        count--
-        while(count >= 0){
-            //------------------------------ TODAY Label ----------------------------------------------
-            var thisDate = "whatever"
-            if(indexPage < daysToDisplay.count){
-                thisDate = daysToDisplay[indexPage].date
-            }
-            if(indexPage > indexAtTodaysDate){
-                dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
-            }
-            else{
-                dayLabelButtons[count].setTitleColor(NellodeeMidGray, forState: UIControlState.Normal)
-            }
-            
-            if(indexAtTodaysDate == 0 && glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count < daysToDisplay.count && thisDate == daysToDisplay[glblLog.currentSession.numberOfDaysPassed + glblLog.currentSession.previousDays.count].date){
-                indexAtTodaysDate = indexPage
-                let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(21)]
-                let title = NSAttributedString(string: "today", attributes: attrs)
-                dayLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
-                dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
-            }
-            else if (indexPage == indexAtTodaysDate){
-                let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(19)]
-                
-                let title = NSAttributedString(string: "today", attributes: attrs)
-                dayLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
-                dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
-            }
-            else if(indexPage < daysToDisplay.count)
-            {
-                dayLabelButtons[count].setTitle("\(daysToDisplay[indexPage].date)", forState: UIControlState.Normal)
-            }
-            //------------------------------ TODAY Label ----------------------------------------------
-            count--
-            indexPage--
-        }
-        //------------------------------ TODAY, prev and future Label clrs ----------------------------------------------
-        */
-        
     }
     
     func createBarGraphs(){
@@ -498,7 +459,7 @@ class goalsViewController: UIViewController {
         let dayLabelbuttonWidth = screenWidth*0.1
         let distanceBetweenBars = screenWidth*0.14
         var count = 0
-        while(count < 10){
+        while(count < 6){
             dayLabelButtons.append(UIButton(frame: CGRectMake(offset + (CGFloat(count))*distanceBetweenBars , screenHeight - dayLabelbuttonHeight - bottomOffset, dayLabelbuttonWidth, dayLabelbuttonHeight)))
             //dayLabelButtons[count].settit .textAlignment = .Center
             dayLabelButtons[count].titleLabel?.font = UIFont.systemFontOfSize(18.0)

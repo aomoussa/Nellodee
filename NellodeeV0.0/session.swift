@@ -10,7 +10,7 @@ import Foundation
 class session{
     var previousDays = [day]()
     var days = [day]()
-    var daysDict = [String: [String: String]]()
+    var pageStart = 0
     var startDate: String
     var endDate: String
     var numberOfDaysPassed = 0
@@ -26,13 +26,13 @@ class session{
         self.expectedNumOfDays = 0
         
     }
-    init(startDate: String, endDate: String, expectedPagesPerDay: Int, state: String, numberOfDaysPassed: Int){// numOfPagesRem: Int){
+    init(startDate: String, endDate: String, expectedPagesPerDay: Int, state: String, pageStart: Int){// numOfPagesRem: Int){
         self.startDate = startDate
         self.endDate = endDate
         self.expectedPagesPerDay = expectedPagesPerDay
         self.state = state
         self.expectedNumOfDays = 0
-        
+        self.pageStart = pageStart
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         let unit:NSCalendarUnit = NSCalendarUnit.Day
         var finishDate = dateFormatter.dateFromString("1/1/2015")! as NSDate
@@ -46,12 +46,7 @@ class session{
             self.expectedNumOfDays = comps.day
         }
         var i = 0
-        var startPage = 0
-        if(glblLog.currentPageNumber >= 0){
-            if(glblLog.currentSession.days.count > 0){
-                startPage = glblLog.currentPageNumber - glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.count
-            }
-        }
+        var startPage = pageStart
         var endPage = startPage + expectedPagesPerDay
         while(i <= expectedNumOfDays)
         {
@@ -69,10 +64,10 @@ class session{
             i++
         }
     }
-    init(startDate: String, endDate: String, expectedPagesPerDay: Int, state: String){// numOfPagesRem: Int){
+    init(endDate: String, expectedPagesPerDay: Int, state: String){// numOfPagesRem: Int){
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         let unit:NSCalendarUnit = NSCalendarUnit.Day
-        if(startDate != "" && endDate != ""){
+        if(endDate != ""){
             var finishDate = dateFormatter.dateFromString("1/1/2015")! as NSDate
             if(dateFormatter.dateFromString(endDate) != nil){
                 finishDate = dateFormatter.dateFromString(endDate)! as NSDate
@@ -83,7 +78,8 @@ class session{
         else{
             self.expectedNumOfDays = 0
         }
-        self.startDate = startDate
+        self.pageStart = glblLog.currentSession.pageStart
+        self.startDate = dateFormatter.stringFromDate(NSDate())
         self.endDate = endDate
         self.expectedPagesPerDay = expectedPagesPerDay
         self.state = state
@@ -116,9 +112,20 @@ class session{
         self.days[numberOfDaysPassed+1].setStartPage(latestPageNumber)
         }
     }
+    func indexOfDate(date: NSDate) -> Int{
+        var i = 0
+        while(i<days.count){
+            if(days[i].date == dateFormatter.stringFromDate(date)){
+                return i
+            }
+            i++
+        }
+        return 0
+    }
     func toString() -> String{
         var str = ""
         var i = 0
+        str += "------------- CURRENT SESSION DAYS ------------- \n"
         for temp in days{
             str += "Day \(i) \(temp.date)"
             str += "\n ---- from pages \(temp.startPage) to \(temp.endPage)"
@@ -126,8 +133,20 @@ class session{
                 str += "\n ----- page #\(tempPage.pageNumber ) time: \(tempPage.time)secs"
             }
             str += "\n"
-            i++
+            i += 1
         }
+        i = 0
+        str += "------------- PREVIOUS SESSIONS DAYS ------------- \n"
+        for temp2 in previousDays{
+            str += "Day \(i) \(temp2.date)"
+            str += "\n ---- from pages \(temp2.startPage) to \(temp2.endPage)"
+            for tempPage in previousDays[i].pages{
+                str += "\n ----- page #\(tempPage.pageNumber ) time: \(tempPage.time)secs"
+            }
+            str += "\n"
+            i += 1
+        }
+
         return str
     }
 }

@@ -26,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //-------------------- -------------- ends
         
         
-        retrieveSavedData()
-        jsonLogger.readDataFile()
+        //retrieveSavedData()
+        glblLog.currentSession = jsonLogger.readDataFile()
         jsonLogger.writeApplicationStatus("Nellodee Finished Launching")
         return true
     }
@@ -182,7 +182,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //------------------------------------------------------------------> currentSession initiation
-        glblLog.addSession(session(startDate: startDate, endDate: endDate, expectedPagesPerDay: currentSessionExpectedPagesPerDay, state: currentSessionSelectorState, numberOfDaysPassed: 0))
+        glblLog.addSession(session(startDate: startDate, endDate: endDate, expectedPagesPerDay: currentSessionExpectedPagesPerDay, state: currentSessionSelectorState, pageStart: 0))
         //------------------------------------------------------------------> currentSessionNumberOfDaysPassed retrieval
         if let ND: Optional = self.defaults.integerForKey("currentSessionNumberOfDaysPassed")
         {

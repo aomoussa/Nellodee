@@ -97,6 +97,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             print("same day or older: numberOfDaysPassed \(glblLog.currentSession.numberOfDaysPassed) \n todays date: \(todaysDate) ")
             //print(" \(glblLog.currentSession.toString())  ")
         }
+         print("------------ IN reader VIEW! CURRENT SESSION: \n \(glblLog.currentSession.toString())")
     }
     func webViewDidFinishLoad(webView: UIWebView) {
         self.webView.userInteractionEnabled = true
@@ -302,8 +303,9 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         let distanceFromSides = screenWidth*0.15
         let progressBarWidth = screenWidth - distanceFromSides*2 as CGFloat
         var progress = 0.0 as CGFloat
-        if(glblLog.currentSession.days.count > 0 && glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed ){
-            progress = CGFloat(glblLog.currentPageNumber - glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].startPage)/CGFloat(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].expectedPages) * progressBarWidth
+        if(glblLog.currentSession.days.count > 0 && glblLog.currentSession.days.count > glblLog.currentSession.indexOfDate(NSDate())){
+            progress = CGFloat(glblLog.currentPageNumber - glblLog.currentSession.days[glblLog.currentSession.indexOfDate(NSDate())].startPage)/CGFloat(glblLog.currentSession.days[glblLog.currentSession.indexOfDate(NSDate())].expectedPages) * progressBarWidth
+        
         }
         if(progress > progressBarWidth){
             progress = progressBarWidth
@@ -324,15 +326,15 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         
         button2.frame = CGRectMake(distanceFromSides + progress , screenHeight - labelHeight, button2Width, buttonHeight )
         
-        if(glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed){
-            if(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].startPage < glblLog.currentPageNumber){
-                startPageLabel.text = "\(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].startPage)"
+        if(glblLog.currentSession.days.count > glblLog.currentSession.indexOfDate(NSDate())){
+            if(glblLog.currentSession.days[glblLog.currentSession.indexOfDate(NSDate())].startPage < glblLog.currentPageNumber){
+                startPageLabel.text = "\(glblLog.currentSession.days[glblLog.currentSession.indexOfDate(NSDate())].startPage)"
             }
             else{
                 startPageLabel.text = ""
             }
-            if(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].endPage > glblLog.currentPageNumber){
-                endPageLabel.text = "\(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].endPage)"
+            if(glblLog.currentSession.days[glblLog.currentSession.indexOfDate(NSDate())].endPage > glblLog.currentPageNumber){
+                endPageLabel.text = "\(glblLog.currentSession.days[glblLog.currentSession.indexOfDate(NSDate())].endPage)"
             }
             else{
                 endPageLabel.text = ""

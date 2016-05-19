@@ -146,6 +146,7 @@ class json{
         currentSessionInfoJSON["expected finish date"] = session1.endDate
         currentSessionInfoJSON["start date"] = session1.startDate
         currentSessionInfoJSON["expected pages per day"] = session1.expectedPagesPerDay
+        currentSessionInfoJSON["start page"] = session1.pageStart
         
         //-------------- previous days
         for tempPrevDay in session1.previousDays{
@@ -156,7 +157,7 @@ class json{
             }
             prevPagesJSON["actual"] = actualPagesReadJSON
             prevPagesJSON["expected"] = ["start": tempPrevDay.startPage, "end": tempPrevDay.endPage]
-            prevDaysJSON[tempPrevDay.date] = prevDaysJSON
+            prevDaysJSON[tempPrevDay.date] = prevPagesJSON
         }
         //----------------------- current session days
         for tempDay in session1.days{
@@ -174,25 +175,27 @@ class json{
         dictToWrite["session info"] = currentSessionInfoJSON
         writeToDataFile(dictToWrite)
     }
-    func readDataFile() {
+    func readDataFile() -> session{
         // finding file
         if fileManager.fileExistsAtPath(dataJsonFilePath.absoluteString, isDirectory: &isDirectory) {
             print("Data File already exists")
             
             if let jsonData = NSData(contentsOfMappedFile: dataJsonFilePath.absoluteString) {
                 //print("jsonData \(jsonData)")
-                processDataFile(jsonData)
+                return processDataFile(jsonData)
             }
             else{
                 print("some error")
+                return session()
             }
             //NSData(contentsOfFile:dataJsonFilePath.absoluteString, options: nil, error: nil)
             
         } else {
             print("Data File doesn't exist")
+            return(session())
         }
     }
-    func processDataFile(jsonData: NSData){
+    func processDataFile(jsonData: NSData) -> session{
         let dateFormatter1 = NSDateFormatter()
         dateFormatter1.dateStyle = NSDateFormatterStyle.ShortStyle
         //dateFormatter1.dateStyle = NSDateFormatterStyle.MediumStyle
@@ -207,6 +210,7 @@ class json{
                 var finishDate = "1/1/17"
                 var startDate = "1/1/16"
                 var pagesPerDay = 10
+                var startPage = 0
                 if let type = seshInfo["type"] as? String{
                     state = type
                 }
@@ -219,7 +223,11 @@ class json{
                 if let finish = seshInfo["expected finish date"] as? String{
                     finishDate = finish
                 }
-                session1 = session(startDate: startDate, endDate: finishDate, expectedPagesPerDay: pagesPerDay, state: state, numberOfDaysPassed: 0)
+                if let pageStart = seshInfo["start page"] as? Int{
+                    startPage = pageStart
+                }
+                session1 = session(startDate: startDate, endDate: finishDate, expectedPagesPerDay: pagesPerDay, state: state, pageStart: startPage)
+                print(session1.toString())
             }
             if let days = jsonResult["days"] as? [String: AnyObject] {
                 //print("days \(days)")
@@ -260,7 +268,7 @@ class json{
                             if(dateFormatter1.dateFromString(date) != nil){
                                 
                                 let dateComparison = dateFormatter1.dateFromString(date)!.compare(NSDate()).rawValue
-                                if(dateComparison<1){
+                                if(dateComparison<1 && dateFormatter1.stringFromDate(NSDate()) != date){
                                     session1.setNextDayStartPage(latestMaxDay)
                                     session1.numberOfDaysPassed += 1
                                 }
@@ -271,10 +279,45 @@ class json{
                 }
                 
             }
+            if let prevDays = jsonResult["prev days"] as? [String: AnyObject] {
+                print("prevDays \(prevDays)")
+                for(date, stuff) in prevDays{
+                    var start = 0
+                    var end = 0
+                    if let expected = stuff["expected"]{
+                        if (expected == nil){
+                            break
+                        }
+                        if let startPage = expected!["start"] as? Int {
+                            start = startPage
+                            print("start in a prev: \(start)")
+                        }
+                        if let endPage = expected!["end"] as? Int {
+                            end = endPage
+                            print("end in a prev: \(end)")
+                        }
+                    }
+                    session1.previousDays.append(day(d: date, expectedNumOfPages: end-start, startPage: start, endPage: end))
+                    if let actual = stuff["actual"] as? [String: AnyObject]{
+                        for(page1, time) in actual{
+                            print("page: \(page1)")
+                            if let time = time["time"]{
+                                print("time: \(time)")
+                                
+                                if let pageNumber = Int(page1)! as? Int{
+                                    session1.previousDays.last?.pages.append(page(pageNumber: pageNumber, time: 0))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             
             print(session1.toString())
+            return session1
         } catch {
             print("error in processDataFile")
+            return session()
         }
         
     }
