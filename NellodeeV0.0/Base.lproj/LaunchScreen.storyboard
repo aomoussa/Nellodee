@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -18,15 +17,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="xWC-CY-47c">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="app" translatesAutoresizingMaskIntoConstraints="NO" id="xWC-CY-47c">
                                 <rect key="frame" x="204" y="161" width="240" height="128"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="xWC-CY-47c" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="46o-EP-nnC"/>
+                            <constraint firstItem="xWC-CY-47c" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="7bm-KS-7OT"/>
                             <constraint firstItem="xWC-CY-47c" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="NKb-ma-Vgg"/>
-                            <constraint firstItem="xWC-CY-47c" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.5" id="ks6-RH-Orz"/>
-                            <constraint firstItem="xWC-CY-47c" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="0.5" id="oUf-v0-Dub"/>
                             <constraint firstItem="xWC-CY-47c" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="yNf-T1-oD9"/>
                         </constraints>
                     </view>
@@ -37,6 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="50" height="50"/>
+        <image name="app" width="643" height="607"/>
     </resources>
 </document>

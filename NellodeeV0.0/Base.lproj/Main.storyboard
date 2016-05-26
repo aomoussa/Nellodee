@@ -84,6 +84,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="app" translatesAutoresizingMaskIntoConstraints="NO" id="yxO-Uo-FTR">
+                                <rect key="frame" x="230" y="219" width="240" height="128"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="haZ-sq-4vT">
                                 <rect key="frame" x="26" y="20" width="34" height="30"/>
                                 <state key="normal" title="Back"/>
@@ -91,16 +94,13 @@
                                     <segue destination="1eS-Q7-YMi" kind="presentation" id="jfz-1w-5eO"/>
                                 </connections>
                             </button>
-                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="a" translatesAutoresizingMaskIntoConstraints="NO" id="pKt-ti-sFt">
-                                <rect key="frame" x="114" y="78" width="372" height="421"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="pKt-ti-sFt" firstAttribute="centerX" secondItem="j3d-zW-sfH" secondAttribute="centerX" id="1OW-gb-6PW"/>
-                            <constraint firstItem="pKt-ti-sFt" firstAttribute="height" secondItem="j3d-zW-sfH" secondAttribute="height" multiplier="0.8" id="Jxz-Ve-dIG"/>
-                            <constraint firstItem="pKt-ti-sFt" firstAttribute="centerY" secondItem="j3d-zW-sfH" secondAttribute="centerY" id="ToI-w5-IMt"/>
-                            <constraint firstItem="pKt-ti-sFt" firstAttribute="width" secondItem="j3d-zW-sfH" secondAttribute="width" multiplier="0.8" id="YVy-fg-dCx"/>
+                            <constraint firstItem="yxO-Uo-FTR" firstAttribute="centerX" secondItem="j3d-zW-sfH" secondAttribute="centerX" id="4Mm-hr-7Eg"/>
+                            <constraint firstItem="yxO-Uo-FTR" firstAttribute="height" secondItem="j3d-zW-sfH" secondAttribute="height" id="5US-q7-4JP"/>
+                            <constraint firstItem="yxO-Uo-FTR" firstAttribute="width" secondItem="j3d-zW-sfH" secondAttribute="width" id="ReP-em-NjB"/>
+                            <constraint firstItem="yxO-Uo-FTR" firstAttribute="centerY" secondItem="j3d-zW-sfH" secondAttribute="centerY" id="gz0-eE-aAi"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -414,15 +414,16 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0tB-Cc-bLz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2377" y="991"/>
+            <point key="canvasLocation" x="2343" y="1067"/>
         </scene>
     </scenes>
     <resources>
         <image name="a" width="875" height="625"/>
+        <image name="app" width="643" height="607"/>
         <image name="burger" width="33" height="33"/>
         <image name="logo" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8HX-pv-xgY"/>
+        <segue reference="jfz-1w-5eO"/>
     </inferredMetricsTieBreakers>
 </document>

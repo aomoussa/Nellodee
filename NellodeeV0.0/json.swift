@@ -63,6 +63,7 @@ class json{
             let created = fileManager.createFileAtPath(dataJsonFilePath.absoluteString, contents: nil, attributes: nil)
             if created {
                 print("data File created ")
+                
             } else {
                 print("Couldn't create data file for some reason")
             }
@@ -229,6 +230,7 @@ class json{
                 session1 = session(startDate: startDate, endDate: finishDate, expectedPagesPerDay: pagesPerDay, state: state, pageStart: startPage)
                 print(session1.toString())
             }
+            
             if let days = jsonResult["days"] as? [String: AnyObject] {
                 //print("days \(days)")
                 for dayElement in session1.days{
@@ -279,6 +281,7 @@ class json{
                 }
                 
             }
+            
             if let prevDays = jsonResult["prev days"] as? [String: AnyObject] {
                 print("prevDays \(prevDays)")
                 for(date, stuff) in prevDays{
@@ -316,8 +319,10 @@ class json{
             print(session1.toString())
             return session1
         } catch {
-            print("error in processDataFile")
-            return session()
+            print("no old data in processDataFile")
+                let ti = NSTimeInterval(3600*60*24)
+                print("TI is \(ti)")
+            return session(startDate: dateFormatter1.stringFromDate(NSDate()), endDate: dateFormatter1.stringFromDate(NSDate()), expectedPagesPerDay: glblLog.numberOfPages, state: "initiated from jsonLogger", pageStart: 0)
         }
         
     }

@@ -3,7 +3,7 @@
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "PNG_4_logo.png",
+      "filename" : "nld_logo_29.png",
       "scale" : "1x"
     },
     {
@@ -14,7 +14,7 @@
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "PNG_4_logo-3.png",
+      "filename" : "nld_logo_40.png",
       "scale" : "1x"
     },
     {
@@ -25,7 +25,7 @@
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "PNG_4_logo-1.png",
+      "filename" : "nld_logo_76.png",
       "scale" : "1x"
     },
     {
@@ -36,7 +36,7 @@
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "PNG_4_logo-2.png",
+      "filename" : "nld_logo_83.png",
       "scale" : "2x"
     }
   ],

@@ -79,7 +79,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         todaysDate = dateFormatter.stringFromDate(NSDate())
         var currentSessionLastDateReached = todaysDate
-        if(glblLog.currentSession.days.count > 0)
+        if(glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed)
         {
             currentSessionLastDateReached = glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date
         }

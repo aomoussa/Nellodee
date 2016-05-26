@@ -73,12 +73,16 @@ class session{
                 finishDate = dateFormatter.dateFromString(endDate)! as NSDate
             }
             let comps = NSCalendar.currentCalendar().components(unit, fromDate: NSDate(), toDate: finishDate, options: [])
-                self.expectedNumOfDays = comps.day
+                self.expectedNumOfDays = comps.day + 1
         }
         else{
             self.expectedNumOfDays = 0
         }
         self.pageStart = glblLog.currentSession.pageStart
+        if(glblLog.currentSession.previousDays.count > 0){
+            self.pageStart = glblLog.currentPageNumber
+        }
+        
         self.startDate = dateFormatter.stringFromDate(NSDate())
         self.endDate = endDate
         self.expectedPagesPerDay = expectedPagesPerDay
@@ -88,6 +92,7 @@ class session{
         if(glblLog.currentPageNumber >= 0){
             if(glblLog.currentSession.days.count > glblLog.currentSession.numberOfDaysPassed){
             startPage = glblLog.currentPageNumber - glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].pages.count
+            pageStart = startPage
             }
         }
         var endPage = startPage + expectedPagesPerDay
@@ -125,6 +130,7 @@ class session{
     func toString() -> String{
         var str = ""
         var i = 0
+        str += "The session starting page is this: \(pageStart) \n"
         str += "------------- CURRENT SESSION DAYS ------------- \n"
         for temp in days{
             str += "Day \(i) \(temp.date)"
