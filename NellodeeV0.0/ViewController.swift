@@ -318,7 +318,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         let button2Width = progressBarWidth - progress
         let buttonHeight = screenHeight*0.005 as CGFloat
         let guyHeight = screenHeight*0.07 as CGFloat
-        let guyWidth = screenWidth*0.07
+        let guyWidth = screenHeight*0.07
         let labelWidth = screenWidth/15
         let labelHeight = screenHeight/30
         

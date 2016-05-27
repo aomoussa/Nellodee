@@ -5,6 +5,7 @@
 //  Created by ahmed moussa on 11/14/15.
 //  Copyright © 2015 ahmed moussa. All rights reserved.
 //
+// The trendViewController controls the contents and functionalities of the trend page
 
 import UIKit
 
@@ -25,8 +26,8 @@ class trendViewController: UIViewController {
     var topNextButton = UIButton()
     var bottomNextButton = UIButton()
     
-    var topI = 1
-    var bottomI = 1
+    var topI = 1 //initiating index of starting date in top bar graph
+    var bottomI = 1 //initiating index of starting page in bottom bar graph
     
     var daysToDisplay = [day]()
     var indexAtTodaysDate = 0

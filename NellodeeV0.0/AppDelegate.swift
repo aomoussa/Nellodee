@@ -26,16 +26,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //-------------------- -------------- ends
         
         
-        //retrieveSavedData()
+        //retrieve Saved Data and set the current session to the data in the json file
         glblLog.currentSession = jsonLogger.readDataFile()
-        jsonLogger.writeApplicationStatus("Nellodee Finished Launching")
+        jsonLogger.writeApplicationStatus("Nellodee Finished Launching") //write to interaction data file
         return true
     }
     
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-        jsonLogger.writeApplicationStatus("Nellodee Became inactive")
+        jsonLogger.writeApplicationStatus("Nellodee Became inactive") //write to interaction data file
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
@@ -43,28 +43,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print(glblLog.currentSession.toString())
         self.saveData()
-        jsonLogger.writeApplicationStatus("Nellodee Entered Background")
-        jsonLogger.writeSession(glblLog.currentSession)
+        jsonLogger.writeApplicationStatus("Nellodee Entered Background") //write to interaction data file
+        jsonLogger.writeSession(glblLog.currentSession) //save current session to json data file
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         
-        jsonLogger.writeApplicationStatus("Nellodee Entered Foreground")
+        jsonLogger.writeApplicationStatus("Nellodee Entered Foreground") //write to interaction data file
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
-        jsonLogger.writeApplicationStatus("Nellodee Became Active")
+        jsonLogger.writeApplicationStatus("Nellodee Became Active") //write to interaction data file
     }
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         
-        jsonLogger.writeApplicationStatus("Nellodee Closed")
-        jsonLogger.writeSession(glblLog.currentSession)
+        jsonLogger.writeApplicationStatus("Nellodee Closed") //write to interaction data file
+        jsonLogger.writeSession(glblLog.currentSession) //save current session to json data file
         self.saveData()
         self.saveContext()
     }
@@ -130,257 +130,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 abort()
             }
         }
-    }
-    func retrieveSavedData(){
-        //jsonLogger.writeApplicationStatus("Nellodee Opened")
-        //retrieveAllSessions()
-        var startDate = ""
-        var endDate = ""
-        var currentSessionSelectorState = ""
-        var currentSessionNumberOfDaysPassed = 0
-        var currentSessionExpectedPagesPerDay = 10
-        var timePerDay = [Int]()
-        var startPages = [Int]()
-        var endPages = [Int]()
-        var actualPagesPerDay = [[Int]]()
-        //-------------------------------------------------------------------> startDate retrieval
-        if let SD: Optional = self.defaults.stringForKey("currentSessionStartDate")
-        {
-            if(SD != nil){
-                startDate = SD!
-            }
-        }
-        else{
-            startDate = "1/1/2016"
-        }
-        //------------------------------------------------------------------> endDate retrieval
-        if let ED: Optional = self.defaults.stringForKey("currentSessionEndDate")
-        {
-            if(ED != nil){
-                endDate = ED!
-            }
-        }
-        else{
-            endDate = "1/10/2016"
-        }
-        //------------------------------------------------------------------> currentSessionSelectorState retrieval
-        if let SS: Optional = self.defaults.stringForKey("currentSessionSelectorState")
-        {
-            if(SS != nil){
-                currentSessionSelectorState = SS!
-            }
-        }
-        else{
-            currentSessionSelectorState = "pagesPerDay"
-        }
-        //------------------------------------------------------------------> currentSessionSelectorState retrieval
-        if let EPPD: Optional = self.defaults.integerForKey("currentSessionExpectedPagesPerDay")
-        {
-            if(EPPD != nil && EPPD! > 0){
-                currentSessionExpectedPagesPerDay = EPPD!
-            }
-        }
-        
-        //------------------------------------------------------------------> currentSession initiation
-        glblLog.addSession(session(startDate: startDate, endDate: endDate, expectedPagesPerDay: currentSessionExpectedPagesPerDay, state: currentSessionSelectorState, pageStart: 0))
-        //------------------------------------------------------------------> currentSessionNumberOfDaysPassed retrieval
-        if let ND: Optional = self.defaults.integerForKey("currentSessionNumberOfDaysPassed")
-        {
-            if(ND != 0){
-                currentSessionNumberOfDaysPassed = ND!
-            }
-        }
-        
-        
-        //------------------------------------------------------------------> timePerDay retrieval
-        if let TPD: Optional = self.defaults.stringArrayForKey("timePerDay")
-        {
-            if(TPD != nil){
-                for temp in TPD!{
-                    timePerDay.append(Int(temp)!)
-                }
-            }
-        }
-        else{
-            timePerDay.append(0)
-        }
-        
-        //------------------------------------------------------------------> startDaysStringArray retrieval
-        if let SP: Optional = self.defaults.stringArrayForKey("startPagesStringArray")
-        {
-            if(SP != nil){
-                for temp in SP!{
-                    startPages.append(Int(temp)!)
-                }
-            }
-        }
-        else{
-            startPages.append(0)
-        }
-        
-        //------------------------------------------------------------------> endPagesStringArray retrieval
-        if let EP: Optional = self.defaults.stringArrayForKey("endPagesStringArray")
-        {
-            if(EP != nil){
-                for temp in EP!{
-                    endPages.append(Int(temp)!)
-                }
-            }
-        }
-        else{
-            endPages.append(0)
-        }
-        
-        //------------------------------------------------------------------> actualPagesPerDay retrieval
-        var j = 0
-        while(j <= currentSessionNumberOfDaysPassed){
-            actualPagesPerDay.append([Int]())
-            if let APPD: Optional = self.defaults.stringArrayForKey("actualPagesPerDay\(j)")
-            {
-                if(APPD != nil){
-                    for temp in APPD!{
-                        actualPagesPerDay[j].append(Int(temp)!)
-                    }
-                }
-            }
-            j++
-        }
-        
-        //------------------------------------------------------------------> setting the current Session Data
-        if(timePerDay.count == glblLog.currentSession.days.count){
-            glblLog.currentSession.numberOfDaysPassed = currentSessionNumberOfDaysPassed
-            
-            var i = 0
-            for temp in glblLog.currentSession.days{
-                temp.startPage = startPages[i]
-                temp.endPage = endPages[i]
-                temp.expectedPages = temp.endPage - temp.startPage
-                temp.time = timePerDay[i]
-                if(i <= currentSessionNumberOfDaysPassed){
-                    for tempPages in actualPagesPerDay[i]{
-                        temp.pages.append(page(pageNumber: tempPages, time: 0))
-                    }
-                }
-                i++
-            }
-        }
-        retrievePreviousDays()
-        
-        
-    }
-    func retrievePreviousDays(){
-        var previousDaysStartPagesString = [Int]()
-        var previousDaysEndPagesString = [Int]()
-        var previousDaysTimeOnDay = [Int]()
-        var previousDaysPagesReadAtIndexDay = [[Int]]()
-        var previousDaysCount = 0
-        //------------------------------------------------------------------> previousDaysCount retrieval
-        if let ND: Optional = self.defaults.integerForKey("previousDaysCount")
-        {
-            if(ND != 0){
-                previousDaysCount = ND!
-            }
-        }
-        
-        //------------------------------------------------------------------> timePerDay retrieval
-        if let TPD: Optional = self.defaults.stringArrayForKey("previousDaysTimeOnDay")
-        {
-            if(TPD != nil){
-                for temp in TPD!{
-                    previousDaysTimeOnDay.append(Int(temp)!)
-                }
-            }
-        }
-        else{
-            previousDaysTimeOnDay.append(0)
-        }
-        
-        //------------------------------------------------------------------> startDaysStringArray retrieval
-        if let SP: Optional = self.defaults.stringArrayForKey("previousDaysStartPagesString")
-        {
-            if(SP != nil){
-                for temp in SP!{
-                    previousDaysStartPagesString.append(Int(temp)!)
-                }
-            }
-        }
-        else{
-            previousDaysStartPagesString.append(0)
-        }
-        
-        //------------------------------------------------------------------> endPagesStringArray retrieval
-        if let EP: Optional = self.defaults.stringArrayForKey("previousDaysEndPagesString")
-        {
-            if(EP != nil){
-                for temp in EP!{
-                    previousDaysEndPagesString.append(Int(temp)!)
-                }
-            }
-        }
-        else{
-            previousDaysEndPagesString.append(0)
-        }
-        
-        //------------------------------------------------------------------> actualPagesPerDay retrieval
-        var j = 0
-        while(j <= previousDaysCount){
-            previousDaysPagesReadAtIndexDay.append([Int]())
-            if let APPD: Optional = self.defaults.stringArrayForKey("PreviousDaysActualPagesPerDay\(j)")
-            {
-                if(APPD != nil){
-                    for temp in APPD!{
-                        previousDaysPagesReadAtIndexDay[j].append(Int(temp)!)
-                    }
-                }
-            }
-            j++
-        }
-        
-        //------------------------------------------------------------------> setting the previous days Data
-        var i = 0
-        while(i < previousDaysCount){
-            let temp = day(expectedNumOfPages: (previousDaysEndPagesString[i] - previousDaysStartPagesString[i]), startPage: previousDaysStartPagesString[i], endPage: previousDaysEndPagesString[i])
-            temp.time = previousDaysTimeOnDay[i]
-            if(i <= previousDaysCount){
-                for tempPages in previousDaysPagesReadAtIndexDay[i]{
-                    temp.pages.append(page(pageNumber: tempPages, time: 0))
-                }
-            }
-            glblLog.currentSession.previousDays.append(temp)
-            i++
-        }
-        i = previousDaysCount - 1
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        while(i>0){
-            if #available(iOS 8.0, *) {
-                glblLog.currentSession.previousDays[i].date = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: i, toDate: NSDate(), options: [])!)
-            } else {
-                // Fallback on earlier versions
-            }
-            i--
-        }
-        /*
-        //------------------------------ --------------- New day when opening app ---------------- -------------- -----------
-        //let dateFormatter = NSDateFormatter()
-        let todaysDate = dateFormatter.stringFromDate(NSDate())
-        var currentSessionLastDateReached = todaysDate
-        if(glblLog.currentSession.days.count > 0)
-        {
-            currentSessionLastDateReached = glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date
-        }
-        let dateComparison = dateFormatter.dateFromString(currentSessionLastDateReached)!.compare(NSDate()).rawValue
-        if(currentSessionLastDateReached != todaysDate && dateComparison < 1){
-            glblLog.currentSession.setNextDayStartPage(glblLog.currentPageNumber)
-            glblLog.currentSession.numberOfDaysPassed++
-            print("numberOfDaysPassed added todays date: \(todaysDate) and session.days[numberOfDaysPassed - 1] = \(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed - 1].date)")
-        }
-        else{
-            print("numberOfDaysPassed \n added todays date: \(todaysDate) ")
-        }
-        //------------------------------ --------------- New day when opening app ---------------- -------------- -----------
-        */
-        //days[i].date = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: i, toDate: NSDate(), options: [])!)
     }
     func saveData(){
         defaults.setObject(glblLog.currentPageNumber, forKey: "currentPageNumber")
@@ -449,6 +198,261 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //-----------------------------Saving previous days--------------------------------/
         
     }
+    //================= retrieveSavedData no longer being used
+    /*
+     func retrieveSavedData(){
+     //jsonLogger.writeApplicationStatus("Nellodee Opened")
+     //retrieveAllSessions()
+     var startDate = ""
+     var endDate = ""
+     var currentSessionSelectorState = ""
+     var currentSessionNumberOfDaysPassed = 0
+     var currentSessionExpectedPagesPerDay = 10
+     var timePerDay = [Int]()
+     var startPages = [Int]()
+     var endPages = [Int]()
+     var actualPagesPerDay = [[Int]]()
+     //-------------------------------------------------------------------> startDate retrieval
+     if let SD: Optional = self.defaults.stringForKey("currentSessionStartDate")
+     {
+     if(SD != nil){
+     startDate = SD!
+     }
+     }
+     else{
+     startDate = "1/1/2016"
+     }
+     //------------------------------------------------------------------> endDate retrieval
+     if let ED: Optional = self.defaults.stringForKey("currentSessionEndDate")
+     {
+     if(ED != nil){
+     endDate = ED!
+     }
+     }
+     else{
+     endDate = "1/10/2016"
+     }
+     //------------------------------------------------------------------> currentSessionSelectorState retrieval
+     if let SS: Optional = self.defaults.stringForKey("currentSessionSelectorState")
+     {
+     if(SS != nil){
+     currentSessionSelectorState = SS!
+     }
+     }
+     else{
+     currentSessionSelectorState = "pagesPerDay"
+     }
+     //------------------------------------------------------------------> currentSessionSelectorState retrieval
+     if let EPPD: Optional = self.defaults.integerForKey("currentSessionExpectedPagesPerDay")
+     {
+     if(EPPD != nil && EPPD! > 0){
+     currentSessionExpectedPagesPerDay = EPPD!
+     }
+     }
+     
+     //------------------------------------------------------------------> currentSession initiation
+     glblLog.addSession(session(startDate: startDate, endDate: endDate, expectedPagesPerDay: currentSessionExpectedPagesPerDay, state: currentSessionSelectorState, pageStart: 0))
+     //------------------------------------------------------------------> currentSessionNumberOfDaysPassed retrieval
+     if let ND: Optional = self.defaults.integerForKey("currentSessionNumberOfDaysPassed")
+     {
+     if(ND != 0){
+     currentSessionNumberOfDaysPassed = ND!
+     }
+     }
+     
+     
+     //------------------------------------------------------------------> timePerDay retrieval
+     if let TPD: Optional = self.defaults.stringArrayForKey("timePerDay")
+     {
+     if(TPD != nil){
+     for temp in TPD!{
+     timePerDay.append(Int(temp)!)
+     }
+     }
+     }
+     else{
+     timePerDay.append(0)
+     }
+     
+     //------------------------------------------------------------------> startDaysStringArray retrieval
+     if let SP: Optional = self.defaults.stringArrayForKey("startPagesStringArray")
+     {
+     if(SP != nil){
+     for temp in SP!{
+     startPages.append(Int(temp)!)
+     }
+     }
+     }
+     else{
+     startPages.append(0)
+     }
+     
+     //------------------------------------------------------------------> endPagesStringArray retrieval
+     if let EP: Optional = self.defaults.stringArrayForKey("endPagesStringArray")
+     {
+     if(EP != nil){
+     for temp in EP!{
+     endPages.append(Int(temp)!)
+     }
+     }
+     }
+     else{
+     endPages.append(0)
+     }
+     
+     //------------------------------------------------------------------> actualPagesPerDay retrieval
+     var j = 0
+     while(j <= currentSessionNumberOfDaysPassed){
+     actualPagesPerDay.append([Int]())
+     if let APPD: Optional = self.defaults.stringArrayForKey("actualPagesPerDay\(j)")
+     {
+     if(APPD != nil){
+     for temp in APPD!{
+     actualPagesPerDay[j].append(Int(temp)!)
+     }
+     }
+     }
+     j++
+     }
+     
+     //------------------------------------------------------------------> setting the current Session Data
+     if(timePerDay.count == glblLog.currentSession.days.count){
+     glblLog.currentSession.numberOfDaysPassed = currentSessionNumberOfDaysPassed
+     
+     var i = 0
+     for temp in glblLog.currentSession.days{
+     temp.startPage = startPages[i]
+     temp.endPage = endPages[i]
+     temp.expectedPages = temp.endPage - temp.startPage
+     temp.time = timePerDay[i]
+     if(i <= currentSessionNumberOfDaysPassed){
+     for tempPages in actualPagesPerDay[i]{
+     temp.pages.append(page(pageNumber: tempPages, time: 0))
+     }
+     }
+     i++
+     }
+     }
+     retrievePreviousDays()
+     
+     
+     }
+     func retrievePreviousDays(){
+     var previousDaysStartPagesString = [Int]()
+     var previousDaysEndPagesString = [Int]()
+     var previousDaysTimeOnDay = [Int]()
+     var previousDaysPagesReadAtIndexDay = [[Int]]()
+     var previousDaysCount = 0
+     //------------------------------------------------------------------> previousDaysCount retrieval
+     if let ND: Optional = self.defaults.integerForKey("previousDaysCount")
+     {
+     if(ND != 0){
+     previousDaysCount = ND!
+     }
+     }
+     
+     //------------------------------------------------------------------> timePerDay retrieval
+     if let TPD: Optional = self.defaults.stringArrayForKey("previousDaysTimeOnDay")
+     {
+     if(TPD != nil){
+     for temp in TPD!{
+     previousDaysTimeOnDay.append(Int(temp)!)
+     }
+     }
+     }
+     else{
+     previousDaysTimeOnDay.append(0)
+     }
+     
+     //------------------------------------------------------------------> startDaysStringArray retrieval
+     if let SP: Optional = self.defaults.stringArrayForKey("previousDaysStartPagesString")
+     {
+     if(SP != nil){
+     for temp in SP!{
+     previousDaysStartPagesString.append(Int(temp)!)
+     }
+     }
+     }
+     else{
+     previousDaysStartPagesString.append(0)
+     }
+     
+     //------------------------------------------------------------------> endPagesStringArray retrieval
+     if let EP: Optional = self.defaults.stringArrayForKey("previousDaysEndPagesString")
+     {
+     if(EP != nil){
+     for temp in EP!{
+     previousDaysEndPagesString.append(Int(temp)!)
+     }
+     }
+     }
+     else{
+     previousDaysEndPagesString.append(0)
+     }
+     
+     //------------------------------------------------------------------> actualPagesPerDay retrieval
+     var j = 0
+     while(j <= previousDaysCount){
+     previousDaysPagesReadAtIndexDay.append([Int]())
+     if let APPD: Optional = self.defaults.stringArrayForKey("PreviousDaysActualPagesPerDay\(j)")
+     {
+     if(APPD != nil){
+     for temp in APPD!{
+     previousDaysPagesReadAtIndexDay[j].append(Int(temp)!)
+     }
+     }
+     }
+     j++
+     }
+     
+     //------------------------------------------------------------------> setting the previous days Data
+     var i = 0
+     while(i < previousDaysCount){
+     let temp = day(expectedNumOfPages: (previousDaysEndPagesString[i] - previousDaysStartPagesString[i]), startPage: previousDaysStartPagesString[i], endPage: previousDaysEndPagesString[i])
+     temp.time = previousDaysTimeOnDay[i]
+     if(i <= previousDaysCount){
+     for tempPages in previousDaysPagesReadAtIndexDay[i]{
+     temp.pages.append(page(pageNumber: tempPages, time: 0))
+     }
+     }
+     glblLog.currentSession.previousDays.append(temp)
+     i++
+     }
+     i = previousDaysCount - 1
+     let dateFormatter = NSDateFormatter()
+     dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+     while(i>0){
+     if #available(iOS 8.0, *) {
+     glblLog.currentSession.previousDays[i].date = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: i, toDate: NSDate(), options: [])!)
+     } else {
+     // Fallback on earlier versions
+     }
+     i--
+     }
+     /*
+     //------------------------------ --------------- New day when opening app ---------------- -------------- -----------
+     //let dateFormatter = NSDateFormatter()
+     let todaysDate = dateFormatter.stringFromDate(NSDate())
+     var currentSessionLastDateReached = todaysDate
+     if(glblLog.currentSession.days.count > 0)
+     {
+     currentSessionLastDateReached = glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed].date
+     }
+     let dateComparison = dateFormatter.dateFromString(currentSessionLastDateReached)!.compare(NSDate()).rawValue
+     if(currentSessionLastDateReached != todaysDate && dateComparison < 1){
+     glblLog.currentSession.setNextDayStartPage(glblLog.currentPageNumber)
+     glblLog.currentSession.numberOfDaysPassed++
+     print("numberOfDaysPassed added todays date: \(todaysDate) and session.days[numberOfDaysPassed - 1] = \(glblLog.currentSession.days[glblLog.currentSession.numberOfDaysPassed - 1].date)")
+     }
+     else{
+     print("numberOfDaysPassed \n added todays date: \(todaysDate) ")
+     }
+     //------------------------------ --------------- New day when opening app ---------------- -------------- -----------
+     */
+     //days[i].date = dateFormatter.stringFromDate(NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day, value: i, toDate: NSDate(), options: [])!)
+     }
+     */
 
 }
+
 
