@@ -5,6 +5,9 @@
 //  Created by ahmed moussa on 11/12/15.
 //  Copyright © 2015 ahmed moussa. All rights reserved.
 //
+//
+// The readViewController controls the contents and functionalities of the reading page
+
 
 import UIKit
 
@@ -41,6 +44,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
     @IBOutlet var webView: UIWebView!
     @IBOutlet var burger: UIBarButtonItem!
     
+    //Initiates the webView that displays the book and is also responsible for initiating a new day if last day in the session is not the current day of the device
     override func viewDidLoad() {
         super.viewDidLoad()
         jsonLogger.writeSegue("Reader")
@@ -75,6 +79,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
         burger.target = self.revealViewController()
         burger.action = #selector(SWRevealViewController.revealToggle(_:))
         
+        //--------- -------- ----------- NEW DAY INITIATION CODE -------- ---------- ---------- starts
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         todaysDate = dateFormatter.stringFromDate(NSDate())
@@ -98,6 +103,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate 
             //print(" \(glblLog.currentSession.toString())  ")
         }
          print("------------ IN reader VIEW! CURRENT SESSION: \n \(glblLog.currentSession.toString())")
+        //--------- -------- ----------- NEW DAY INITIATION CODE -------- ---------- ---------- ends
     }
     func webViewDidFinishLoad(webView: UIWebView) {
         self.webView.userInteractionEnabled = true

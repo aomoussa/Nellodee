@@ -5,6 +5,9 @@
 //  Created by ahmed moussa on 11/21/15.
 //  Copyright © 2015 ahmed moussa. All rights reserved.
 //
+//
+// The goalViewController controls the contents and functionalities of the goals page
+
 
 import UIKit
 
@@ -18,6 +21,8 @@ class goalsViewController: UIViewController {
     var displaySession = session()
     var daysToDisplay = [day]()
     var indexAtTodaysDate = 0
+    
+    //colors
     let NellodeeMaroonColor = UIColor(red: 102/255, green: 51/255, blue: 51/255, alpha: 1)
     let NellodeeMidGray = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
     let NellodeeLightGray = UIColor(red: 221/255, green: 221/255, blue: 221/255, alpha: 1)
@@ -44,8 +49,7 @@ class goalsViewController: UIViewController {
     var topLineOfBox2 = UIView()
     var bottomLineOfBox2 = UIView()
     
-    //var segmentedControl = UISegmentedControl(items: ["Pages per Day", "Completion Date"])
-    
+    // sessionDataToString is a small function that returns a short description of the goals of a session (for json writing)
     func sessionDataToString(session1: session)->String {
         if(session1.state == "pagesPerDayState"){
             return "expected pages per day: \(session1.expectedPagesPerDay)"
@@ -55,6 +59,7 @@ class goalsViewController: UIViewController {
         }
     }
     
+    //setChanges is the action function of clicking the setChanges button. If a session has been set, it sets the glblLog.currentSession to the desired session and saves and displays accordingly.
     @IBAction func setChanges(sender: UIButton) {
         if(sessionSet){
         jsonLogger.writeGoalChangesSet(sessionDataToString(glblLog.currentSession), fromType: glblLog.currentSession.state, to: sessionDataToString(goalSession), toType: goalSession.state)
@@ -70,7 +75,7 @@ class goalsViewController: UIViewController {
             daysToDisplay.append(temp)
         }
         refreshBarGraphs(barGraphStartIndex)
-        //performSegueWithIdentifier("reloadGoals", sender: self)
+        //performSegueWithIdentifier("reloadGoals", sender: self) //uncomment if reloading the view entirely is desired (currently unnecessary)
         }
     }
     
@@ -78,9 +83,9 @@ class goalsViewController: UIViewController {
     @IBOutlet var datePicker: UIDatePicker!
     var currentState = "date"//"pages"
     
+    //Handles changes in the pages selector, Creates a new instance of the class type "session" for every edit of the pagesSelector and saves it in "goalSession" to be finally in utilisation when the setchanges button is clicked
     @IBAction func pagesSelectorEdited(sender: UIStepper) {
-        //segmentedControl.selectedSegmentIndex = 0
-        setBoxesForState("pagesPerDay")
+        setBoxesForState("pagesPerDay")//changes colors of the boxes.
         
         let pagesPerDay = Int(sender.value).description
         pagesSelectorLabel.text = pagesPerDay
@@ -115,34 +120,30 @@ class goalsViewController: UIViewController {
         pagesSelector.autorepeat = true
         pagesSelector.maximumValue = 100
         
-        
-        
-        
-        
         //----------------------------multiple session display array creation--------------------begin
+        // This adds the previous days of the session to the same array as the current one just for display purposes
         displaySession = glblLog.currentSession
         daysToDisplay = displaySession.previousDays
         for temp in displaySession.days{
             daysToDisplay.append(temp)
         }
-        
         //----------------------------multiple session display array creation--------------------end
         print("displaySession.previousDays.count \(displaySession.previousDays.count)")
         print("------------ IN GOALS VIEW! CURRENT SESSION: \n \(glblLog.currentSession.toString())")
-        barGraphStartIndex = 0
+        barGraphStartIndex = 0 //change to displaySession.previousDays.count - 3 (if possible) to show todays date in the middle with some previous dates to the left
         /*
         if(displaySession.previousDays.count + displaySession.numberOfDaysPassed > 5){
             barGraphStartIndex = displaySession.previousDays.count + displaySession.numberOfDaysPassed - 5
-            if(barGraphStartIndex > daysToDisplay.count - 10){
-                barGraphStartIndex = daysToDisplay.count - 10
+            if(barGraphStartIndex > daysToDisplay.count - 5){
+                barGraphStartIndex = daysToDisplay.count - 5
             }
             
-        }*/
+        }*/ // previously working code for making the start day of the top section be todays date. I suggest - 3 (instead of 5) to make the current day in the middle.
     }
     
+    //Handles changes in the date picker, Creates a new instance of the class type "session" for every different date selected and saves it in "goalSession" to be finally in utilisation when the setchanges button is clicked
     func datePickerChanged(){
-        //segmentedControl.selectedSegmentIndex = 1
-        setBoxesForState("endDate")
+        setBoxesForState("endDate")//changes colors of the boxes.
         
         let strDate = dateFormatter.stringFromDate(datePicker.date)
         let unit:NSCalendarUnit = NSCalendarUnit.Day
@@ -156,6 +157,8 @@ class goalsViewController: UIViewController {
             print("date edit failed ")
         }
     }
+    
+    //called when view appears, calls on the creation of some UI views
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         createLines()
@@ -163,17 +166,18 @@ class goalsViewController: UIViewController {
         createPrevAndNextButtons()
         createLabels()
         createBarGraphs()
+        
+        //set initial colors of the boxes
         if(glblLog.currentSession.state == "pagesPerDayState"){
-            //segmentedControl.selectedSegmentIndex = 0
             setBoxesForState("pagesPerDay")
         }
         else{
-            //segmentedControl.selectedSegmentIndex = 1
             setBoxesForState("endDate")
         }
     }
+    
+    //handles clickeing the next and previous buttons (just increments/decrements the "barGraphStartIndex" and refreshes)
     func buttonAction(sender: UIButton){
-        
         if(sender == self.bottomPrevButton){
             if(barGraphStartIndex > 0){
                 barGraphStartIndex--
@@ -200,8 +204,6 @@ class goalsViewController: UIViewController {
         let leftXBox2 = screenWidth*0.5 + lineWidth/2
         let rightXBox2 = screenWidth*0.95
         
-        //segmentedControl.frame =  CGRectMake(screenWidth/2 - 100 , screenHeight/2 - 250, screenWidth/3, screenHeight/40)
-        //self.view.addSubview(segmentedControl)
         leftLineOfBox1.frame = CGRectMake(leftXBox1, topY, lineWidth, bottomY - topY)
         rightLineOfBox1.frame = CGRectMake(rightXBox1, topY, lineWidth, bottomY - topY)
         topLineOfBox1.frame = CGRectMake(leftXBox1, topY, rightXBox1 - leftXBox1, lineWidth)
@@ -232,6 +234,8 @@ class goalsViewController: UIViewController {
         self.view.addSubview(topLineOfBox2)
         self.view.addSubview(bottomLineOfBox2)
     }
+    
+    //handles changing the color of the boxes as desired.. accepts a string specifying the state.
     func setBoxesForState(goalState: String){
         var leftBoxColor = NellodeeLightGray
         var rightBoxColor = NellodeeLightGray
@@ -244,8 +248,6 @@ class goalsViewController: UIViewController {
             break
         default:
             leftBoxColor = NellodeeMaroonColor
-            break
-            
         }
         leftLineOfBox1.backgroundColor = leftBoxColor
         rightLineOfBox1.backgroundColor = leftBoxColor
@@ -258,6 +260,7 @@ class goalsViewController: UIViewController {
         bottomLineOfBox2.backgroundColor = rightBoxColor
     }
     
+    //creates lines and scales of bar graph
     func createLines(){
         
         let screenWidth = view.frame.size.width
@@ -267,9 +270,6 @@ class goalsViewController: UIViewController {
         let bottomOffset = screenWidth*0.13
         let linesOffset = screenWidth*0.12
         let labelWidth = screenWidth*0.1
-        
-        //segmentedControl.frame =  CGRectMake(screenWidth/2 - 100 , screenHeight/2 - 250, screenWidth/3, screenHeight/40)
-        //self.view.addSubview(segmentedControl)
         
         let lineViewX = UIView.init(frame: CGRectMake(linesOffset, screenHeight - bottomOffset, screenWidth, 2))
         lineViewX.backgroundColor = UIColor.blackColor()
@@ -303,6 +303,7 @@ class goalsViewController: UIViewController {
         scaleLabel3.text = "50 pages"
         self.view.addSubview(scaleLabel3)
     }
+    
     func createPrevAndNextButtons(){
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
@@ -325,8 +326,9 @@ class goalsViewController: UIViewController {
         bottomNextButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(bottomNextButton)
         
-        
     }
+    
+    //resets the heights and label numbers of the bars. accepts an int which specifies where the starting point is in the array "daysToDisplay"
     func refreshBarGraphs(i: Int){
         
         let screenWidth = view.frame.size.width
@@ -334,29 +336,27 @@ class goalsViewController: UIViewController {
         let offset = screenWidth*0.14
         let bottomOffset = screenHeight*0.1
         let distanceBetweenBars = screenWidth*0.14
-        let buttonIncrements = screenHeight*0.007
+        let buttonIncrements = screenHeight*0.007 //the equivalent height representing one day //increase or decrease to change the heights of the bars
         var count = 0
         var index = 0.0 as CGFloat
-        //for loop populsting array of buttons for bar graph
+        
+        //loop setting attributes of array of buttons for bar graph
         var indexPage = i
         while(count < 6){
             if(indexPage>=0 && indexPage < daysToDisplay.count){
                 
-                let buttonWidth = screenWidth*0.05
-                var buttonHeight = 10.0 as CGFloat
-                //var buttonHeight2 = 10.0 as CGFloat
-                let dayLabelbuttonHeight = 20.0 as CGFloat
-                let dayLabelbuttonWidth = buttonWidth*3
+                let barWidth = screenWidth*0.05
+                var barHeight = 10.0 as CGFloat //initial height of all the bars.. // maybe makes more sense to initiate to 0
                 
                 if(daysToDisplay[indexPage].expectedPages>=0){
-                    buttonHeight = CGFloat(daysToDisplay[indexPage].expectedPages) * buttonIncrements
+                    barHeight = CGFloat(daysToDisplay[indexPage].expectedPages) * buttonIncrements
                 }
-                if(buttonHeight > screenHeight*0.375){
-                    buttonHeight = screenHeight*0.375
+                if(barHeight > screenHeight*0.375){
+                    barHeight = screenHeight*0.375
                 }
-                bars[count].frame = CGRectMake(offset + (index)*distanceBetweenBars , screenHeight-buttonHeight - bottomOffset, buttonWidth, buttonHeight)
+                bars[count].frame = CGRectMake(offset + (index)*distanceBetweenBars , screenHeight-barHeight - bottomOffset, barWidth, barHeight)
                 
-                expectedPagesPerDayLabels[count].frame = CGRectMake(offset + (index)*distanceBetweenBars , screenHeight-buttonHeight - bottomOffset, buttonWidth, 20)
+                expectedPagesPerDayLabels[count].frame = CGRectMake(offset + (index)*distanceBetweenBars , screenHeight-barHeight - bottomOffset, barWidth, 20)
                 if(count <= daysToDisplay.count && daysToDisplay[indexPage].pages.count <= 0 && daysToDisplay[indexPage].expectedPages > 1){
                     expectedPagesPerDayLabels[count].text = "\(daysToDisplay[indexPage].expectedPages)"
                 }
@@ -365,16 +365,16 @@ class goalsViewController: UIViewController {
                 }
                 
                 
-                var buttonHeight2 = 0.0 as CGFloat
+                var barHeight2 = 0.0 as CGFloat
                 if(daysToDisplay[indexPage].pages.count>=0){
-                    buttonHeight2 = CGFloat(daysToDisplay[indexPage].pages.count) * buttonIncrements
+                    barHeight2 = CGFloat(daysToDisplay[indexPage].pages.count) * buttonIncrements
                 }
-                if(buttonHeight2 > screenHeight*0.4){
-                    buttonHeight2 = screenHeight*0.4
+                if(barHeight2 > screenHeight*0.4){
+                    barHeight2 = screenHeight*0.4
                 }
-                let expectedBarsXs = offset + (index)*distanceBetweenBars + buttonWidth*0.75
-                expectedBars[count].frame = CGRectMake(expectedBarsXs , screenHeight-buttonHeight2 - bottomOffset, buttonWidth, buttonHeight2)
-                pagesPerDayLabels[count].frame = CGRectMake(expectedBarsXs , screenHeight-buttonHeight2 - bottomOffset, buttonWidth, 20)
+                let expectedBarsXs = offset + (index)*distanceBetweenBars + barWidth*0.75
+                expectedBars[count].frame = CGRectMake(expectedBarsXs , screenHeight-barHeight2 - bottomOffset, barWidth, barHeight2)
+                pagesPerDayLabels[count].frame = CGRectMake(expectedBarsXs , screenHeight-barHeight2 - bottomOffset, barWidth, 20)
                 if(daysToDisplay[indexPage].pages.count>1){
                     pagesPerDayLabels[count].text = "\(daysToDisplay[indexPage].pages.count)"
                 }
@@ -383,17 +383,14 @@ class goalsViewController: UIViewController {
                 }
                 
                 //------------------------------ TODAY Label ----------------------------------------------
-                //let thisDate = daysToDisplay[indexPage].date
                 let thisDate = dateFormatter.stringFromDate(NSDate())
                 
                 if(daysToDisplay[indexPage].date == thisDate){
-//daysToDisplay.count > displaySession.numberOfDaysPassed + displaySession.previousDays.count && thisDate == daysToDisplay[displaySession.numberOfDaysPassed + displaySession.previousDays.count].date){
                     let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(21), NSForegroundColorAttributeName : NellodeeMaroonColor]
                     let title = NSAttributedString(string: "today", attributes: attrs)
-                    //title.add
                     dayLabelButtons[count].setAttributedTitle(title, forState: UIControlState.Normal)
-                    //dayLabelButtons[count].setTitleColor(NellodeeMaroonColor, forState: UIControlState.Normal)
-                }else{
+                }
+                else{
                     let calendar = NSCalendar.currentCalendar()
                     let components = calendar.components([.Day , .Month , .Year], fromDate: dateFormatter.dateFromString(daysToDisplay[indexPage].date)!)
                     let month = components.month
@@ -423,9 +420,10 @@ class goalsViewController: UIViewController {
         }
     }
     
+    //creates an array of 6 bars and 6 expectedBars (type: UIButton) as well as the labels of the bars
     func createBarGraphs(){
         var count = 0
-        //for loop populsting array of buttons for bar graph
+        //for loop populating array of buttons for bar graph
         while(count < 6){
             bars.append(UIButton())
             bars[count].backgroundColor = UIColor(red: 153/255, green: 153/255, blue: 153/255, alpha: 1)
@@ -450,6 +448,7 @@ class goalsViewController: UIViewController {
         refreshBarGraphs(barGraphStartIndex)
     }
     
+    //creates an array of 6 labels for the buttom of the bars (displays the dates or "today")
     func createLabels(){
         let screenWidth = view.frame.size.width
         let screenHeight = self.view.frame.size.height
